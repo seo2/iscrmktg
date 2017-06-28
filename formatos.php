@@ -85,23 +85,31 @@ session_start();
 	    <?  	} 
 		    } ?>			    		    
 	    </div>
-	    	
-    	<footer class="animated bounceInRight">
-	    	<?
-		    	if($_GET['piezas']){
-			    	if($usuTipo == 99){ 
-			?>
-	    		<a href="home.php" id="btnvolver"><i class="fa fa-chevron-left"></i> <span>Volver</span></button>
-			<?		}else{ ?>
-	    		<a href="maestros.php" id="btnvolver"><i class="fa fa-chevron-left"></i> <span>Volver</span></button>
-			<? }
-				
-				}else{
-			?>
-	    		<a href="javascript:window.history.back();" id="btnvolver"><i class="fa fa-chevron-left"></i> <span>Volver</span></button>
-			<?
-				}
-			?>
-    	</footer>	    
+
+    	<div id="footer" class="blancobg">
+	    	<div class="container">
+		    	<div class="row">
+					<div class="col-xs-12 col-md-6 col-md-offset-3 footer">
+	
+		    	<?
+			    	if($_GET['piezas']){
+				    	if($usuTipo == 99){ 
+					    	$back = 'home.php';
+						}else{ 
+							$back = 'maestros.php';
+						}
+					}else{
+						$back = 'javascript:window.history.back();';
+					}
+				?>							
+						<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
+						  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>
+						  <a href="home.php" 				class="btn btn-default"><i class="fa fa-home"></i> Home</a>
+						  <a href="javascript:void();" 		class="btn btn-default" id="logoutBtn"><i class="fa fa-sign-out"></i> <? if($paisID==7){ ?>Sair<? }else{ ?>Salir<? } ?></a>
+						</div>
+			    	</div>
+		    	</div>
+	    	</div>
+    	</div>	    
 
 <? include('footer.php'); ?>
