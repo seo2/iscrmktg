@@ -859,6 +859,21 @@ session_start();
 		return $total;
 		
 	}
+
+	function get_total_opciones_instores_v2($formID, $insID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select count(*) as total from instores_opciones_v2 where formID = '.$formID.' and insID ='.$insID);
+		if($tema){
+			foreach ($tema as $t) {
+				$total  = $t["total"];
+			}
+		}else{
+			$total = 0;
+		}
+
+		return $total;
+		
+	}
 	
 /*
 	function get_proveedor_pedido($ptID){
@@ -1204,6 +1219,34 @@ function get_zona($clID){
 	function get_instore_nom_x_pais($paisID, $formID, $insID){
 		$db = MysqliDb::getInstance();
 		$tema = $db->rawQuery('select * from instores where formID = '.$formID.' and insID = '.$insID);
+		if($tema){
+			foreach ($tema as $t) {
+				if($paisID==1){
+					$nombre  = $t["insNomChi"];
+				}elseif($paisID==2){
+					$nombre  = $t["insNomCol"];
+				}elseif($paisID==3){
+					$nombre  = $t["insNomArg"];
+				}elseif($paisID==4){
+					$nombre  = $t["insNomMex"];
+				}elseif($paisID==5){
+					$nombre  = $t["insNomPer"];
+				}elseif($paisID==6){
+					$nombre  = $t["insNomPan"];
+				}elseif($paisID==7){
+					$nombre  = $t["insNomBra"];
+				}
+			}
+		}else{
+			$nombre = 'Error';
+		}
+	
+		return $nombre;
+	}
+	
+	function get_instore_nom_x_pais_v2($paisID, $formID, $insID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from instores_v2 where formID = '.$formID.' and insID = '.$insID);
 		if($tema){
 			foreach ($tema as $t) {
 				if($paisID==1){
