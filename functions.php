@@ -1078,21 +1078,25 @@ function get_carpeta_ISC($formID){
 
 function get_carpeta_ISC_v2($formID){
 	if($formID == 1){
-		$folder = 'ISC2/CORE/';
+		$folder = 'ISC2/CORE_SPC/';
 	}elseif($formID == 2){
-		$folder = 'ISC2/HC/';
+		$folder = 'ISC2/HC10/';
 	}elseif($formID == 3){
-		$folder = 'ISC2/OCS/';
+		$folder = 'ISC2/ATELIER_STUDIO/';
 	}elseif($formID == 4){
 		$folder = 'ISC2/FO/';
 	}elseif($formID == 5){
 		$folder = 'ISC2/NBHD/';
 	}elseif($formID == 6){
-		$folder = 'ISC2/KIDS/';
+		$folder = 'ISC2/CORE_YA/';
 	}elseif($formID == 7){
-		$folder = 'ISC2/HCE/';
-	}elseif($formID == 9){
-		$folder = 'ISC2/CORE/';
+		$folder = 'ISC2/HC31/';
+	}elseif($formID == 10){
+		$folder = 'ISC2/NBHD_FDD/';
+	}elseif($formID == 11){
+		$folder = 'ISC2/HC31_YA/';
+	}elseif($formID == 12){
+		$folder = 'ISC2/CORE_FO/';
 	}
 	return $folder;
 }
