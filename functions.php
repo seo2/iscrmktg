@@ -1084,7 +1084,7 @@ function get_carpeta_ISC_v2($formID){
 	}elseif($formID == 3){
 		$folder = 'ISC2/ATELIER_STUDIO/';
 	}elseif($formID == 4){
-		$folder = 'ISC2/FO/';
+		$folder = 'ISC2/CORE_FO/';
 	}elseif($formID == 5){
 		$folder = 'ISC2/NBHD/';
 	}elseif($formID == 6){
@@ -1403,6 +1403,8 @@ function get_zona($clID){
     	$colA = str_replace(')', '', $colA);
     	$colA = str_replace('(', '', $colA);
     	$colA = str_replace('&ntilde;', 'n', $colA);
+    	$colA = str_replace('&ouml;', 'o', $colA);
+    	$colA = str_replace('ö', 'o', $colA);
     	$colA = str_replace('ñ', 'n', $colA);
     	$colA = str_replace('%', 'porc', $colA);
     	$colA = str_replace('&', 'porc', $colA);
@@ -1437,8 +1439,35 @@ function get_zona($clID){
 		return $ok;
 	}
 
+	function comprueba_archivos_x_pieza_formato($formID,$pieID){
+		$db 	= MysqliDb::getInstance();
+		$ok 	= 1;
+		$ruta 	= get_carpeta_ISC_v2($formID);
+		$sql  	= "select * from instores_opciones_v2 where formID = $formID and insID = $pieID";
 
+	  	$resultado = $db->rawQuery($sql);
+		if($resultado){
+			foreach ($resultado as $r) {
+				if($r['insOpCat']==0){
+					if($r['insOpFoto']){ 
+						$archivo = '/ajax/uploads/ISC2/'.$r['insOpFoto'];
+					}else{
+						$archivo = '/'.$ruta.quitatodo($insNomGen).quitatodo($r["insOpNom"]).'.jpg';
+					}				
+					
+					if (file_exists($archivo)) {
+					
+					}else{
+					    $ok = 0;
+					}	
+				}else{
+					$ok = 0;
+				}				
+			}
+		}
 
+		return $ok;
+	}
 
 	
 ?>
