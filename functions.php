@@ -225,6 +225,36 @@ session_start();
 	}
 
 
+	function get_instore_desc_v2($formID, $ID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from instores_v2 where formID = '.$formID.' and insID = '.$ID);
+		if($tema){
+			foreach ($tema as $t) {
+				$eveNombre  = $t["insNomGes"];
+			}
+		}else{
+			$eveNombre = 'Error';
+		}
+
+		return $eveNombre;
+	}
+
+
+	function get_instore_gen_v2($formID, $ID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from instores_v2 where formID = '.$formID.' and insID = '.$ID);
+		if($tema){
+			foreach ($tema as $t) {
+				$eveNombre  = $t["insNomGen"];
+			}
+		}else{
+			$eveNombre = 'Error';
+		}
+
+		return $eveNombre;
+	}
+
+
 	function get_pieza_entrega($ID){
 		$db = MysqliDb::getInstance();
 		$tema = $db->rawQuery('select * from piezas where pieID = '.$ID);
@@ -1042,6 +1072,27 @@ function get_carpeta_ISC($formID){
 		$folder = 'ISC/HCE/';
 	}elseif($formID == 9){
 		$folder = 'ISC/CORE/';
+	}
+	return $folder;
+}
+
+function get_carpeta_ISC_v2($formID){
+	if($formID == 1){
+		$folder = 'ISC2/CORE/';
+	}elseif($formID == 2){
+		$folder = 'ISC2/HC/';
+	}elseif($formID == 3){
+		$folder = 'ISC2/OCS/';
+	}elseif($formID == 4){
+		$folder = 'ISC2/FO/';
+	}elseif($formID == 5){
+		$folder = 'ISC2/NBHD/';
+	}elseif($formID == 6){
+		$folder = 'ISC2/KIDS/';
+	}elseif($formID == 7){
+		$folder = 'ISC2/HCE/';
+	}elseif($formID == 9){
+		$folder = 'ISC2/CORE/';
 	}
 	return $folder;
 }
