@@ -772,6 +772,25 @@ session_start();
 		return $total;
 		
 	}
+	
+
+
+	function get_total_instores_formato_v2($ID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select count(*) as total from instores_v2 where formID = '.$ID);
+		if($tema){
+			foreach ($tema as $t) {
+				$total  = $t["total"];
+			}
+		}else{
+			$total = 0;
+		}
+
+		return $total;
+		
+	}
+
+	
 
 
 	function get_total_piezas_instores_x_responsable($ID,$usuID){

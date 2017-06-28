@@ -1,37 +1,42 @@
 <? 
 	
 session_start();
-	if($_SESSION['todos']['Logged']){ 
-	
-	//setcookie('id', $_SESSION['todos']['id']);
- 
+
+if($_SESSION['todos']['Logged']){ 
 	$usuID = $_SESSION['todos']['id'];
-	
-	setcookie("id", $usuID, time()+3600, "/");
- 
+	setcookie("id", $usuID, time()+3600, "/"); 
  }elseif($_COOKIE['id']) { 
  	$usuID = $_COOKIE['id'];
  }else{ ?>
  <script>
  		window.location.replace("index.php");
  </script>
-	
-
 <?  }  ?>
+
 <? 
 	include('header.php');
-	
-	if($_GET['piezas']){
-		$url = 'piezas';
-		$boton = ' Instore';
+
+if($_GET['FW2017']){
+	if($_GET['piezas_v2']){
+		$url 	= 'piezas';
+		$boton  = ' Instore';
 
 	}else{
-		$url = 'tiendas';
-		$boton = ' Tiendas';
+		$url 	= 'tiendas';
+		$boton 	= ' Tiendas';
+	}
+}else{
+	if($_GET['piezas']){
+		$url 	= 'piezas';
+		$boton  = ' Instore';
+
+	}else{
+		$url 	= 'tiendas';
+		$boton 	= ' Tiendas';
 
 	}
+}
 ?>
-<? // include('menu.php'); ?>
 
     <div class="container" id="argumentos">
 	    
@@ -63,14 +68,15 @@ session_start();
 					<div class="col-xs-9 postema">
 						<a href="<?= $url; ?>.php?formID=<?= $r['formID']; ?>"><?= $r['formDesc']; ?></a>
 						<? if($_GET['piezas']){ 
-						
-							if($usuTipo == 1){
-								$totalpiezas = get_total_instores_formato($r['formID']);
-							}elseif($usuTipo == 2){
-								$totalpiezas = get_total_piezas_formato_x_responsable($r['formID'], $usuID);
-							}elseif($usuTipo == 99){
-								$totalpiezas = get_total_instores_formato($r['formID']);
-							}					
+							if($_GET['FW2017']){
+								$totalpiezas = get_total_instores_formato_v2($r['formID']);
+							}else{
+								if($usuTipo == 1 || $usuTipo == 99){
+									$totalpiezas = get_total_instores_formato($r['formID']);
+								}elseif($usuTipo == 2){
+									$totalpiezas = get_total_piezas_formato_x_responsable($r['formID'], $usuID);
+								}
+							}			
 						?>
 						
 							<span>(<?= $totalpiezas; ?>)</span>
