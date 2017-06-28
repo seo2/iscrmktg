@@ -42,16 +42,15 @@ for($i=2;$i<=$arrayCount;$i++){
 	$formID 	=  trim($allDataInSheet[$i]["A"]); 
 	$insFormID 	=  trim($allDataInSheet[$i]["B"]); 
 	$insNomGen 	=  trim($allDataInSheet[$i]["C"]);
-	$insNomGes 	=  trim($allDataInSheet[$i]["D"]);
-	$insOpNom  	=  trim($allDataInSheet[$i]["E"]);
-	$insOpCat 	=  trim($allDataInSheet[$i]["F"]);
-	$insNomArg 	=  trim($allDataInSheet[$i]["G"]);
-	$insNomBra	=  trim($allDataInSheet[$i]["H"]);  
-	$insNomChi 	=  trim($allDataInSheet[$i]["I"]); 
-	$insNomCol 	=  trim($allDataInSheet[$i]["J"]);  
-	$insNomMex 	=  trim($allDataInSheet[$i]["K"]); 
-	$insNomPer 	=  trim($allDataInSheet[$i]["L"]); 
-	$insNomPan 	=  trim($allDataInSheet[$i]["M"]); 
+	$insNomGes 	=  trim($allDataInSheet[$i]["C"]);
+	$insOpNom  	=  trim($allDataInSheet[$i]["D"]);
+	$insNomArg 	=  trim($allDataInSheet[$i]["E"]);
+	$insNomBra	=  trim($allDataInSheet[$i]["F"]);  
+	$insNomChi 	=  trim($allDataInSheet[$i]["G"]); 
+	$insNomCol 	=  trim($allDataInSheet[$i]["H"]);  
+	$insNomMex 	=  trim($allDataInSheet[$i]["I"]); 
+	$insNomPer 	=  trim($allDataInSheet[$i]["J"]); 
+	$insNomPan 	=  trim($allDataInSheet[$i]["K"]); 
 
 	if($formID){
 	
@@ -73,7 +72,7 @@ for($i=2;$i<=$arrayCount;$i++){
 				'insFormID' => $insFormID
 			);	
 			
-			$insID = $db->insert ('instores', $data);	
+			$insID = $db->insert ('instores_v2', $data);	
 			
 			$OLDpieID 	= $insNomGen;
 
@@ -83,10 +82,10 @@ for($i=2;$i<=$arrayCount;$i++){
 			'formID'	=> $formID,
 			'insID'		=> $insID,
 			'insOpNom'	=> $insOpNom,
-			'insOpCat'	=> $insOpCat
+			'insOpCat'	=> 0
 		);
 		
-		$id = $db->insert ('instores_opciones', $data);	
+		$id = $db->insert ('instores_opciones_v2', $data);	
 		
 	}
 }
