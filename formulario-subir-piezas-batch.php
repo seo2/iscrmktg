@@ -80,3 +80,53 @@ session_start();
 
 		    
 <? include('footer.php'); ?>
+<script>
+	$("#formExcel").validate({
+	  submitHandler: function(form) {
+		$("#btnSubir").html('<i class="fa fa fa-spinner fa-spin"></i> espere...');
+
+		// obtengo el archivo a subir
+		var inputFileImage 	= document.getElementById("upload");
+		var file 			= inputFileImage.files[0];
+		var data 			= new FormData();
+		data.append('archivo',file);
+		
+		var other_data = $('#formExcel').serializeArray();
+		$.each(other_data,function(key,input){
+			data.append(input.name,input.value);
+		});
+		
+		$.ajax({
+            type: "POST",
+            url: "ajax/subirExcel.php",
+            contentType:false,
+            data: data,
+            processData:false,
+            cache:false,
+            success: function(msg) {
+				console.log(msg);
+            	if(msg==0){
+					swal('Ha ocurrido un error, por favor vuelva a intentarlo.');
+            	}else{
+            						
+	            	swal({   title: "¡Excelente!",   text: "El archivo se ha subido correctamente. ¿Qué desea hacer ahora?",   type: "success",     confirmButtonColor: "#DD6B55",   confirmButtonText: "Ir al home",   cancelButtonText: "Subir otro archivo",  showCancelButton: true,   closeOnConfirm: false,   closeOnCancel: false , allowOutsideClick: true}, 
+	            	function(isConfirm){   
+	            	if (isConfirm) {  
+	            		window.location.replace("home.php");  
+	            	} else {     
+	            		window.location.reload();     
+	            	} });
+            	
+
+            	}
+            	$("#btnSubir").html('<i class="fa fa-dot-circle-o"></i> Subir');
+            },
+            error: function(xhr, status, error) {
+				//alert(status);
+			}
+		
+		
+		});
+	}
+}); // fin validate
+</script>
