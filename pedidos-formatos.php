@@ -67,7 +67,7 @@ global $usuID;
 			if($resultado){
 				foreach ($resultado as $r) {
 	    ?>   
-					<a href="tiendas.php?formID=<?= $r['formID']; ?>" class="btn btn-primary btn-lg btn-block">
+					<a href="tiendas.php?formID=<?= $r['formID']; ?>&tipforID=<?php echo $formTipo; ?>" class="btn btn-primary btn-lg btn-block">
 						<?= $r['formDesc']; ?> <small>[<?php echo get_tienda_x_formato_x_pais($r['formID'], $paisID); ?>]</small>
 						<span class="total"><i class="fa fa-shopping-basket" aria-hidden="true"></i><strong><?= pedidos_x_formato($usuTipo, $paisID, $r['formID'],$usuID); ?></strong></span>
 					</a>
