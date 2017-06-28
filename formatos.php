@@ -17,7 +17,7 @@ if($_SESSION['todos']['Logged']){
 	include('header.php');
 
 if($_GET['FW2017']){
-	if($_GET['piezas_v2']){
+	if($_GET['piezas']){
 		$url 	= 'piezas';
 		$boton  = ' Instore';
 
