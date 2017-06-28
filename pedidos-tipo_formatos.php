@@ -75,10 +75,6 @@ global $usuID;
 						
 				</div>
 			</div>
-
-	    	<footer class="animated bounceInRight">
-		    	<a href="home.php" id="btnvolver"><i class="fa fa-chevron-left"></i> <span><? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></span></button>
-	    	</footer>
 	    	<div id="footer" class="blancobg">
 		    	<div class="container">
 			    	<div class="row">
