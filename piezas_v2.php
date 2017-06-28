@@ -64,9 +64,7 @@ if($_SESSION['todos']['Logged']){
 					foreach ($resultado as $r) {
 						
 						$opciones = get_total_opciones_instores_v2($formID, $r['insID']);
-						if($opciones<=1){
-							$opciones = 0;
-						}		
+							
 						
 						
 						
@@ -74,9 +72,11 @@ if($_SESSION['todos']['Logged']){
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion">
 					<div class="row">
 						<div class="col-xs-9 postema">
+<!--
 							<? if(comprueba_archivos_x_pieza_formato($formID,$r['insID'])==0){ ?>
 								<span class="error"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
 							<? } ?>
+-->
 							<a href="opciones_v2.php?pieID=<?= $r['insID']; ?>&formID=<?= $formID; ?>"><?= $r['insNomGen']; ?></a>
 							<small><i class="fa fa-list" aria-hidden="true"></i> <?= $opciones ; ?></small>
 							<? if($usuTipo<99){ ?>
