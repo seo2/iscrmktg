@@ -136,7 +136,7 @@ session_start();
 								<div class="col-sm-12 posicion2">
 									<div class="row">
 										<div class="col-xs-8 formatito">
-<!-- 											<a href="javascript:void(0);" class="borraFormato" data-catid="<?= $catID; ?>" data-camid="<?php echo $camID; ?>" data-formid="<?php echo $r['formID']; ?>" ><i class="fa fa-times-circle" aria-hidden="true"></i> --></a>  <?php echo get_formato($r['formID']); ?>
+											<a href="javascript:void(0);" class="borraFormato" data-catid="<?= $catID; ?>" data-camid="<?php echo $camID; ?>" data-formid="<?php echo $r['formID']; ?>" ><i class="fa fa-times-circle" aria-hidden="true"></i></a>  <?php echo get_formato($r['formID']); ?>
 										</div>
 										<div class="col-xs-4 text-right posvotos">
 											<a href="javascript:void(0);" class="btn btn-default" data-toggle="modal" data-target="#myModal<?php echo $r['formID']; ?>"><i class="fa fa-plus"></i> <span class="hidden-xs">Agregar ISC </span></a> 

@@ -394,7 +394,9 @@ a.dd-selected{color: #0084D6;}
 
 .posicion2{background: #fff;padding-top: 5px; padding-bottom: 5px; border-bottom: 2px solid #2196f3; position: relative;}
 .formatito{height: 30px; line-height: 40px;}
+.borraFormato,
 .borraISC{color:red;}
+.borraFormato:hover,
 .borraISC:hover{color:black;}
 .fotCat{border: 1px solid #eee; margin-bottom: 15px; transition: all 0.5s ease-in-out;}
 .fotCat:hover{border: 1px solid #2196f3; cursor: pointer;}
