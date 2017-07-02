@@ -258,6 +258,11 @@ session_start();
 						</div>
 						<div id="myDropdown" class="col-xs-12"></div>
 						<input type="hidden" name="ptdCat" id="ptdCat">
+						
+						<div id="aca_va">
+							
+						</div>
+						
 						<hr>
 						
 
@@ -267,7 +272,8 @@ session_start();
 						</div>	
 						<input type="hidden" name="ptdFoto" value="<?= $ptdFoto; ?>">
 						<? if($ptdFoto){ ?>
-						<div class="form-group">
+						<!--
+<div class="form-group">
 					    	<div class="col-xs-10 col-xs-offset-1" id="campofoto"style="display:none;">
 								<input type="file" id="uploadFoto" name="foto">
 					    	</div>
@@ -284,8 +290,10 @@ session_start();
 					    		</div>
 					    	</div>	
 						</div>	
+-->
 						<? }else{?>
-						<div class="form-group">
+						<!--
+<div class="form-group">
 					    	<div class="col-xs-10 col-xs-offset-1" id="campofoto"style="display:none;">
 								<input type="file" id="uploadFoto" name="foto">
 					    	</div>
@@ -302,6 +310,7 @@ session_start();
 					    		</div>
 					    	</div>	
 						</div>	
+-->
 							
 						<? }?>		
 						<hr>
@@ -362,7 +371,7 @@ function GetCatalogo2(camID,clander) {
   if (camID > 0) {
  	    $.ajax({
             type: "POST",
-            url: "ajax/catalogo.php",
+            url: "ajax/catalogo_v2.php",
             data: { "camID": camID },
 			success: function(msg) {
             	console.log(msg);
@@ -377,6 +386,16 @@ function GetCatalogo2(camID,clander) {
 					    console.log(selectedData);
 					    console.log(selectedData.selectedData.value);
 				        $('#ptdCat').val(selectedData.selectedData.value);
+						include = 'include-isc-campana.php?camID='+camID+'&catID='+selectedData.selectedData.value;
+						
+						$.post(include, function(data) {
+							pines = $(data).find("#isc_camp");
+							console.log(pines);
+							$('#aca_va').append( $(pines).hide().fadeIn(2000));
+				    	});			        
+				        
+				        
+				        
 				    }   
 				});
 
@@ -386,7 +405,7 @@ function GetCatalogo2(camID,clander) {
         	}
         });
     }else{
-        $("#ptdGraOp").get(0).options.length = 0;
+        $("#ptdGraOp2").get(0).options.length = 0;
     }
 }	 
 	 

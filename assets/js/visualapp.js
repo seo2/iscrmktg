@@ -665,6 +665,20 @@ function GetCatalogo(camID) {
 					    console.log(selectedData);
 					    console.log(selectedData.selectedData.value);
 				        $('#ptdCat').val(selectedData.selectedData.value);
+				        
+						include = 'include-isc-campana.php?camID='+camID+'&catID='+selectedData.selectedData.value;
+						
+						console.log(selectedData.selectedData.description);
+						
+						console.log(include);
+						
+						$.get(include, function(data) {
+/*
+							pines = $(data).find("#isc_camp");
+							console.log(pines);
+*/
+							$('#aca_va').html( $(data).hide().fadeIn(2000));
+				    	});		
 				    }   
 				});
 
