@@ -1,4 +1,5 @@
 <?php
+require_once("../functions.php");
 $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
 $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 if ($ajax) {
@@ -10,7 +11,6 @@ if ($ajax) {
 	$domain = parse_url($referer); //If yes, parse referrer
 	
 	if(in_array( $domain['host'], $allowedDomains)) {
-		require_once("../functions.php");
 	
 		$clxtID 	= $_POST['clxtID'];
 		$sql  		= "select * from checklist_x_tienda where clxtID = $clxtID";

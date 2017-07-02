@@ -1,4 +1,6 @@
 <?
+
+		require_once("../functions.php");
 $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
 $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 if ($ajax) {
@@ -10,8 +12,6 @@ if ($ajax) {
 	$domain = parse_url($referer); //If yes, parse referrer
 	
 	if(in_array( $domain['host'], $allowedDomains)) {
-
-		require_once("../functions.php");
 		
 		date_default_timezone_set('America/Santiago');
 		
