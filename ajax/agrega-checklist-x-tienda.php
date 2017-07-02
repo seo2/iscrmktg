@@ -1,6 +1,5 @@
 <?
-		
-		require_once("../functions.php");
+require_once("../functions.php");
 $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
 $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 if ($ajax) {
