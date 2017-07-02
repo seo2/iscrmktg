@@ -3,7 +3,7 @@ $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
 $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 if ($ajax) {
 
-	$allowedDomains = array('dev.iscrmktg.com','iscrmktg.com');
+	$allowedDomains = array($dominio);
 	
 	$referer = $_SERVER['HTTP_REFERER'];
 	

@@ -318,8 +318,6 @@ $("#uploadFoto2").change(function(){
          
 
 
-
-
 // LEVANTAR MODAL DE ITEM:
 
 $('a.subefoto').click(function(){
@@ -371,57 +369,27 @@ $('a#logoutBtn').on('click', function() {
     });
 });
 
-
-$("#formExcelTiendas").validate({
-	  submitHandler: function(form) {
-		$("#btnSubir").html('<i class="fa fa fa-spinner fa-spin"></i> espere...');
-
-		// obtengo el archivo a subir
-		var inputFileImage 	= document.getElementById("upload");
-		var file 			= inputFileImage.files[0];
-		var data 			= new FormData();
-		data.append('archivo',file);
-		
-		var other_data = $('#formExcel').serializeArray();
-		$.each(other_data,function(key,input){
-			data.append(input.name,input.value);
-		});
-		
-		$.ajax({
-            type: "POST",
-            url: "ajax/subirExcel-tiendas.php",
-            contentType:false,
-            data: data,
-            processData:false,
-            cache:false,
-            success: function(msg) {
-				console.log(msg);
-            	if(msg==0){
-					swal('Ha ocurrido un error, por favor vuelva a intentarlo.');
-            	}else{
-            						
-	            	swal({   title: "¡Excelente!",   text: "El archivo se ha subido correctamente. ¿Qué desea hacer ahora?",   type: "success",     confirmButtonColor: "#DD6B55",   confirmButtonText: "Ir al home",   cancelButtonText: "Subir otro archivo",  showCancelButton: true,   closeOnConfirm: false,   closeOnCancel: false , allowOutsideClick: true}, 
-	            	function(isConfirm){   
-	            	if (isConfirm) {  
-	            		window.location.replace("home.php");  
-	            	} else {     
-	            		window.location.replace("formulario-subir-toemdas.php");     
-	            	} });
-            	
-
-            	}
-            	$("#btnSubir").html('<i class="fa fa-dot-circle-o"></i> Subir');
-            },
-            error: function(xhr, status, error) {
-				//alert(status);
-			}
-		
-		
-		});
-	}
-}); // fin validate
-
 var insID = 0;
+
+
+
+
+
+
+$("#tipoPedido").bind("change", function() {
+	tipoPedido = $(this).val();
+	if(tipoPedido==1){
+		$('#agrega-pedido').removeClass('hide');
+		$('#agrega-pedido_v2').addClass('hide');
+	}else if(tipoPedido==2){
+		$('#agrega-pedido_v2').removeClass('hide');
+		$('#agrega-pedido').addClass('hide');
+	}else{
+		$('#agrega-pedido').addClass('hide');
+		$('#agrega-pedido_v2').addClass('hide');
+	}
+});	
+
 
 $("#ptdGra").bind("change", function() {
 	insID   = $(this).val();
@@ -474,15 +442,13 @@ function GetOpciones(insID,formID) {
 						                    $('#itemcat').show();
 						                    $('#isc').val('');
 						                    $('#fotito2').hide();
-						                    $('#fotocatalogo').attr('src','');
-						                    $('#fotocatalogo').attr('alt','');
+						                    $('#fotocatalogo').attr('src','').attr('alt','');
 					                    }else{
 						                    $('#itemcat').hide();
 						                 	archivo = item.archivo;
 						                 	console.log(archivo);
 						                    $('#fotito2').show();
-						                    $('#fotocatalogo').attr('src',archivo);
-						                    $('#fotocatalogo').attr('alt',archivo);
+						                    $('#fotocatalogo').attr('src',archivo).attr('alt',archivo);
 						                    $('#isc').val(archivo);
 						                    
 					                    }
@@ -540,15 +506,14 @@ function GetOpciones2(insOpID, insID,formID) {
 		                 	archivo = item.archivo;
 		                 	console.log(archivo);
 		                    $('#fotito2').show();
-		                    $('#fotocatalogo').attr('src',archivo);
-							$('#fotocatalogo').attr('alt',archivo);
+		                    $('#fotocatalogo').attr('src',archivo).attr('alt',archivo);
 		                    $('#isc').val(archivo);
 		                    
 	                    }else{
 		                    $('#itemcat').hide();
 		                    $('#isc').val('');
 		                    $('#fotito2').hide();
-		                    $('#fotocatalogo').attr('src','');	                    
+		                    $('#fotocatalogo').attr('src','').attr('alt','');	                    
 	                    }
 	                });
 				}
@@ -561,6 +526,119 @@ function GetOpciones2(insOpID, insID,formID) {
 }
 
 
+// V2 ISC FW 2017 --->
+
+$("#ptdGra2").bind("change", function() {
+	insID   = $(this).val();
+	formato = $(this).data('formato');
+    $('#isc').val('');
+    $('#fotito2').hide();
+    $('#fotocatalogo').attr('src','');
+    GetOpciones_v2(insID, formato);
+});	
+
+function GetOpciones_v2(insID,formID) {
+  if (insID > 0) {
+        $("#ptdGraOp2").get(0).options.length = 0;
+        $("#ptdGraOp2").get(0).options[0] = new Option("Cargando Opciones...", "-1"); 
+		
+ 	    $.ajax({
+            type: "POST",
+            url: "ajax/opciones_v2.php",
+            data: { "formID": formID, "insID": insID },
+			success: function(msg) {
+	            console.log(msg);
+				if(msg.opciones){
+					total = msg.opciones.length;
+					console.log('Total: '+total);
+	                $("#ptdGraOp2").get(0).options.length = 0;
+	                
+	                
+	                if(total>1){
+	                	$("#ptdGraOp2").get(0).options[0] = new Option("-- Seleccione Opción --", ""); 
+		 				$("#opcionesgra").show();
+	 				}else{
+				 	    $.ajax({
+				            type: "POST",
+				            url: "ajax/opciones2_v2.php",
+				            data: { "formID": formID, "insID": insID, "insOpID": 1 },
+							success: function(msg) {
+					            console.log(msg);
+								if(msg.opciones){
+									total = msg.opciones.length;
+					                $.each(msg.opciones, function(index, item) {
+				
+					                 	if(item.Display!=''){
+									 		$("#opcionesgra").show();
+					                 	}else{
+									 		$("#opcionesgra").hide();
+					                 	}
+					                 	archivo = item.archivo;
+					                 	console.log(archivo);
+					                    $('#fotito2').show();
+					                    $('#fotocatalogo').attr('src',archivo).attr('alt',archivo);
+					                    $('#isc').val(archivo);
+					                });
+								}
+				            },
+				            error: function(xhr, status, error) {
+								alert(status);
+				        	}
+				        });		
+	 				}
+	                $.each(msg.opciones, function(index, item) {
+	                    $("#ptdGraOp2").get(0).options[$("#ptdGraOp2").get(0).options.length] = new Option(item.Display, item.Value);
+
+	                });
+				}
+            },
+            error: function(xhr, status, error) {
+				alert(status);
+        	}
+        });
+    }else{
+        $("#ptdGraOp").get(0).options.length = 0;
+    }
+}
+
+$("#ptdGraOp2").bind("change", function() {
+	insOpID   = $(this).val();
+	formato = $("#ptdGra2").data('formato');
+    GetOpciones2_v2(insOpID,insID, formato);
+});	
+
+function GetOpciones2_v2(insOpID, insID,formID) {
+	if (insID > 0) {
+
+ 	    $.ajax({
+            type: "POST",
+            url: "ajax/opciones2_v2.php",
+            data: { "formID": formID, "insID": insID, "insOpID": insOpID },
+			success: function(msg) {
+	            console.log(msg);
+				if(msg.opciones){
+					total = msg.opciones.length;
+	                $.each(msg.opciones, function(index, item) {
+	                    if(item.pieCat==0){
+		                 	archivo = item.archivo;
+		                 	console.log(archivo);
+		                    $('#fotito2').show();
+		                    $('#fotocatalogo').attr('src',archivo).attr('alt',archivo);
+		                    $('#isc').val(archivo);
+	                    }else{
+		                    $('#isc').val('');
+		                    $('#fotito2').hide();
+		                    $('#fotocatalogo').attr('src','').attr('alt','');	                    
+	                    }
+	                });
+				}
+            },
+            error: function(xhr, status, error) {
+				alert(status);
+        	}
+        });
+    }
+}
 
 
 $("#camID").bind("change", function() {
@@ -573,7 +651,7 @@ function GetCatalogo(camID) {
   if (camID > 0) {
  	    $.ajax({
             type: "POST",
-            url: "ajax/catalogo.php",
+            url: "ajax/catalogo_v2.php",
             data: { "camID": camID },
 			success: function(msg) {
             	console.log(msg);
@@ -622,8 +700,8 @@ $('#agrega-pedido')
 			paisID		= $('#paisID').val();
 			formID		= $('#formID').val();
 			ptTie		= $('#ptTie').val();
-			ptdGra		= $('#ptdGra').val();
-			ptdGraOp	= $('#ptdGraOp').val();
+			ptdGra		= $('#ptdGra2').val();
+			ptdGraOp	= $('#ptdGraOp2').val();
 
 			$.ajax({
                 type: 'POST',

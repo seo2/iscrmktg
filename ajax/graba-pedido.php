@@ -42,19 +42,19 @@ if($paisID==1){
 }
 
 if($paisID==1){
-			date_default_timezone_set('America/Santiago');
+	date_default_timezone_set('America/Santiago');
 }elseif($paisID==2){
-			date_default_timezone_set('America/Bogota');
+	date_default_timezone_set('America/Bogota');
 }elseif($paisID==3){
-			date_default_timezone_set('America/Buenos_Aires');
+	date_default_timezone_set('America/Buenos_Aires');
 }elseif($paisID==4){
-			date_default_timezone_set('America/Mexico_City');
+	date_default_timezone_set('America/Mexico_City');
 }elseif($paisID==5){
-			date_default_timezone_set('America/Lima');
+	date_default_timezone_set('America/Lima');
 }elseif($paisID==6){
-			date_default_timezone_set('America/Panama');
+	date_default_timezone_set('America/Panama');
 }elseif($paisID==7){
-			date_default_timezone_set('America/Araguaina');
+	date_default_timezone_set('America/Araguaina');
 }
 $ahora = date("Y-m-d H:i:s");
 
@@ -96,6 +96,8 @@ if($_POST['ptID'] && $_POST['ptdItem']){
 		"ptdVM" 	=> $ptVM,
 		"ptdTS" 	=> $ahora
 	);
+			
+//	print_r( $data);
 	
 	
 	$db->where("paisID", $paisID);
@@ -110,20 +112,20 @@ if($_POST['ptID'] && $_POST['ptdItem']){
 
 			
 
-	
+	$ptdCat = 0;
 	
 	// comprobar si existe un pedido temporal activo para esta tienda.
 	
-		$ptID 	= get_pedido_temporal_x_usuario($paisID,$ptTie,$ptVM);
-		if(!$ptID){
-			$data = Array (
-				"paisID" => $paisID,
-				"ptVM" 	 => $ptVM,
-				"ptTie"  => $ptTie,
-				"ptFec"  => date('Y-m-d')
-			);	
-			$ptID = $db->insert ('pedido_temporal', $data);			
-		}
+	$ptID 	= get_pedido_temporal_x_usuario($paisID,$ptTie,$ptVM);
+	if(!$ptID){
+		$data = Array (
+			"paisID" => $paisID,
+			"ptVM" 	 => $ptVM,
+			"ptTie"  => $ptTie,
+			"ptFec"  => date('Y-m-d')
+		);	
+		$ptID = $db->insert ('pedido_temporal', $data);			
+	}
 	
 	// grabar nuevo item.
 	$itemFoto = '';
@@ -156,6 +158,7 @@ if($_POST['ptID'] && $_POST['ptdItem']){
 			"ptdTS" 	=> $ahora
 		);	
 			
+//	print_r( $data);
 			
 		$id = $db->insert ('pedido_temporal_detalle', $data);	
 		

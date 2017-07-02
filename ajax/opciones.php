@@ -25,8 +25,6 @@ if($resultado){
 	    	'Value' 	=> $r["insOpID"], 
 	    	'Display' 	=> $r["insOpNom"],
 	    	'pieCat' 	=> $r["insOpCat"]
-	    	//'pieCan' 	=> $pieCan,
-	    	//'pieCom' 	=> $pieCom
 	    );
 	    $ok = 1;
 	}
@@ -37,11 +35,6 @@ if($ok==0){
     	'Value' 	=> 0, 
     	'Display' 	=> '', 
     	'pieCat' 	=> 0
-    	//'pieProv' 	=> $pieProv,
-    	//'Proveedor'	=> get_proveedor_nombre($pieProv),
-    	//'pieCat' 	=> $pieCat,
-    	//'pieCan' 	=> $pieCan,
-    	//'pieCom' 	=> $pieCom
     );	
 }
 

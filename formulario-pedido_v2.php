@@ -76,194 +76,189 @@ session_start();
 		    
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion" id="vit-<?= $r['vitID']; ?>" data-nom="<?= $r['vitNom']; ?>"  data-foto="<?= $r['vitFoto']; ?>" data-com="<?= $r['vitDes']; ?>">
 					<div class="row">
-						<div class="col-sm-12">
-							<? if(!$_GET['ptID'] && !$_GET['ptdItem']){ ?>
-							<div class="form-group">
-								<label for="ptdGra">Tipo de <? if($paisID==7){ ?>ordem<? }else{ ?>pedido<? } ?>:</label>
-								<select class="form-control" name="ptdGra" required id="tipoPedido" data-formato="<?php echo $formato; ?>">
-									<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
-									<option value="1">ISC Long Term</option>
-									<option value="2">ISC de <? if($paisID==7){ ?>Campanhas<? }else{ ?>Campañas<? } ?> </option>
-								</select>
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="col-sm-12">
+									<? if(!$_GET['ptID'] && !$_GET['ptdItem']){ ?>
+									<div class="form-group">
+										<label for="tipoPedido">Tipo de <? if($paisID==7){ ?>ordem<? }else{ ?>pedido<? } ?>:</label>
+										<select class="form-control" name="tipoPedido" required id="tipoPedido">
+											<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
+											<option value="1">ISC Long Term</option>
+											<option value="2">ISC de <? if($paisID==7){ ?>Campanhas<? }else{ ?>Campañas<? } ?></option>
+										</select>
+									</div>
+									<? } ?>
+								</div>
 							</div>
-							<? } ?>
 						</div>
 					
 						<form action="ajax/graba-pedido.php" method="post" accept-charset="utf-8" id="agrega-pedido" class="hide">
-						
-						
-						<input type="hidden" name="ptVM" 	value="<?= $usuID; ?>">
-						<input type="hidden" name="paisID" id="paisID" value="<?= $paisID; ?>">
-						<input type="hidden" name="ptTie" id="ptTie" value="<?= $tieID; ?>">
-						<input type="hidden" name="formID" id="formID" value="<?= $formato; ?>">
-						<input type="hidden" name="ptdAlerta" id="ptdAlerta" value="<?= $ptdAlerta; ?>">
-						<? if($_GET['ptID'] && $_GET['ptdItem']){ ?>
-						<input type="hidden" name="ptID" 		value="<?= $ptID; ?>">
-						<input type="hidden" name="ptdItem" 	value="<?= $ptdItem; ?>">
-						<? } ?>
-						<div class="form-group">
-							<label for="ptdGra">Instore:</label>
-							<select class="form-control" name="ptdGra" required id="ptdGra" data-formato="<?php echo $formato; ?>">
-								<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
-								<?
-								$tema = $db->rawQuery('select * from instores where formID = '.$formato.' order by insNomGen');
-								if($tema){
-									foreach ($tema as $t) {
-										$insID = $t['insID'];
-										$instore = $t['insNomGen'].' - '.get_instore_nom_x_pais($paisID, $formato, $insID);
-										
-								?>
-								<option value="<?= $t['insID']; ?>" <? if($t['insID']==$ptdGra){ ?>selected<? } ?>><?php echo $instore; ?></option>
-								<?		
-									}
-								}
-								?>
-							</select>
-						</div>
-						<? if($_GET['ptID'] && $_GET['ptdItem'] && $ptdGraOp > 0){?>
-						
-						<div class="form-group" id="opcionesgra">
-							<label><? if($paisID==7){ ?>Opções<? }else{ ?>Opciones<? } ?> instore:</label>
-							<select class="form-control" name="ptdGraOp" id="ptdGraOp" required>
-								<?
-									
-								$tema = $db->rawQuery('select * from instores_opciones where  formID = '.$formato.' and insID = '.$ptdGra);
-								if($tema){
-									foreach ($tema as $t) {
-								?>							
-								<option value="<?= $t['insOpID']; ?>" <? if($t['insOpID']==$ptdGraOp){ ?>selected<? } ?>><?= $t['insOpNom']; ?></option>
-								<?		
-									}
-								}
-								?>
-							</select>
-						</div>
-						
-						<? }else{ ?>
-						
-						<div class="form-group" id="opcionesgra" style="display:none;">
-							<label><? if($paisID==7){ ?>Opções<? }else{ ?>Opciones<? } ?> instore:</label>
-							<select class="form-control" name="ptdGraOp" id="ptdGraOp" required>
-								<option value="">-</option>
-							</select>
-						</div>
-						<? } ?>
-						
-						<? if($_GET['ptID'] && $_GET['ptdItem'] && $ptdCat == 0){ ?>	
-						<div class="row">
-							<div class="col-xs-12">
-					    		<div id="fotito2">
-					    			<img src="<?php echo $ptdISC; ?>" class="img-responsive" id="fotocatalogo" >
-					    			<input type="hidden" name="isc" id="isc" value="<?php echo $ptdISC; ?>">
-					    		</div>
-					    	</div>	
-						</div>
-						<? }else{ ?>	
-						<div class="row">
-							<div class="col-xs-12">
-					    		<div id="fotito2"  style="display:none;">
-					    			<img src="" class="img-responsive" id="fotocatalogo" >
-					    			<input type="hidden" name="isc" id="isc">
-					    		</div>
-					    	</div>	
-						</div>
-						<? } ?>
-						
-						
-						<div class="row" id="lacantidad">
-							<div class="form-group col-xs-6">
-								<label class="ptdCan"><? if($paisID==7){ ?>Quantidade<? }else{ ?>Cantidad<? } ?>:</label>
-								<input type="number" class="form-control" id="ptdCan" placeholder="<? if($paisID==7){ ?>Quantidade<? }else{ ?>Cantidad<? } ?>" name="ptdCan" required min="1" value="<?= $ptdCan; ?>">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label><? if($paisID==7){ ?>Obs<? }else{ ?>Observación<? } ?>:</label>
-							<textarea  class="form-control" placeholder="<? if($paisID==7){ ?>Obs<? }else{ ?>Observación<? } ?>" name="ptdObs" id="ptdObs"><?= $ptdObs; ?></textarea>
-						</div>	
-						<input type="hidden" name="ptdFoto" value="<?= $ptdFoto; ?>">
-						<? if($ptdFoto){ ?>
-						<div class="form-group">
-					    	<div class="col-xs-10 col-xs-offset-1" id="campofoto"style="display:none;">
-								<input type="file" id="uploadFoto" name="foto">
-					    	</div>
-						</div>
-						<div class="form-group">
-				    		<button type="button" onclick="document.getElementById('uploadFoto').click(); return false" class="btn btn-primary" id="subefoto">
-								<i class="fa fa-camera"></i> <? if($paisID==7){ ?>Alterar<? }else{ ?>Cambiar<? } ?> Foto
-							</button>
-						</div>		
-						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
-					    		<div id="fotito">
-					    			<img src="resize3.php?img=ajax/uploads/<?= $ptdFoto; ?>&width=640&height=640&mode=fit" class="img-responsive" id="fotoperfil" >
-					    		</div>
-					    	</div>	
-						</div>	
-						<? }else{?>
-						<div class="form-group">
-					    	<div class="col-xs-10 col-xs-offset-1" id="campofoto"style="display:none;">
-								<input type="file" id="uploadFoto" name="foto">
-					    	</div>
-						</div>
-						<div class="form-group">
-				    		<button type="button" onclick="document.getElementById('uploadFoto').click(); return false" class="btn btn-primary" id="subefoto">
-								<i class="fa fa-camera"></i> <? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> Foto
-							</button>
-						</div>		
-						<div class="row">
-							<div class="col-xs-offset-3 col-xs-6">
-					    		<div id="fotito" style="display:none;">
-					    			<img src="" class="img-responsive" id="fotoperfil" >
-					    		</div>
-					    	</div>	
-						</div>	
-							
-						<? }?>		
-						<hr>
-						<div class="form-group text-right">
-					    	<button type="submit" class="btn btn-primary" id="btngrabar"><i class="fa fa-floppy-o"></i> <? if($paisID==7){ ?>Salvar<? }else{ ?>Grabar<? } ?></button>
-						</div>
-						
-					</form>
-					
-						<form action="ajax/graba-pedido.php" method="post" accept-charset="utf-8" id="agrega-pedido_v2" class="hide">
-						
-						
-						<input type="hidden" name="ptVM" 	value="<?= $usuID; ?>">
-						<input type="hidden" name="paisID" id="paisID" value="<?= $paisID; ?>">
-						<input type="hidden" name="ptTie" id="ptTie" value="<?= $tieID; ?>">
-						<input type="hidden" name="formID" id="formID" value="<?= $formato; ?>">
-						<input type="hidden" name="ptdAlerta" id="ptdAlerta" value="<?= $ptdAlerta; ?>">
-						<? if($_GET['ptID'] && $_GET['ptdItem']){ ?>
-						<input type="hidden" name="ptID" 		value="<?= $ptID; ?>">
-						<input type="hidden" name="ptdItem" 	value="<?= $ptdItem; ?>">
-						<? } ?>
-
-						
-						<div id="itemcat">
+							<input type="hidden" name="ptVM" 						value="<?= $usuID; ?>">
+							<input type="hidden" name="paisID" 		id="paisID" 	value="<?= $paisID; ?>">
+							<input type="hidden" name="ptTie" 		id="ptTie" 		value="<?= $tieID; ?>">
+							<input type="hidden" name="formID" 		id="formID" 	value="<?= $formato; ?>">
+							<input type="hidden" name="ptdAlerta" 	id="ptdAlerta" 	value="<?= $ptdAlerta; ?>">
+							<input type="hidden" name="ptdFoto" 					value="<?= $ptdFoto; ?>">
+							<? if($_GET['ptID'] && $_GET['ptdItem']){ ?>
+							<input type="hidden" name="ptID" 						value="<?= $ptID; ?>">
+							<input type="hidden" name="ptdItem" 					value="<?= $ptdItem; ?>">
+							<? } ?>
 							<div class="form-group">
-								<label><? if($paisID==7){ ?>Selecionar de catálogo<? }else{ ?>Seleccionar del Catálogo<? } ?>:</label>
-								<select class="form-control" name="camID" required id="camID">
+								<label for="ptdGra">Instore:</label>
+								<select class="form-control" name="ptdGra" required id="ptdGra2" data-formato="<?php echo $formato; ?>">
 									<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
 									<?
-									$tema = $db->rawQuery('select * from campana where camEst = 0');
+									$tema = $db->rawQuery('select * from instores_v2 where formID = '.$formato.' order by insNomGen');
 									if($tema){
 										foreach ($tema as $t) {
-											$ok = ask_pais_campana( $t['camID'],$paisID);
-											if($ok==1){
+											$insID 		= $t['insID'];
+											$instore 	= $t['insNomGen'].' - '.get_instore_nom_x_pais_v2($paisID, $formato, $insID);
+											
 									?>
-									<option value="<?= $t['camID']; ?>"><?= $t['camDesc']; ?></option>
-									<?		}
+									<option value="<?= $t['insID']; ?>" <? if($t['insID']==$ptdGra){ ?>selected<? } ?>><?php echo $instore; ?></option>
+									<?		
 										}
 									}
 									?>
 								</select>
 							</div>
-							<div id="myDropdown" class="col-xs-12"></div>
-							<input type="hidden" name="ptdCat" id="ptdCat">
+							
+						<? if($_GET['ptID'] && $_GET['ptdItem'] && $ptdGraOp > 0){?>
+							<div class="form-group" id="opcionesgra">
+								<label><? if($paisID==7){ ?>Opções<? }else{ ?>Opciones<? } ?> instore:</label>
+								<select class="form-control" name="ptdGraOp" id="ptdGraOp2" required>
+									<?
+									$tema = $db->rawQuery('select * from instores_opciones_v2 where  formID = '.$formato.' and insID = '.$ptdGra);
+									if($tema){
+										foreach ($tema as $t) {
+									?>							
+									<option value="<?= $t['insOpID']; ?>" <? if($t['insOpID']==$ptdGraOp){ ?>selected<? } ?>><?= $t['insOpNom']; ?></option>
+									<?		
+										}
+									}
+									?>
+								</select>
+							</div>
+						<? }else{ ?>
+							<div class="form-group" id="opcionesgra" style="display:none;">
+								<label><? if($paisID==7){ ?>Opções<? }else{ ?>Opciones<? } ?> instore:</label>
+								<select class="form-control" name="ptdGraOp" id="ptdGraOp2" required>
+									<option value="">-</option>
+								</select>
+							</div>
+						<? } ?>
+						
+						<? if($_GET['ptID'] && $_GET['ptdItem'] && $ptdCat == 0){ ?>	
+							<div class="row">
+								<div class="col-xs-12">
+						    		<div id="fotito2">
+						    			<img src="<?php echo $ptdISC; ?>" class="img-responsive" id="fotocatalogo" >
+						    			<input type="hidden" name="isc" id="isc" value="<?php echo $ptdISC; ?>">
+						    		</div>
+						    	</div>	
+							</div>
+						<? }else{ ?>	
+							<div class="row">
+								<div class="col-xs-12">
+						    		<div id="fotito2"  style="display:none;">
+						    			<img src="" class="img-responsive" id="fotocatalogo" >
+						    			<input type="hidden" name="isc" id="isc">
+						    		</div>
+						    	</div>	
+							</div>
+						<? } ?>
 							<hr>
-						</div><!-- fin item catalogo -->
+							<div class="row" id="lacantidad">
+								<div class="form-group col-xs-6">
+									<label class="ptdCan"><? if($paisID==7){ ?>Quantidade<? }else{ ?>Cantidad<? } ?>:</label>
+									<input type="number" class="form-control" id="ptdCan" placeholder="<? if($paisID==7){ ?>Quantidade<? }else{ ?>Cantidad<? } ?>" name="ptdCan" required min="1" value="<?= $ptdCan; ?>">
+								</div>
+							</div>
+
+							<div class="form-group">
+							<label><? if($paisID==7){ ?>Obs<? }else{ ?>Observación<? } ?>:</label>
+							<textarea  class="form-control" placeholder="<? if($paisID==7){ ?>Obs<? }else{ ?>Observación<? } ?>" name="ptdObs" id="ptdObs"><?= $ptdObs; ?></textarea>
+						</div>	
+							
+						<? if($ptdFoto){ ?>
+							<div class="form-group">
+						    	<div class="col-xs-10 col-xs-offset-1" id="campofoto"style="display:none;">
+									<input type="file" id="uploadFoto" name="foto">
+						    	</div>
+							</div>
+							<div class="form-group">
+					    		<button type="button" onclick="document.getElementById('uploadFoto').click(); return false" class="btn btn-primary" id="subefoto">
+									<i class="fa fa-camera"></i> <? if($paisID==7){ ?>Alterar<? }else{ ?>Cambiar<? } ?> Foto
+								</button>
+							</div>		
+							<div class="row">
+								<div class="col-xs-offset-3 col-xs-6">
+						    		<div id="fotito">
+						    			<img src="resize3.php?img=ajax/uploads/<?= $ptdFoto; ?>&width=640&height=640&mode=fit" class="img-responsive" id="fotoperfil" >
+						    		</div>
+						    	</div>	
+							</div>	
+						<? }else{?>
+							<div class="form-group">
+						    	<div class="col-xs-10 col-xs-offset-1" id="campofoto"style="display:none;">
+									<input type="file" id="uploadFoto" name="foto">
+						    	</div>
+							</div>
+							<div class="form-group">
+					    		<button type="button" onclick="document.getElementById('uploadFoto').click(); return false" class="btn btn-primary" id="subefoto">
+									<i class="fa fa-camera"></i> <? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> Foto
+								</button>
+							</div>		
+							<div class="row">
+								<div class="col-xs-offset-3 col-xs-6">
+						    		<div id="fotito" style="display:none;">
+						    			<img src="" class="img-responsive" id="fotoperfil" >
+						    		</div>
+						    	</div>	
+							</div>	
+						<? }?>		
+							<hr>
+							<div class="form-group text-right">
+					    	<button type="submit" class="btn btn-primary" id="btngrabar"><i class="fa fa-floppy-o"></i> <? if($paisID==7){ ?>Salvar<? }else{ ?>Grabar<? } ?></button>
+						</div>
+						</form> <!-- fin form pedido ISC Long Term -->
+					
+						<form action="ajax/graba-pedido-campana.php" method="post" accept-charset="utf-8" id="agrega-pedido_v2" class="hide">
+						
+						
+							<input type="hidden" name="ptVM" 						value="<?= $usuID; ?>">
+							<input type="hidden" name="paisID" 		id="paisID2" 	value="<?= $paisID; ?>">
+							<input type="hidden" name="ptTie" 		id="ptTie2" 	value="<?= $tieID; ?>">
+							<input type="hidden" name="formID" 		id="formID2" 	value="<?= $formato; ?>">
+							<input type="hidden" name="ptdAlerta" 	id="ptdAlerta2" value="<?= $ptdAlerta; ?>">
+						<? if($_GET['ptID'] && $_GET['ptdItem']){ ?>
+							<input type="hidden" name="ptID" 						value="<?= $ptID; ?>">
+							<input type="hidden" name="ptdItem" 					value="<?= $ptdItem; ?>">
+						<? } ?>
+
+						<div class="form-group">
+							<label><? if($paisID==7){ ?>Selecionar de catálogo<? }else{ ?>Seleccionar del Catálogo<? } ?>:</label>
+							<select class="form-control" name="camID" required id="camID">
+								<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
+								<?
+								$tema = $db->rawQuery('select * from campana_v2 where camEst = 0');
+								if($tema){
+									foreach ($tema as $t) {
+										$ok = ask_pais_campana_v2( $t['camID'],$paisID);
+										if($ok==1){
+								?>
+								<option value="<?= $t['camID']; ?>"><?= $t['camDesc']; ?></option>
+								<?		}
+									}
+								}
+								?>
+							</select>
+						</div>
+						<div id="myDropdown" class="col-xs-12"></div>
+						<input type="hidden" name="ptdCat" id="ptdCat">
+						<hr>
 						
 
 						<div class="form-group">
@@ -323,9 +318,23 @@ session_start();
 				<div class="clear"></div>
 		    </div>
 
-	    	<footer class="animated bounceInRight">
-		    	<a href="javascript:window.history.back();" id="btnvolver"><i class="fa fa-chevron-left"></i> <span><? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></span></button>
-	    	</footer>	    
+	    	<div id="footer" class="blancobg">
+		    	<div class="container">
+			    	<div class="row">
+						<div class="col-xs-12 col-md-6 col-md-offset-3 footer">
+							
+					    	<? 
+								$back = 'javascript:window.history.back();';
+							?>
+							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
+							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>
+							  <a href="home.php" 				class="btn btn-default"><i class="fa fa-home"></i> Home</a>
+							  <a href="javascript:void();" 		class="btn btn-default" id="logoutBtn"><i class="fa fa-sign-out"></i> <? if($paisID==7){ ?>Sair<? }else{ ?>Salir<? } ?></a>
+							</div>
+				    	</div>
+			    	</div>
+		    	</div>
+	    	</div>		    
 
 <? include('footer.php'); ?>
 

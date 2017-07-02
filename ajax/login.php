@@ -1,9 +1,10 @@
 <?
+require_once("../functions.php");
 $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
 $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 if ($ajax) {
 
-	$allowedDomains = array('latam.armktg.cl', 'dev.armktg.cl', 'armktg.cl', 'www.armktg.cl','dev.iscrmktg.com','iscrmktg.com','www.http://iscrmktg.com');
+	$allowedDomains = array($dominio);
 	
 	$referer = $_SERVER['HTTP_REFERER'];
 	

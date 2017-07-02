@@ -1,9 +1,15 @@
 <?
-session_start();
+	
+	session_start();
 	require_once("_lib/config.php");
 	require_once("_lib/MysqliDb.php");
 	require_once("lib/WideImage.php");
 	$db = new MysqliDb (DBHOST, DBUSER, DBPASS, DBNAME);
+
+
+	global $urlactual, $dominio;
+	$dominio   = $_SERVER['SERVER_NAME'];
+	$urlactual = 'http://'.$_SERVER['SERVER_NAME'];
 
     function init () {
 		$db = new MysqliDb (DBHOST, DBUSER, DBPASS, DBNAME);
@@ -1438,6 +1444,34 @@ function get_zona($clID){
 
 		return $ok;
 	}
+	
+	function get_ISC_camp_nom($formID,$inCaID){
+		$db = MysqliDb::getInstance();
+		$ok = 0;
+		$tema = $db->rawQuery('select * from instores_campanas where formID = '.$formID.' and inCaID = '.$inCaID);
+		if($tema){
+			foreach ($tema as $t) {
+				$inCaNom = $t['inCaNom'];
+			}
+		}
+
+		return $inCaNom;
+	}
+	
+	function get_ISC_camp_nom_med($formID,$inCaID){
+		$db = MysqliDb::getInstance();
+		$ok = 0;
+		$tema = $db->rawQuery('select * from instores_campanas where formID = '.$formID.' and inCaID = '.$inCaID);
+		if($tema){
+			foreach ($tema as $t) {
+				$desc = $t['inCaNom'].' ('.$t['inCaMed'].')';
+			}
+		}
+
+		return $desc;
+	}
+	
+	
 
 	function comprueba_archivos_x_pieza_formato($formID,$pieID){
 		$db 	= MysqliDb::getInstance();

@@ -50,7 +50,7 @@ session_start();
 				    	</div>
 				    	<div class="col-xs-2  col-sm-4 text-right">
 					    	<? if($ptID && $total > 0){ ?>
-					    	<a href="formulario-pedido.php?tieID=<?= $tieID; ?>" class="btn btn-default" style="margin:0"><span class="hidden-xs"><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a>
+					    	<a href="formulario-pedido_v2.php?tieID=<?= $tieID; ?>" class="btn btn-default" style="margin:0"><span class="hidden-xs"><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a>
 							<? } ?>
 				    	</div>
 				    </div><!-- FIN ROW -->
@@ -111,7 +111,7 @@ session_start();
 					</div>
 					<div class="row">
 						<div class="col-lg-12 text-center">
-					    	<br><br><a href="formulario-pedido.php?tieID=<?= $tieID; ?>" class="btn btn-default btn-lg"><span><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a><br><br>
+					    	<br><br><a href="formulario-pedido_v2.php?tieID=<?= $tieID; ?>" class="btn btn-default btn-lg"><span><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a><br><br>
 						</div>
 					</div>
 				</div>
