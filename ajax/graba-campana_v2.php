@@ -4,6 +4,7 @@ require_once("../functions.php");
 date_default_timezone_set('America/Santiago');
 
 $camDesc 	= $_POST['camDesc'];
+$camCad 	= $_POST['camCad'];
 $camEst 	= $_POST['camEst'];
 $pais 		= $_POST['pais'];
 
@@ -26,6 +27,7 @@ if($_POST['camID']){
 	
 	$data = Array (
 		"camDesc" 	=> $camDesc,
+		"camCad" 	=> $camCad,
 		"camEst" 	=> $camEst
 	);		
 	$db->where("camID", $camID);

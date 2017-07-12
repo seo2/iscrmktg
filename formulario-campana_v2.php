@@ -30,6 +30,7 @@ session_start();
 		if($resultado){
 			foreach ($resultado as $r) {
 				$camDesc = $r['camDesc'];
+				$camCad = $r['camCad'];
 				$camEst = $r['camEst'];
 	 		} 
 	    }		
@@ -88,18 +89,20 @@ session_start();
 								    } ?>
 							</div>
 						</div>
-
-						<div class="form-group">
-							<label class="ptdCan">Fecha de expiración:</label>
-							<input type="date" class="form-control" id="camCad" placeholder="" name="camCad" value="<?= $camCad; ?>" required> 
-						</div>
-						<div class="form-group">
-							<label for="ptdGra">Estado:</label>
-							<select class="form-control" name="camEst" required id="camEst">
-								<option value="0" <? if($camEst==0 && $_GET['camID']){ ?>selected<? } ?>>Activo</option>
-								<option value="1" <? if(($camEst==1 && $_GET['camID']) || !$_GET['camID']){ ?>selected<? } ?>>Inactivo</option>
-								<option value="2" <? if($camEst==2 && $_GET['camID']){ ?>selected<? } ?>>Archivado</option>
-							</select>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label class="ptdCan">Fecha de expiración:</label>
+								<input type="date" class="form-control" id="camCad" placeholder="" name="camCad" value="<?= $camCad; ?>" required> 
+							</div>
+							
+							<div class="form-group col-sm-6">
+								<label for="ptdGra">Estado:</label>
+								<select class="form-control" name="camEst" required id="camEst">
+									<option value="0" <? if($camEst==0 && $_GET['camID']){ ?>selected<? } ?>>Activo</option>
+									<option value="1" <? if(($camEst==1 && $_GET['camID']) || !$_GET['camID']){ ?>selected<? } ?>>Inactivo</option>
+									<option value="2" <? if($camEst==2 && $_GET['camID']){ ?>selected<? } ?>>Archivado</option>
+								</select>
+							</div>
 						</div>			
 						<hr>
 						<? if($_GET['camID'] ){?>

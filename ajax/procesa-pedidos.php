@@ -113,8 +113,14 @@
 							$estado =$r['ptdEst'];
 
 							if($r['ptdCat']>0){
-								$camfile = get_foto_campana($r['ptdCat']);
-							$camfile =  str_replace('../', '', $camfile) ;
+								if($r['ptdISC']=='fw2017'){
+									$camID   = $r['ptdGraOp'];
+									$camfile = get_foto_campana_v2($camID, $r['ptdCat']);
+									$camfile = str_replace('../', '', $camfile) ;
+								}else{
+									$camfile = get_foto_campana($r['ptdCat']);
+									$camfile = str_replace('../', '', $camfile) ;
+								}
 								$message .= "<div class='posevento fotospedido'>";
 								if($paisID==7){
 									$message .= "<span>Imagem de cat&aacute;logo:</span><br>";

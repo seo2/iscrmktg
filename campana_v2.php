@@ -103,7 +103,7 @@ session_start();
 						<div class="col-xs-7 col-sm-8 postema nopadl nopadr">
 							
 							<a href="<?php echo $url; ?>"><? if($usuTipo==99){ ?><i class="fa fa-edit" aria-hidden="true"></i> <? } ?><?= $r['camDesc']; ?></a>
-							<span><?= get_total_fotos_campana_v2($camID); ?> Fotos.</span><br>
+							<br><span><?= get_total_fotos_campana_v2($camID); ?> Fotos.<? if($r['camCad']!='0000-00-00'){ ?> Expiración: <strong><?php echo date("d-m-Y", strtotime($r['camCad'])); ?></strong><? } ?></span><br>
 							<?	
 								$sql2  = "select * from campana_x_pais_v2 where camID = $camID";
 							  	$resultado2 = $db->rawQuery($sql2);

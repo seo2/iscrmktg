@@ -83,7 +83,14 @@ require_once("../functions.php");
 							$estado =$r['ptdEst'];
 
 							if($r['ptdCat']>0){
-								$camfile = get_foto_campana($r['ptdCat']);
+								if($r['ptdISC']=='fw2017'){
+									$camID   = $r['ptdGraOp'];
+									$camfile = get_foto_campana_v2($camID, $r['ptdCat']);
+									$camfile = str_replace('../', '', $camfile) ;
+								}else{
+									$camfile = get_foto_campana($r['ptdCat']);
+									$camfile = str_replace('../', '', $camfile) ;
+								}
 								$message .= "<div class='posevento fotospedido'>";
 								$message .= "<span>Imagen ref. Cat&aacute;logo:</span><br>";
 								$message .= "<img src='http://iscrmktg.com/resize2.php?img=".$camfile."&width=300&height=300&mode=fit' class='img-responsive'>";
