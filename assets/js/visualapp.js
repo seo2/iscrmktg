@@ -645,14 +645,16 @@ $("#camID").bind("change", function() {
     GetCatalogo($(this).val());
     $('#myDropdown').ddslick('destroy');
     $('#ptdCat').val('');
+    $('#aca_va').html('');
 });	
 
 function GetCatalogo(camID) {
   if (camID > 0) {
+	  	formID = $('#formID').val();
  	    $.ajax({
             type: "POST",
             url: "ajax/catalogo_v2.php",
-            data: { "camID": camID },
+            data: { "camID": camID,"formID": formID },
 			success: function(msg) {
             	console.log(msg);
 
@@ -666,9 +668,7 @@ function GetCatalogo(camID) {
 					    console.log(selectedData.selectedData.value);
 				        $('#ptdCat').val(selectedData.selectedData.value);
 				        
-						include = 'include-isc-campana.php?camID='+camID+'&catID='+selectedData.selectedData.value;
-						
-						console.log(selectedData.selectedData.description);
+						include = 'include-isc-campana.php?formID='+formID+'&camID='+camID+'&catID='+selectedData.selectedData.value;
 						
 						console.log(include);
 						
@@ -860,9 +860,70 @@ $('#agrega-pedido')
 
 
 
-////
+////--> Graba formulario de pedido de campañas
 
+$('#agrega-pedido_v2')
+        .formValidation({
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+			locale: 'es_ES'
+        })
+        .on('success.form.fv', function(e) {
+            e.preventDefault();
 
+            var $form = $(e.target),
+                fv    = $(e.target).data('formValidation');
+                			
+			$('#btngrabar2').html('<i class="fa fa fa-spinner fa-spin"></i> Grabando');
+
+			// obtengo el archivo a subir
+
+ 			$.ajax({
+                type: 'POST',
+                url: $form.attr('action'),
+	            data: $form.serialize(),
+            })
+            .done(function( data, textStatus, jqXHR ) {
+				if ( console && console.log ) {
+				 	console.log(data);
+					if(data==1){
+					 	$('#btngrabar').html('<i class="fa fa-floppy-o"></i> Grabar');
+					 	swal({   title: "¡Excelente!",   text: "Se ha agregado el pedido.",   type: "success",     confirmButtonColor: "#DD6B55",   confirmButtonText: "Agregar otro",   cancelButtonText: "Salir",  showCancelButton: true,   closeOnConfirm: false,   closeOnCancel: false , allowOutsideClick: true}, 
+		            	function(isConfirm){   
+		            		if (isConfirm) {  
+		            			location.reload();   
+		            		} else {     
+		            			javascript:window.history.back();   
+		            		} 
+		            	});
+		            }else if(data==2){
+					 	$('#btngrabar').html('<i class="fa fa-floppy-o"></i> Grabar');
+					 	swal({   title: "¡Excelente!",   text: "Se ha modificado el pedido.",   type: "success",     confirmButtonColor: "#DD6B55",   confirmButtonText: "OK",   cancelButtonText: "Salir",  showCancelButton: false,   closeOnConfirm: false,   closeOnCancel: false , allowOutsideClick: true}, 
+		            	function(isConfirm){   
+		            		if (isConfirm) {  
+		            			javascript:window.history.back();   
+		               		} else {     
+		            			javascript:window.history.back();   
+		            		} 
+		            	});	
+			            					 	
+			        }else{
+				    	swal('Ha ocurrido un error.');
+			        }
+				}	
+			})
+			.fail(function( jqXHR, textStatus, errorThrown ) {
+			     if ( console && console.log ) {
+	                    alert('Ha ocurrido un error. ' +textStatus);
+			     }
+			});						
+			
+			$('#btngrabar2').html('<i class="fa fa-floppy-o"></i> Grabar');
+
+        }); 
 
 
 

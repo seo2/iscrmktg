@@ -131,8 +131,14 @@
 						}?>
 
 						<? if($r['ptdCat']>0){
-							$camfile = get_foto_campana($r['ptdCat']);
-							$camfile =  str_replace('../', '', $camfile) ;
+							if($r['ptdISC']=='fw2017'){
+								$camID   = $r['ptdGraOp'];
+								$camfile = get_foto_campana_v2($camID, $r['ptdCat']);
+								$camfile = str_replace('../', '', $camfile) ;
+							}else{
+								$camfile = get_foto_campana($r['ptdCat']);
+								$camfile = str_replace('../', '', $camfile) ;
+							}
 						?>
 						<div class="col-xs-<?= $colfotos; ?> posevento fotospedido">
 							<span>Catálogo:</span> 

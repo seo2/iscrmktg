@@ -160,8 +160,8 @@ if($_SESSION['todos']['Logged']){
 						$resultado = $db->rawQuery($sql);
 						if($resultado){
 							foreach ($resultado as $r) {
-								//$total = $r['Total'];
-								$total++;
+								$total = $r['Total'];
+								//$total++;
 							}
 						}		
 ?>					
@@ -176,7 +176,7 @@ if($_SESSION['todos']['Logged']){
 						$resultado3 = $db->rawQuery($sql3);
 						if($resultado3){
 							foreach ($resultado3 as $r3) {
-								$total3++;
+								$total3 == $r3['total'];
 							}
 						}				
 ?>					
@@ -191,7 +191,7 @@ if($_SESSION['todos']['Logged']){
 					$resultado2 = $db->rawQuery($sql2);
 					if($resultado2){
 						foreach ($resultado2 as $r2) {
-							$total2++;
+							$total2 == $r2['total'];
 						}
 					}			
 ?>								

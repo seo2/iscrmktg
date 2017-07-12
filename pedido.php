@@ -22,7 +22,7 @@ session_start();
 	include('header.php');
 	
 	$tieID 	= $_GET['tieID'];
-	
+	$formID = get_formato_tienda($tieID);
 	if($usuTipo==1){ // administrador
 		$ptID = get_pedido_temporal($tieID);
 	}elseif($usuTipo==2){ // Retail MKTG
@@ -75,6 +75,8 @@ session_start();
 		Finalizado:				8 // Recepcionado por VM
 		
 	*/	
+
+	
 				
 			if($ptID && $total > 0){
 
@@ -87,12 +89,17 @@ session_start();
 						$fecha = substr($r['ptdTS'],8,2) . '/'. substr($r['ptdTS'],5,2) .'/'. substr($r['ptdTS'],0,4);
 						$hora  = substr($r['ptdTS'],11,8);
 						
-						$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
 						
-						if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
-							$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
-						}else{
-							$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+						if($r['ptdISC']=='fw2017'){
+							$pieza   = get_isc_camp($formID,$r['ptdGra']) .'<br><small>'.get_isc_med($formID,$r['ptdGra']).'</small>';
+						}else{						
+							$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
+							
+							if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
+								$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
+							}else{
+								$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+							}
 						}
 
 

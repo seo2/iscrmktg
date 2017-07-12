@@ -315,7 +315,7 @@ session_start();
 						<? }?>		
 						<hr>
 						<div class="form-group text-right">
-					    	<button type="submit" class="btn btn-primary" id="btngrabar"><i class="fa fa-floppy-o"></i> <? if($paisID==7){ ?>Salvar<? }else{ ?>Grabar<? } ?></button>
+					    	<button type="submit" class="btn btn-primary" id="btngrabar2"><i class="fa fa-floppy-o"></i> <? if($paisID==7){ ?>Salvar<? }else{ ?>Grabar<? } ?></button>
 						</div>
 						
 					</form>

@@ -762,6 +762,21 @@
 		
 	}
 
+	function get_foto_campana_v2($camID,$ID){
+		$db 	= MysqliDb::getInstance();
+		$tema 	= $db->rawQuery('select * from catalogo_v2 where camID = '.$camID.' and catID = '.$ID);
+		if($tema){
+			foreach ($tema as $t) {
+				$camFile  = $t["camFile"];
+			}
+		}else{
+			$camFile = '';
+		}
+
+		return $camFile;
+		
+	}
+
 
 	function get_total_piezas_formato($ID){
 		$db = MysqliDb::getInstance();

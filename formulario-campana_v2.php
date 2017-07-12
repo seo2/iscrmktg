@@ -90,6 +90,10 @@ session_start();
 						</div>
 
 						<div class="form-group">
+							<label class="ptdCan">Fecha de expiración:</label>
+							<input type="date" class="form-control" id="camCad" placeholder="" name="camCad" value="<?= $camCad; ?>" required> 
+						</div>
+						<div class="form-group">
 							<label for="ptdGra">Estado:</label>
 							<select class="form-control" name="camEst" required id="camEst">
 								<option value="0" <? if($camEst==0 && $_GET['camID']){ ?>selected<? } ?>>Activo</option>
