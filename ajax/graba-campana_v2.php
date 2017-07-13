@@ -4,7 +4,8 @@ require_once("../functions.php");
 date_default_timezone_set('America/Santiago');
 
 $camDesc 	= $_POST['camDesc'];
-$camCad 	= $_POST['camCad'];
+$date 		= str_replace('/', '-', $_POST['camCad']);
+$camCad 	= date("Y-m-d", strtotime($date) ) ;
 $camEst 	= $_POST['camEst'];
 $pais 		= $_POST['pais'];
 

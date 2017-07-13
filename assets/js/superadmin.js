@@ -49,7 +49,7 @@ $('#formCampanaV2')
 									window.location.href = url+pagina+data.elid;
 				            	}else{
 									pagina = '/campana_v2.php'; 
-									window.location.href = url+pagina+data.elid;
+									window.location.href = url+pagina;
 				            	}
 			            	});
 							
@@ -459,4 +459,8 @@ $('#formCatalogoV2')
 
         });      
    			
-     
+     $('.datepicker').datepicker({
+	     format: "dd/mm/yyyy",
+	     weekStart: 1,
+	     language: "es"
+     });

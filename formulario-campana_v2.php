@@ -29,9 +29,11 @@ session_start();
 	  	$resultado = $db->rawQuery($sql);
 		if($resultado){
 			foreach ($resultado as $r) {
-				$camDesc = $r['camDesc'];
-				$camCad = $r['camCad'];
-				$camEst = $r['camEst'];
+				$camDesc 	= $r['camDesc'];
+				if($r['camCad'] != '0000-00-00'){
+					$camCad 	= date("d/m/Y", strtotime($r['camCad']));;
+				}
+				$camEst 	= $r['camEst'];
 	 		} 
 	    }		
 		$opcion = 'Modificar';	
@@ -92,7 +94,10 @@ session_start();
 						<div class="row">
 							<div class="form-group col-sm-6">
 								<label class="ptdCan">Fecha de expiración:</label>
-								<input type="date" class="form-control" id="camCad" placeholder="" name="camCad" value="<?= $camCad; ?>" required> 
+								
+								<div class="input-group date">
+								  <input type="text" class="form-control datepicker" id="camCad" placeholder="" name="camCad" value="<?= $camCad; ?>" required> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+								</div>
 							</div>
 							
 							<div class="form-group col-sm-6">

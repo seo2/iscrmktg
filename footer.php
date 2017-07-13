@@ -28,7 +28,9 @@
 <? } ?>
 <? if($usuTipo==99){ ?>
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-	<script src="assets/js/superadmin.js?ver=1"></script>
+	<script src="assets/datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script src="assets/datepicker/js/locales/bootstrap-datepicker.es.js"></script>
+	<script src="assets/js/superadmin.js?ver=1.1.4"></script>
 <? } ?>
    
    

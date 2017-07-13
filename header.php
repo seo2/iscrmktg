@@ -17,9 +17,8 @@
     <link href="assets/css/bootstrap.min.css" 		rel="stylesheet">
     <link href="assets/css/formValidation.min.css" 	rel="stylesheet">
     <link href="assets/css/sweetalert.css" 			rel="stylesheet">
-<? if($usuTipo==99){ ?>
+    <link href="assets/datepicker/css/datepicker.css?v=1" rel="stylesheet">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<? } ?>
     <link href="assets/css/visualapp.css?ver=1.5.4" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
