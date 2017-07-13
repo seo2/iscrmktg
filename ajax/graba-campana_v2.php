@@ -40,6 +40,7 @@ if($_POST['camID']){
 }else{
 	$data = Array (
 		"camDesc" 	=> $camDesc,
+		"camCad" 	=> $camCad,
 		"camEst" 	=> $camEst
 	);	
 	$camID = $db->insert ('campana_v2', $data);
