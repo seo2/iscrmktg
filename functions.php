@@ -1105,7 +1105,7 @@ function get_carpeta_ISC_v2($formID){
 	}elseif($formID == 3){
 		$folder = 'ISC2/ATELIER_STUDIO/';
 	}elseif($formID == 4){
-		$folder = 'ISC2/CORE_FO/';
+		$folder = 'ISC2/HC_FO/';
 	}elseif($formID == 5){
 		$folder = 'ISC2/NBHD/';
 	}elseif($formID == 6){
