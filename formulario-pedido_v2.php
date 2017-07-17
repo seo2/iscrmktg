@@ -80,21 +80,144 @@ session_start();
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="col-sm-12">
-									<? if(!$_GET['ptID'] && !$_GET['ptdItem']){ ?>
 									<div class="form-group">
 										<label for="tipoPedido">Tipo de <? if($paisID==7){ ?>ordem<? }else{ ?>pedido<? } ?>:</label>
+									<? if(!$_GET['ptID'] && !$_GET['ptdItem']){ ?>
 										<select class="form-control" name="tipoPedido" required id="tipoPedido">
 											<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
 											<option value="1">ISC Long Term</option>
 											<option value="2">ISC de <? if($paisID==7){ ?>Campanhas<? }else{ ?>Campañas<? } ?></option>
 										</select>
+									<?  	
+											$hide1 = 'class="hide"';
+											$hide2 = 'class="hide"';
+										}else{ 
+											$hide1 = '';
+											$hide2 = 'class="hide"';
+											
+											if($ptdISC=='fw2017'){ ?>
+											<input class="form-control" type="text" name="tipo" value="ISC de <? if($paisID==7){ ?>Campanhas<? }else{ ?>Campañas<? } ?>" disabled>
+										<? }else{ ?>
+											<input class="form-control" type="text" name="tipo" value="ISC Long Term" disabled>
+										<? } ?>
+									<? 	} ?>
 									</div>
-									<? } ?>
 								</div>
 							</div>
 						</div>
-					
-						<form action="ajax/graba-pedido.php" method="post" accept-charset="utf-8" id="agrega-pedido" class="hide">
+						<? if($ptdISC=='fw2017'){ ?>
+						<form action="ajax/graba-pedido-campana.php" method="post" accept-charset="utf-8" id="agrega-pedido" <?php echo $hide1; ?>>
+							<input type="hidden" name="ptVM" 						value="<?= $usuID; ?>">
+							<input type="hidden" name="paisID" 		id="paisID" 	value="<?= $paisID; ?>">
+							<input type="hidden" name="ptTie" 		id="ptTie" 		value="<?= $tieID; ?>">
+							<input type="hidden" name="formID" 		id="formID" 	value="<?= $formato; ?>">
+							<input type="hidden" name="ptdAlerta" 	id="ptdAlerta" 	value="<?= $ptdAlerta; ?>">
+							<input type="hidden" name="ptdFoto" 					value="<?= $ptdFoto; ?>">
+							<? if($_GET['ptID'] && $_GET['ptdItem']){ ?>
+							<input type="hidden" name="ptID" 						value="<?= $ptID; ?>">
+							<input type="hidden" name="ptdItem" 					value="<?= $ptdItem; ?>">
+							<? } ?>
+							<div class="form-group">
+								<label><? if($paisID==7){ ?>Catálogo<? }else{ ?>Catálogo<? } ?>:</label>
+								<input class="form-control" type="text" name="campana" value="<?php echo get_campana_desc_v2($ptdGraOp); ?>" disabled>
+							</div>
+							<div class="form-group">
+								<input class="form-control" type="text" name="catalogo" value="<?php echo get_desc_campana_v2($ptdGraOp, $ptdCat); ?>" disabled>
+							</div>							
+							<?php 
+							if($r['ptdISC']=='fw2017'){
+								$camfile = get_foto_campana_v2($ptdGraOp, $ptdCat);
+								$camfile = str_replace('../', '', $camfile) ;
+							}else{
+								$camfile = get_foto_campana($r['ptdCat']);
+								$camfile = str_replace('../', '', $camfile) ;
+							}
+							?>	
+							<div class="row">
+								<div class="col-xs-12">
+						    		<div id="fotito2">
+						    			<img src="<?php echo $camfile; ?>" class="img-responsive" id="fotocatalogo" >
+						    			<input type="hidden" name="isc" id="isc" value="<?php echo $ptdISC; ?>">
+						    		</div>
+						    	</div>	
+							</div>						
+							<div class="form-group">
+								<label for="ptdGra">Instore:</label>
+								<select class="form-control" name="ptdGra" required id="ptdGra2" data-formato="<?php echo $formato; ?>" disabled>
+									<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
+									<?php
+										$formID = $r['formID'];
+										$sql  	= "select * from catalogo_x_formato_x_ISC where camID = $ptdGraOp and catID = $ptdCat and formID = $formato";
+									  	$resultado = $db->rawQuery($sql);
+										if($resultado){
+											foreach ($resultado as $ic) {
+												$i++;
+												
+									?>  
+									<option value="<?= $ic['iscID']; ?>" <? if($ic['iscID']==$ptdGra){ ?>selected<? } ?>><?php echo get_isc_camp($formato,$ptdGra); ?> - <?php echo get_isc_med($formato,$ptdGra); ?></option>
+									<?		
+											}
+										}
+									?>
+								</select>
+							</div>
+							<hr>
+							<div class="row" id="lacantidad">
+								<div class="form-group col-xs-6">
+									<label class="ptdCan"><? if($paisID==7){ ?>Quantidade<? }else{ ?>Cantidad<? } ?>:</label>
+									<input type="number" class="form-control" id="ptdCan" placeholder="<? if($paisID==7){ ?>Quantidade<? }else{ ?>Cantidad<? } ?>" name="ptdCan" required min="1" value="<?= $ptdCan; ?>">
+								</div>
+							</div>
+
+							<div class="form-group">
+							<label><? if($paisID==7){ ?>Obs<? }else{ ?>Observación<? } ?>:</label>
+							<textarea  class="form-control" placeholder="<? if($paisID==7){ ?>Obs<? }else{ ?>Observación<? } ?>" name="ptdObs" id="ptdObs"><?= $ptdObs; ?></textarea>
+						</div>	
+							
+						<? if($ptdFoto){ ?>
+							<div class="form-group">
+						    	<div class="col-xs-10 col-xs-offset-1" id="campofoto"style="display:none;">
+									<input type="file" id="uploadFoto" name="foto">
+						    	</div>
+							</div>
+							<div class="form-group">
+					    		<button type="button" onclick="document.getElementById('uploadFoto').click(); return false" class="btn btn-primary" id="subefoto">
+									<i class="fa fa-camera"></i> <? if($paisID==7){ ?>Alterar<? }else{ ?>Cambiar<? } ?> Foto
+								</button>
+							</div>		
+							<div class="row">
+								<div class="col-xs-offset-3 col-xs-6">
+						    		<div id="fotito">
+						    			<img src="resize3.php?img=ajax/uploads/<?= $ptdFoto; ?>&width=640&height=640&mode=fit" class="img-responsive" id="fotoperfil" >
+						    		</div>
+						    	</div>	
+							</div>	
+						<? }else{?>
+							<div class="form-group">
+						    	<div class="col-xs-10 col-xs-offset-1" id="campofoto"style="display:none;">
+									<input type="file" id="uploadFoto" name="foto">
+						    	</div>
+							</div>
+							<div class="form-group">
+					    		<button type="button" onclick="document.getElementById('uploadFoto').click(); return false" class="btn btn-primary" id="subefoto">
+									<i class="fa fa-camera"></i> <? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> Foto
+								</button>
+							</div>		
+							<div class="row">
+								<div class="col-xs-offset-3 col-xs-6">
+						    		<div id="fotito" style="display:none;">
+						    			<img src="" class="img-responsive" id="fotoperfil" >
+						    		</div>
+						    	</div>	
+							</div>	
+						<? }?>		
+							<hr>
+							<div class="form-group text-right">
+					    	<button type="submit" class="btn btn-primary" id="btngrabar"><i class="fa fa-floppy-o"></i> <? if($paisID==7){ ?>Salvar<? }else{ ?>Grabar<? } ?></button>
+						</div>
+						</form> <!-- fin form pedido ISC Long Term -->
+						<? }else{ ?>
+						<form action="ajax/graba-pedido.php" method="post" accept-charset="utf-8" id="agrega-pedido" <?php echo $hide1; ?>>
 							<input type="hidden" name="ptVM" 						value="<?= $usuID; ?>">
 							<input type="hidden" name="paisID" 		id="paisID" 	value="<?= $paisID; ?>">
 							<input type="hidden" name="ptTie" 		id="ptTie" 		value="<?= $tieID; ?>">
@@ -224,10 +347,9 @@ session_start();
 					    	<button type="submit" class="btn btn-primary" id="btngrabar"><i class="fa fa-floppy-o"></i> <? if($paisID==7){ ?>Salvar<? }else{ ?>Grabar<? } ?></button>
 						</div>
 						</form> <!-- fin form pedido ISC Long Term -->
-					
-						<form action="ajax/graba-pedido-campana.php" method="post" accept-charset="utf-8" id="agrega-pedido_v2" class="hide">
-						
-						
+						<? } ?>
+						<form action="ajax/graba-pedido-campana.php" method="post" accept-charset="utf-8" id="agrega-pedido_v2" <?php echo $hide2; ?>>
+
 							<input type="hidden" name="ptVM" 						value="<?= $usuID; ?>">
 							<input type="hidden" name="paisID" 		id="paisID2" 	value="<?= $paisID; ?>">
 							<input type="hidden" name="ptTie" 		id="ptTie2" 	value="<?= $tieID; ?>">

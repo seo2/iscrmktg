@@ -31,14 +31,14 @@
 						<!-- BOTONES -->
 						<div class="col-xs-6 text-right posvotos" data-estado="<?= $r['ptdEst']; ?>" style=" padding-right: 10px; padding-left: 0;">
 							<? if($r['ptdEst']==1 && $usuTipo<=2){ ?>
-								<a href="formulario-pedido.php?ptID=<?= $r['ptID']; ?>&ptdItem=<?= $r['ptdItem']; ?>&tieID=<?= $tieID; ?>" class="btn btn-default" ><i class="fa fa-edit"></i></a>
+								<a href="formulario-pedido_v2.php?ptID=<?= $r['ptID']; ?>&ptdItem=<?= $r['ptdItem']; ?>&tieID=<?= $tieID; ?>" class="btn btn-default" ><i class="fa fa-edit"></i></a>
 								<a href="javascript:void(0);" class="btn btn-default btn-aprobar" style="margin-left:0;" data-paisid="<?= $paisID; ?>" data-ptid="<?= $r['ptID']; ?>"  data-ptditem="<?= $r['ptdItem']; ?>" ><i class="fa fa-check"></i></a>
 							<? }elseif($r['ptdEst']==2 && $usuTipo<=2){ ?>
 								<a href="javascript:void(0);" class="btn btn-default btn-aprobar" style="margin-left:0;" data-paisid="<?= $paisID; ?>" data-ptid="<?= $r['ptID']; ?>"  data-ptditem="<?= $r['ptdItem']; ?>" ><i class="fa fa-check"></i></a>
 							<? }elseif($r['ptdEst']==3 && $usuTipo>=4){ ?>
 								<a href="javascript:void(0);" class="btn btn-success btn-cotizar" data-paisid="<?= $paisID; ?>" data-ptid="<?= $r['ptID']; ?>"  data-ptditem="<?= $r['ptdItem']; ?>" ><i class="fa fa-money"></i></a>
 							<? }elseif($r['ptdEst']==0){ ?>	
-								<a href="formulario-pedido.php?ptID=<?= $r['ptID']; ?>&ptdItem=<?= $r['ptdItem']; ?>&tieID=<?= $tieID; ?>" class="btn btn-default" ><i class="fa fa-edit"></i></a>
+								<a href="formulario-pedido_v2.php?ptID=<?= $r['ptID']; ?>&ptdItem=<?= $r['ptdItem']; ?>&tieID=<?= $tieID; ?>" class="btn btn-default" ><i class="fa fa-edit"></i></a>
 								<a href="javascript:void(0);" class="btn btn-danger btn-eliminar" data-paisid="<?= $paisID; ?>" data-ptid="<?= $r['ptID']; ?>"  data-ptditem="<?= $r['ptdItem']; ?>" ><i class="fa fa-times"></i></a>
 							<? }elseif($r['ptdEst']==4 && $usuTipo<=2){ ?>
 								<a href="javascript:void(0);" class="btn btn-default btn-aprobarcot" data-paisid="<?= $paisID; ?>" data-ptid="<?= $r['ptID']; ?>"  data-ptditem="<?= $r['ptdItem']; ?>" ><i class="fa fa-check-square-o"></i></a>

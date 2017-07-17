@@ -703,6 +703,23 @@
 		return $eveNombre;
 		
 	}
+
+
+	function get_desc_campana_v2($camID,$ID){
+		$db 	= MysqliDb::getInstance();
+		$tema 	= $db->rawQuery('select * from catalogo_v2 where camID = '.$camID.' and catID = '.$ID);
+		if($tema){
+			foreach ($tema as $t) {
+				$camDesc  = $t["camDesc"];
+			}
+		}else{
+			$camFile = '';
+		}
+
+		return $camDesc;
+		
+	}
+
 	
 	function get_campana_catalogo($ID){
 		$db = MysqliDb::getInstance();
