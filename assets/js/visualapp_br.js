@@ -1900,9 +1900,82 @@ $('a.btnFotos').click(function(){
 	$('#ptdItem6').val(vitID);
 
 });    
+ 
+$('#formFotos')
+    .formValidation({
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+		locale: 'es_ES'
+    })
+    .on('success.form.fv', function(e) {
+        e.preventDefault();
+
+        var $form = $(e.target),
+            fv    = $(e.target).data('formValidation');
+		
+		$('#btnGrabaFotos').html('<i class="fa fa fa-spinner fa-spin"></i> Transmissão ');
+
+		// obtengo el archivo a subir
+		var inputFileImage 	= document.getElementById("uploadFoto2");
+		var file 			= inputFileImage.files[0];
+		var data 			= new FormData();
+		data.append('foto',file);
+		var other_data = $('#formArchivos').serializeArray();
+		$.each(other_data,function(key,input){
+			data.append(input.name,input.value);
+		});
+		
+			$.ajax({
+            type: 'POST',
+            url: $form.attr('action'),
+            contentType:false,
+            data: data,
+            processData:false,
+            cache:false
+        })
+        .done(function( data, textStatus, jqXHR ) {
+		     if ( console && console.log ) {
+		        console.log(data);
+
+		         if(data=='1'){
+				 	 swal({   title: "",   text: "Foto enviada.",   type: "success",     confirmButtonColor: "#DD6B55",   confirmButtonText: "Ok",   cancelButtonText: "Saída",  showCancelButton: false,   closeOnConfirm: false,   closeOnCancel: false , allowOutsideClick: true}, 
+	            	function(isConfirm){   
+		            	if (isConfirm) {  
+		            		location.reload();  
+		            	}
+	            	});
+            	
+				}else{
+					
+				}
+                $('#btnGrabaFotos').html('<i class="fa fa-comments"></i> Enviar');
+			}	
+		})
+		.fail(function( jqXHR, textStatus, errorThrown ) {
+		     if ( console && console.log ) {
+                    alert('Ocorreu um erro. ' +textStatus);
+		     }
+		});
+
+    });  
+  
+$('a.btnadjuntar').click(function(){
+	$('#ModalArchivos').modal('show');
+	vitID 	= $(this).data('ptditem');
+	vitrow	= '#peddet-'+vitID;
+	
+	tiendaID 	= $('#cajaposiciones').data('tiendaid');
+	
+	vitNom 		= $(vitrow).data('nom');
+	
+	$('#ptdItem8').val(vitID);
+
+});   
     
-    
- 	$('#formFotos')
+ 	$('#formArchivos')
         .formValidation({
             icon: {
                 valid: 'glyphicon glyphicon-ok',
@@ -1917,7 +1990,7 @@ $('a.btnFotos').click(function(){
             var $form = $(e.target),
                 fv    = $(e.target).data('formValidation');
 			
-			$('#btnGrabaFotos').html('<i class="fa fa fa-spinner fa-spin"></i> Transmissão ');
+			$('#btnGrabaArchivos').html('<i class="fa fa fa-spinner fa-spin"></i> Transmissão ');
 
 			// obtengo el archivo a subir
 			var inputFileImage 	= document.getElementById("uploadFoto2");
@@ -1942,7 +2015,7 @@ $('a.btnFotos').click(function(){
 			        console.log(data);
 
 			         if(data=='1'){
-					 	 swal({   title: "",   text: "Foto enviada.",   type: "success",     confirmButtonColor: "#DD6B55",   confirmButtonText: "Ok",   cancelButtonText: "Saída",  showCancelButton: false,   closeOnConfirm: false,   closeOnCancel: false , allowOutsideClick: true}, 
+					 	 swal({   title: "",   text: "Arquivo enviado.",   type: "success",     confirmButtonColor: "#DD6B55",   confirmButtonText: "Ok",   cancelButtonText: "Saída",  showCancelButton: false,   closeOnConfirm: false,   closeOnCancel: false , allowOutsideClick: true}, 
 		            	function(isConfirm){   
 			            	if (isConfirm) {  
 			            		location.reload();  
@@ -1952,7 +2025,7 @@ $('a.btnFotos').click(function(){
 					}else{
 						
 					}
-                    $('#btnGrabaFotos').html('<i class="fa fa-comments"></i> Enviar');
+                    $('#btnGrabaArchivos').html('<i class="fa fa-comments"></i> Enviar');
 				
 				}	
 					
@@ -2494,4 +2567,19 @@ $('.pedProv').on('change',function(){
 });
     
     
- 
+ $('.btnPDF').on('click',function(){
+	$(this).html('<i class="fa fa fa-spinner fa-spin"></i> PDF');
+	camID = $(this).data('camid');
+	console.log(camID);
+	$.ajax({
+	    url: 'ajax/pdf_campana.php',
+	    type: 'POST',
+	    data: { "camID": camID},
+	    success: function(result) {
+		    console.log(result);
+			$('.btnPDF').html('<i class="fa fa-file-pdf-o"></i> PDF');
+	        window.open(result,'_blank');
+	    }
+	});
+	
+}); 

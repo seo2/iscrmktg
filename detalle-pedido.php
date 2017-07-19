@@ -497,7 +497,11 @@
 						<textarea class="form-control" rows="5" name="ptoObs" placeholder="<? if($paisID==7){ ?>Adicionar comentário<? }else{ ?>Escribir comentario<? } ?>" id="argTxt" required></textarea>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="btnComentar"><i class="fa fa-comments"></i> Enviar</button>
+				<div class="row">
+					<div class="col-sm-8 col-sm-offset-2">
+						<button type="submit" class="btn btn-primary" id="btnComentar"><i class="fa fa-comments"></i> Enviar</button>
+					</div>
+				</div>
   			</form>
   		</div>
       </div>
@@ -697,8 +701,8 @@
 	  					  			
 				<div class="form-group">
 					<div class="col-sm-offset-1 col-sm-10">
-						<input type="hidden" name="paisID" 	 value="<?= $paisID; ?>">
-						<input type="hidden" name="pdID" 	  value="<?= $ptID; ?>">
+						<input type="hidden" name="paisID" 	value="<?= $paisID; ?>">
+						<input type="hidden" name="pdID" 	value="<?= $ptID; ?>">
 						<input type="hidden" name="ptdProv" value="<?= $ptdProv; ?>">
 						<br>
 					</div>
@@ -717,6 +721,61 @@
     </div>
   </div>
 </div>     
+  
+ <!-- Modal -->
+<div class="modal fade" id="ModalArchivos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+      	<a href="javascript:void(0);" data-dismiss="modal" class="btn-close"><i class="fa fa-times"></i></a>
+  		<p><strong><? if($paisID==7){ ?>Adicionar arquivo<? }else{ ?>Agregar Archivo<? } ?></strong></p>
+  		<p id="nombreitem"></p>
+  		<div class="row">
+  			<form method="post" action="ajax/agrega-archivo-item-pedido.php" accept-charset="utf-8" id="formArchivos" class="col-xs-12">
+	  					  				  			
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-10">
+						<input type="text" class="form-control" id="fileDesc" placeholder="<? if($paisID==7){ ?>Descrição de arquivo<? }else{ ?>Descripción del archivo<? } ?>" name="fileDesc" required>
+						<input type="hidden" name="paisID" 	 value="<?= $paisID; ?>">
+						<input type="hidden" name="pdID" 	 value="<?= $ptID; ?>">
+						<input type="hidden" name="ptdItem"  id="ptdItem8" value="">
+						<input type="hidden" name="estItem"  id="estItem"  value="">
+						<input type="hidden" name="fotoUsu"  id="fotoUsu"  value="<?= $usuID; ?>">
+						<br>
+					</div>
+				</div>
+				
+				<div class="form-group">
+			    	<div class="col-xs-10 col-xs-offset-1" id="campofoto2" style="display:none;">
+						<input type="file" id="uploadFoto2" name="foto">
+			    	</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-10">
+			    		<button type="button" onclick="document.getElementById('uploadFoto2').click(); return false" class="btn btn-primary" id="subefoto2">
+							<i class="fa fa-paperclip"></i> <? if($paisID==7){ ?>Adicionar arquivo<? }else{ ?>Agregar Archivo<? } ?>
+						</button>
+						<br>
+					</div>
+				</div>		
+				<div class="row">
+					<div class="col-xs-offset-3 col-xs-6">
+			    		<div id="fotito2" style="display:none;">
+			    			<img src="" class="img-responsive" id="fotoperfil3" >
+			    		</div>
+			    	</div>	
+				</div>
+				<div class="col-sm-offset-2 col-sm-8">
+					<br>
+					<button type="submit" class="btn btn-primary" id="btnGrabaArchivos"><i class="fa fa-floppy-o"></i> <? if($paisID==7){ ?>Salvar<? }else{ ?>Grabar<? } ?></button>
+				</div>
+  			</form>
+  		</div>
+      </div>
+    </div>
+  </div>
+</div>   
+  
    
    
 <? include('footer.php'); ?>

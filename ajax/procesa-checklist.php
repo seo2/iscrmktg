@@ -24,13 +24,39 @@ if ($ajax) {
 				$clxtCom = $r['clxtCom'];
 				$clxtEst = $r['clxtEst'];
 				$clxtTs  = $r['clxtTS'];
+				$clxtIntro = $r['clxtIntro'];
 			}
 		}
+		
+	$tienda  	= get_tienda($clxtTie);
+	$formato 	= get_formato(get_formato_tienda($clxtTie));
+	$checklist 	= get_checklist_nom($clxtCL);
+	$fecha 		= substr($clxtTs,8,2) . '/'. substr($clxtTs,5,2) .'/'. substr($clxtTs,0,4);
+	$hora  		= substr($clxtTs,11,8);
+
+	$camDesc = quitatodo2($tienda).'_'.quitatodo2($formato).'_'.quitatodo2($checklist).'_'.date('Y-m-d');
+
+	$url 		= 'http://PhantomJScloud.com/api/browser/v2/ak-bvee3-e7mvv-qqby1-yx8f3-37qyn/';
+	//$payload 	= file_get_contents ( 'request.json' );
+	$options 	= array(
+	    'http' => array(
+	        'header'  => "Content-type: application/json\r\n",
+	        'method'  => 'POST',
+	        'content' => '{ "url":"http://'.$_SERVER['SERVER_NAME'].'/checklists-mail.php?clxtID='.$clxtID.'", "renderType":"pdf", "renderSettings": { "quality": 70, "pdfOptions": { "border": "1cm", "footer": { "firstPage": null, "height": "1cm", "onePage": null, "repeating": "%pageNum%/%numPages%" }, "format": "letter", "header": null, "height": "1.2cm", "orientation": "portrait" }, "clipRectangle": null, "renderIFrame": null, "viewport": { "height": 1280, "width": 1280 }, "zoomFactor": 1, "passThroughHeaders": false } }'
+	    )
+	);
 	
+	$archivo = 'pdf/checklist_'.$camDesc.'.pdf';
+	
+	$context  = stream_context_create($options);
+	$result = file_get_contents($url, false, $context);
+	if ($result === FALSE) { /* Handle error */ }
+	file_put_contents($archivo,$result);
+
 	
 		$to = get_user_mail($clxtMM);
 		
-		//$to = 'seodos@gmail.com';
+		$to = 'seodos@gmail.com';
 		
 		$tienda 	= get_tienda($clxtTie);
 		$checklist 	= get_checklist_nom($clxtCL);
@@ -46,7 +72,7 @@ if ($ajax) {
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 		$message  = '<html><head></head><body style="font-family: Helvetica, Arial, sans-serif;">';
-		$message .= '<div><img src="http://iscrmktg.com/assets/img/cabeceramail.png"></div>';	
+		$message .= '<div><img src="http://'.$_SERVER['SERVER_NAME'].'/assets/img/cabeceramail.png"></div>';	
 		
 		$message .= '<div style="color: #000; height: 20px; line-height: 20px; text-transform: uppercase; font-weight: 100; padding-left:9px">';
 	    $message .=  $tienda.' | '. $formato;
@@ -54,73 +80,16 @@ if ($ajax) {
 
 		$message .= '<div style="line-height: 20px; height:20px; padding: 0 9px;">';
 		$message .= '<h2 style="margin: 0; font-size: 15px; font-weight: lighter;"><strong>'. $checklist .'</strong> <span>'. $fecha .'</span></h2>';
+		$message .= '</div>';	    
+
+		if($clxtIntro){
+			$message .= '<div style="padding:15px 10px 0; color:#000;"><p style="margin: 5px 0 15px; line-height:150%;">'.utf8_decode($clxtIntro).'</p></div>';
+		}
+	
+		$message .= '<div style="line-height: 20px; height:20px; padding: 0 9px;">';
+		$message .= '<h4 style="margin: 0; font-size: 15px; font-weight: lighter;"><a href="http://'.$_SERVER['SERVER_NAME'].'/ajax/'.$archivo.'"><strong>Descarga desde ac&aacute; el checklist</a></span></h4>';
 		$message .= '</div>';
-
-		$sql  		= "select * from checklist_detalle where clID = $clxtCL group by cldZona";
-	    $resultado = $db->rawQuery($sql);
-		if($resultado){
-			foreach ($resultado as $r) {
-				$cldID 	  = $r['cldID'];
-				$cldZona  = $r['cldZona'];
-				$message .= '<div style="padding: 25px 10px 5px; color: #2196f3; font-weight:lighter;border-bottom: 2px solid #2196f3;">';
-				$message .= get_zona($cldZona).':';
-				$message .= '</div>';
-				
-				$sql  		= "select * from checklist_detalle where clID = $clxtCL and cldZona = $cldZona";
-			    $resultado = $db->rawQuery($sql);
-				if($resultado){
-					foreach ($resultado as $r) {
-						$cldID 	 = $r['cldID'];
-						$cldItem = $r['cldItem'];
-						$cldCom  = $r['cldCom'];
-						
-						$sql  		= "select * from checklist_x_tienda_detalle where clxtID = $clxtID and clxtdClID = $clxtCL and clxtdClDID = $cldID";
-					    $resultado = $db->rawQuery($sql);
-						if($resultado){
-							foreach ($resultado as $r) {
-								$clxtdStatus 	= $r['clxtdStatus'];
-								$clxtdCom 		= $r['clxtdCom'];	
-
-								$message .= '<div style="border-bottom: 1px solid #ccc; position: relative;">';
-								$message .= '<div style="font-size: 16px; padding: 10px 9px;color: #000;">';
-								$message .= '<strong>'. $cldItem .'</strong>';
-					
-								if($clxtdStatus==1){
-									$message .= ' <span class="statusOK" style="color: #5cb85c;font-size: 12px;">OK</span>';
-								}elseif($clxtdStatus==2){
-									$message .= ' <span class="statusNotOK" style="color: #d9534f;font-size: 12px;">Not OK</span>';
-								}elseif($clxtdStatus==3){
-									$message .= ' <span class="statusNoAplica" style="color: #333;font-size: 12px;">No aplica</span>';
-								}
-				
-								$message .= '</div>';
-								$message .= '<div style="padding-left:10px ">';
-								$message .= '<p style="margin: 5px 0 10px; font-size: 12px;">'.$clxtdCom.'</p>';
-								$message .= '</div>';
-
-								// Fotos Adjuntas
-								$message .= '<div class="row" id="fotitos" style="padding: 0 0 0 10px;">';
-					
-								$sql = "select * from checklist_x_tienda_detalle_fotos where clxtID = $clxtID and clxtdClID = $clxtCL and clxtdClDID = $cldID";
-							    $resultado = $db->rawQuery($sql);
-								if($resultado){
-									foreach ($resultado as $r) {
-										$clxtdfFile 	= $r['clxtdfFile'];
-									
-										$message .= '<div style="margin: 0 10px 10px 0;  width: 300px; border: 1px solid #ccc; padding: 5px">';
-										$message .= '<img src="http://iscrmktg.com/resize3.php?img=ajax/uploads/'.$clxtdfFile.'&width=400&height=400&mode=fit" style="width: 100%; height: auto;">';
-										$message .= '</div>';
-									}
-								}
-								$message .= '<div style="clear:both;"></div>';
-								$message .= '</div>';					
-								$message .= '</div>';	
-							}
-						}			
-					}
-				}
-			}
-		}							
+			
 			
 		$message .= '<div style="padding: 25px 10px 5px; color: #000; font-weight:lighter;border-bottom: 2px solid #000; margin-bottom:10px;">';
 		$message .= 'Comentario y conclusiones:';

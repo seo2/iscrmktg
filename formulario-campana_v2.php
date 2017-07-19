@@ -189,7 +189,7 @@ session_start();
 								$back = 'campana_v2.php';		
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> Volver</a>
+							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>
 							  <a href="home.php" 				class="btn btn-default"><i class="fa fa-home"></i> Home</a>
 							  <a href="javascript:void();" 		class="btn btn-default" id="logoutBtn"><i class="fa fa-sign-out"></i> Salir</a>
 							</div>

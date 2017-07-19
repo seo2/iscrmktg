@@ -11,6 +11,7 @@
 		foreach ($resultado as $r) {
 			$camDesc = $r['camDesc'];
 			$camEst = $r['camEst'];
+			$camCad = $r['camCad'];
  		} 
     }		
 	$opcion = 'Modificar';	
@@ -21,16 +22,17 @@
 
     <div class="container" id="argumentos">
 	    
-		<header>
-		    <span></span>
-	    </header>
 
 	    <div id="cajaposiciones">
-		    <div class="col-xs-12" id="pedidohead">
-		    	<h2><?= $camDesc; ?></h2>
-		    </div>
 			<?
-				$sql  = "select * from catalogo_x_formato where camID = $camID group by formID";
+				$sql  = "select * from formatos where formID <> 9 order by formOrder";
+				  	$resultado = $db->rawQuery($sql);
+					if($resultado){
+						foreach ($resultado as $r) {
+							$formID = $r['formID'];
+				
+				
+				$sql  = "select * from catalogo_x_formato where camID = $camID and formID = $formID group by formID";
 				$formatos = $db->rawQuery($sql);
 				if($formatos){
 					foreach ($formatos as $f) {
@@ -38,9 +40,12 @@
 						
 		    ?> 	
 		    <div class="col-xs-12" id="pedidohead">
+		    	<h2><?= $camDesc; ?><span class="pull-right" style="background: red; display: block; height: 30px; color: #fff; padding: 0 10px; line-height: 30px;font-size: 12px;">Expiración: <strong><?php echo date("d-m-Y", strtotime($camCad)); ?></strong></span></h2>
+		    </div>
+		    <div class="col-xs-12" id="pedidohead" >
 		    	<h2><?= get_formato($f['formID']); ?></h2>
 		    </div>
-			<div class="col-xs-12 posicion">		
+			<div class="col-xs-12 posicion" style="border-bottom:2px solid; ">		
 				<div class="row">	
 					<?
 						$sql  = "select * from catalogo_x_formato_x_ISC where camID = $camID and formID = $formID group by catID";
@@ -53,7 +58,7 @@
 								if($resultado){
 									foreach ($resultado as $r) {
 				    ?>   
-						<div class="col-xs-6" style="margin-bottom:10px;" >
+						<div class="col-xs-6" style="margin-top:10px; border-bottom: 1px solid #ccc; padding-bottom:10px;" >
 							<div class="row">
 								<div class="col-xs-4">
 									<img src="resize2.php?img=<?= str_replace('../', '', $r['camFile']) ; ?>&width=200&height=200&mode=fit" class="img-responsive">
@@ -77,10 +82,14 @@
 				</div>	
 
 			</div>
+			<div class="clear"></div>
+			<div class="break" style="page-break-after: always"></div>
 			    <? 		} 
 				    } ?>
-			<div class="clear"></div>
+			    <? 		} 
+				    } ?>
 	    </div>
+<!--
     	<div id="footer" class="blancobg">
 	    	<div class="container">
 		    	<div class="row">
@@ -90,7 +99,7 @@
 							$back = 'campana_v2.php';		
 						?>
 						<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-						  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> Volver</a>
+						  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>
 						  <a href="home.php" 				class="btn btn-default"><i class="fa fa-home"></i> Home</a>
 						  <a href="javascript:void();" 		class="btn btn-default" id="logoutBtn"><i class="fa fa-sign-out"></i> Salir</a>
 						</div>
@@ -99,6 +108,7 @@
 	    	</div>
     	</div>	
 		
+-->
 	
 
    

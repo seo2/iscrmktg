@@ -1450,6 +1450,22 @@ function get_zona($clID){
     	$colA = strtolower($colA);
     	return $colA;
 	}
+
+function quitatodo2($string){
+    	$colA = str_replace(' ', '_', $string);
+    	$colA = str_replace('/', '', $colA);
+    	$colA = str_replace(')', '', $colA);
+    	$colA = str_replace('(', '', $colA);
+    	$colA = str_replace('&ntilde;', 'n', $colA);
+    	$colA = str_replace('&ouml;', 'o', $colA);
+    	$colA = str_replace('ö', 'o', $colA);
+    	$colA = str_replace('ñ', 'n', $colA);
+    	$colA = str_replace('%', 'porc', $colA);
+    	$colA = str_replace('&', 'porc', $colA);
+    	$colA = str_replace('generico', '', $colA);
+    	$colA = strtolower($colA);
+    	return $colA;
+	}
 	
 
 	function get_rate_exchange($paisID,$ano){

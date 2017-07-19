@@ -30,24 +30,26 @@ session_start();
 			$titulo = 'Catálogos archivados';
 	    } 
 	}else{
-		$sql  = "select * from campana_v2 where camEst < 2";
-		if($paisID==7){
-			$titulo = 'Catálogos ativos';
-	    }else{
-			$titulo = 'Catálogos activos';
-	    } 
-	    
-	    
+		if($usuTipo==99){
+			$sql  = "select * from campana_v2 where camEst < 2";
+		}else{
+			$sql  = "select * from campana_v2 where camEst = 0";	
+		}
+		if($usuTipo==99){
 			$titulo = 'Campañas';
+		}else{
+			if($paisID==7){
+				$titulo = 'Catálogos ativos';
+		    }else{
+				$titulo = 'Catálogos activos';
+		    } 	
+		}
+	    
 	}
 	
 	
 ?>
-
-
     <div class="container" id="argumentos">
-	    
-	    
 		<header>
 		    <span><? if($paisID==7){ ?>ISC de Campanhas<? }else{ ?>ISC de Campaña<? } ?></span>
 	    </header>
@@ -60,7 +62,7 @@ session_start();
 				    	</div>
 				    	<div class="col-xs-6 text-right">
 					    	<? if(!$_GET['archivo']){ ?>
-					    		<a href="campana_v2.php?archivo=1" class="btn btn-default"><span class="hidden-xs">Archivos </span><i class="fa fa-history"></i></a>
+					    		<a href="campana_v2.php?archivo=1" class="btn btn-default"><span class="hidden-xs"><? if($paisID==7){ ?>Registros<? }else{ ?>Archivos<? } ?> </span><i class="fa fa-history"></i></a>
 							<? } ?>
 							<? if($usuTipo==99){ ?>
 							<a href="formulario-campana_v2.php" class="btn btn-default"><span class="hidden-xs">Agregar </span><i class="fa fa-plus-circle"></i></a>
@@ -79,7 +81,7 @@ session_start();
 							$ok = 1;
 						}else{
 							$url = 'catalogo_v2.php?camID='. $r['camID'];
-							$ok = ask_pais_campana( $r['camID'],$paisID);
+							$ok = ask_pais_campana_v2( $r['camID'],$paisID);
 						}
 						if($ok==1){
 							if($r['camEst']==1){ 
@@ -103,7 +105,7 @@ session_start();
 						<div class="col-xs-7 col-sm-8 postema nopadl nopadr">
 							
 							<a href="<?php echo $url; ?>"><? if($usuTipo==99){ ?><i class="fa fa-edit" aria-hidden="true"></i> <? } ?><?= $r['camDesc']; ?></a>
-							<br><span><?= get_total_fotos_campana_v2($camID); ?> Fotos.<? if($r['camCad']!='0000-00-00'){ ?> Expiración: <strong><?php echo date("d-m-Y", strtotime($r['camCad'])); ?></strong><? } ?></span><br>
+							<br><span><?= get_total_fotos_campana_v2($camID); ?> Fotos.<? if($r['camCad']!='0000-00-00'){ ?><? if($paisID==7){ ?> Expiração <? }else{ ?>Expiración<? } ?>: <strong><?php echo date("d-m-Y", strtotime($r['camCad'])); ?></strong><? } ?></span><br>
 							<?	
 								$sql2  = "select * from campana_x_pais_v2 where camID = $camID";
 							  	$resultado2 = $db->rawQuery($sql2);
@@ -116,6 +118,7 @@ session_start();
 						</div>
 						<div class="col-xs-3 text-right posvotos">
 							<a href="catalogo_v2.php?camID=<?= $r['camID']; ?>" class="btn btn-default"><i class="fa fa-camera"></i><span class="hidden-xs"> Fotos</span></a> 
+							<a href="javascript:void(0);" class="btn btn-default btnPDF" data-camid="<?php echo $camID; ?>" style="margin-top:5px;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i><span class="hidden-xs"> PDF</span></a> 
 						</div>
 					</div>
 
@@ -140,7 +143,7 @@ session_start();
 									}
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> Volver</a>
+							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>
 							  <a href="home.php" 				class="btn btn-default"><i class="fa fa-home"></i> Home</a>
 							  <a href="javascript:void();" 		class="btn btn-default" id="logoutBtn"><i class="fa fa-sign-out"></i> Salir</a>
 							</div>

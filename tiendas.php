@@ -77,6 +77,7 @@ session_start();
 						}
 						if($ptID){
 							$pedidos = get_total_items_pedido_temporal($paisID,$ptID);
+							if($pedidos>0){
 				?> 
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion conpedido" id="tienda-<?= $r['tieID']; ?>">
 					<div class="row">
@@ -90,7 +91,8 @@ session_start();
 					</div>
 
 				</div>
-		    <? 			}
+		    <? 				}
+			    		}
 			    	} 
 			    } ?>
 			    
@@ -112,6 +114,10 @@ session_start();
 							$pedidos = get_total_items_pedido_temporal($paisID,$ptID);
 						}else{
 							$pedidos = 0;
+						}
+						
+						if($pedidos == 0){
+							
 				?> 
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion" id="tienda-<?= $r['tieID']; ?>">
 					<div class="row">

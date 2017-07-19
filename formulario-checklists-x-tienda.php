@@ -33,6 +33,7 @@ session_start();
 			$clxtCom = $r['clxtCom'];
 			$clxtEst = $r['clxtEst'];
 			$clxtTs  = $r['clxtTS'];
+			$clxtIntro = $r['clxtIntro'];
 		}
 	}
 	
@@ -65,6 +66,12 @@ session_start();
 
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion" style="border:none">
 					<div class="row">
+
+				<? if($clxtEst>0 && $clxtIntro){ ?>
+				<div style="padding:0 15px 20px; color:#000;">
+		    		<p style="margin: 5px 0 15px; line-height:150%;"><?php echo $clxtIntro; ?></p>
+				</div>
+				<? } ?>
 	<?
 	$sql  		= "select * from checklist_detalle where clID = $clxtCL group by cldZona";
 	
@@ -189,7 +196,21 @@ session_start();
 		}
 	}
 	?>							
-			
+			<? if($clxtEst==0){ ?>					
+			<div style="padding: 25px 15px 5px; color: #000; font-weight:lighter;margin-bottom:10px;">
+				Texto de introducción al correo:
+			</div>	
+			<div style="position: relative;">
+				<form>
+
+					<div class="form-group">
+						<textarea class="form-control clxtIntro" placeholder="Introducción:" name="clxtIntro"  data-clxtid="<?php echo $clxtID; ?>" data-clxtdclid="<?php echo $clxtCL; ?>"><?php echo $clxtIntro; ?></textarea>
+					</div>	
+					
+				</form>	
+				<!-- fin comentarios -->					
+			</div>	
+			<? } ?> 			
 			<div style="padding: 25px 15px 5px; color: #000; font-weight:lighter;margin-bottom:10px;">
 				Comentario y conclusiones:
 			</div>	

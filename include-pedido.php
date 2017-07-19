@@ -206,29 +206,19 @@
 						</div>
 						
 						<div class="clear"></div>
-						
-						<div class="col-lg-12">
-							<div class="row text-right">
-								<div class="col-lg-12">
-									<a href="javascript:void();" class="btn-sm btn-default btnFotos" data-ptditem="<?= $ptditem; ?>"><? if($paisID==7){ ?>Adicionar foto<? }else{ ?>Agregar Foto<? } ?> <i class="fa fa-camera" aria-hidden="true"></i></a>
-								</div>
-							</div>
-						</div>
-						<? } ?>
-						<div class="clear"></div>
-						<hr>
+
 						<!-- COMENTARIOS -->
 						<div class="col-lg-12">
 							<div class="row" id="comentarios">
 						<?
-						$ptditem = $r['ptdItem'];	
-							
-						$sql2  = "select * from pedido_observaciones where paisID = $paisID and ptID = $ptID and ptdItem = $ptditem";
-						$c = 1;
+						$ptditem 	= $r['ptdItem'];	
+						$sql2		= "select * from pedido_archivos where paisID = $paisID and ptID = $ptID and ptdItem = $ptditem";
+						$c 			= 1;
+						$i = 0;
 					  	$resultado2 = $db->rawQuery($sql2);
 						if($resultado2){
 							foreach ($resultado2 as $r2) {
-								
+								$i++;
 								$fecha2 = substr($r2['ptoTS'],8,2) . '/'. substr($r2['ptoTS'],5,2) .'/'. substr($r2['ptoTS'],0,4);
 								$hora2  = substr($r2['ptoTS'],11,8);
 								if($c==1){
@@ -238,23 +228,85 @@
 									$class = 'oscuro';
 									$c = 1;
 								}
-		?>
-		
+								if($i==1){
+						?>
+							<div class="col-lg-12">
+								<span><strong><? if($paisID==7){ ?>Arquivos<? }else{ ?>Archivos<? } ?>:</strong></span> 
+							</div>
+						<?			
+								}
+						?>
+							<div class="col-lg-12 <?= $class; ?>" style="padding-bottom:10px; padding-top:10px;">
+								<div class="row">
+									<div class="col-xs-10">
+										<p><strong class="text-primary"><?= $r2['ptoDesc']; ?></strong> [<?php echo $r2['ptoExt']; ?>]<br>
+										<small>Subido por <?= get_user_nombre($r2['ptoUsu']); ?> <?php echo $fecha2; ?> <?php echo $hora2; ?></small></p>
+									</div>
+									<div class="col-xs-2 text-right">
+										<a href="ajax/uploads/<?php echo $r2['ptoFile']; ?>" class="btn-sm btn-default" target="_blank" ><i class="fa fa-download" aria-hidden="true"></i></a>
+									</div>
+								</div>
+							</div>
+						<?					
+				     		} 
+					    }	
+						?>
+							</div>
+						</div>		
+						
+						<div class="clear"></div>				
+						<div class="col-lg-12">
+							<div class="row text-right">
+								<div class="col-lg-12">
+									<a href="javascript:void();" class="btn-sm btn-default btnFotos" data-ptditem="<?= $ptditem; ?>"><? if($paisID==7){ ?>Adicionar foto<? }else{ ?>Agregar Foto<? } ?> <i class="fa fa-camera" aria-hidden="true"></i></a>
+									<a href="javascript:void(0);" class="btn-sm btn-default btnadjuntar" data-ptditem="<?= $ptditem; ?>"><? if($paisID==7){ ?>Anexar arquivo<? }else{ ?>Adjuntar archivo<? } ?> <i class="fa fa-paperclip" aria-hidden="true"></i></a>
+								</div>
+							</div>
+						</div>
+						<? } ?>
+						<div class="clear"></div>
+						<!-- COMENTARIOS -->
+						<div class="col-lg-12">
+							<div class="row" id="comentarios">
+						<?
+						$ptditem 	= $r['ptdItem'];	
+						$sql2		= "select * from pedido_observaciones where paisID = $paisID and ptID = $ptID and ptdItem = $ptditem";
+						$c 			= 1;
+						$i = 0;
+					  	$resultado2 = $db->rawQuery($sql2);
+						if($resultado2){
+							foreach ($resultado2 as $r2) {
+								$i++;
+								$fecha2 = substr($r2['ptoTS'],8,2) . '/'. substr($r2['ptoTS'],5,2) .'/'. substr($r2['ptoTS'],0,4);
+								$hora2  = substr($r2['ptoTS'],11,8);
+								if($c==1){
+									$class = 'claro'; 
+									$c = 2;
+								}else{
+									$class = 'oscuro';
+									$c = 1;
+								}
+								if($i==1){
+						?>
+							<div class="col-lg-12">
+								<span><strong><? if($paisID==7){ ?>Comentários<? }else{ ?>Comentarios<? } ?>:</strong></span> 
+							</div>
+						<?			
+								}
+						?>
 								<div class="col-lg-12 <?= $class; ?>">
 									<p><strong class="text-primary"><?= get_user_nombre($r2['ptoUsu']); ?></strong> <small><?= get_tipo_usuario_desc(get_usertipo($r2['ptoUsu'])); ?></small></p>
 									<p><?= $r2['ptoObs']; ?></p>
 									<small><?= $fecha2; ?> <?= $hora2; ?></small>
 								</div>
-		
-		<?					
-				    
+						<?					
 				     		} 
 					    }	
-		?>
+						?>
 							</div>
 							<div class="row text-right">
 								<div class="col-lg-12">
-									<a href="javascript:void();" class="btn btn-default btncomentar" data-ptditem="<?= $ptditem; ?>">Comentar <i class="fa fa-comments" aria-hidden="true"></i></a>
+									<a href="javascript:void(0);" class="btn btn-default btncomentar" data-ptditem="<?= $ptditem; ?>">Comentar <i class="fa fa-comments" aria-hidden="true"></i></a>
 								</div>
 							</div>
 						</div>

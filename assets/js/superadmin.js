@@ -464,3 +464,7 @@ $('#formCatalogoV2')
 	     weekStart: 1,
 	     language: "es"
      });
+     
+  
+     
+     

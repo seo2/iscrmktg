@@ -58,18 +58,28 @@ session_start();
 		    ?>   
 					<div class="col-xs-6 col-sm-4" id="catv2<?= $r['catID']; ?>">
 						<div class="fotCat">
-					    	<? if($usuTipo==99){ ?>
-					    											<?
-						    	$tienecamp = check_ISC_campana($camID, $r['catID']);
-								if($tienecamp == 1) { ?>
+					    <? if($usuTipo==99){ ?>
+					    <?
+					    	$tienecamp = check_ISC_campana($camID, $r['catID']);
+							if($tienecamp == 1) { ?>
 					    	<span class="fa-stack fa-lg conISC">
 							  <i class="fa fa-circle fa-stack-1x fa-inverse"></i>
 							  <i class="fa fa-check-circle fa-stack-1x "></i>
 							</span>
-								<? } ?>
+							<? } ?>
 							<a href="formulario-catalogo_v2.php?camID=<?= $camID; ?>&catID=<?= $r['catID']; ?>" class="btncat btnedit"><i class="fa fa-edit"></i></a>
 							<a href="javascript:void(0);" class="btncat btntrash_V2" data-catid="<?= $r['catID']; ?>" data-camid="<?php echo $camID; ?>"><i class="fa fa-trash"></i></a>
-					    	<? } ?>
+					    <? }else{
+					    	$tienecamp = check_ISC_campana($camID, $r['catID']);
+							if($tienecamp == 1) { ?>
+					    	<span class="fa-stack fa-lg conISC">
+							  <i class="fa fa-circle fa-stack-1x fa-inverse"></i>
+							  <i class="fa fa-check-circle fa-stack-1x "></i>
+							</span>
+							<? } ?>
+							<a href="formulario-catalogo_v2.php?camID=<?= $camID; ?>&catID=<?= $r['catID']; ?>" class="btncat btnedit"><i class="fa fa-search"></i></a>
+					    
+					    <? } ?>
 							<img src="resize2.php?img=<?= str_replace('../', '', $r['camFile']) ; ?>&width=200&height=200&mode=fit" class="img-responsive">
 						</div>
 					</div>
@@ -88,7 +98,7 @@ session_start();
 								$back = 'campana_v2.php';		
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> Volver</a>
+							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>
 							  <a href="home.php" 				class="btn btn-default"><i class="fa fa-home"></i> Home</a>
 							  <a href="javascript:void();" 		class="btn btn-default" id="logoutBtn"><i class="fa fa-sign-out"></i> Salir</a>
 							</div>

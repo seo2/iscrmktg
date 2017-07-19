@@ -58,7 +58,7 @@ if($_GET['FW2017']){
 			    </div>
 		    </div>
 		<?
-			$sql  = "select * from formatos order by formOrder";
+			$sql  = "select * from formatos where formID <> 9 order by formOrder";
 		  	$resultado = $db->rawQuery($sql);
 			if($resultado){
 				foreach ($resultado as $r) {

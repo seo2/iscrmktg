@@ -39,9 +39,9 @@ global $usuID;
 				<p class="logo animated fadeInDown">Retail Marketing</p>
 
 					<? if($tipo<3){ ?>
-						<a href="campana.php" class="btn btn-primary btn-lg btn-block">ISC de Campañas</a>
+						<a href="campana_v2.php" class="btn btn-primary btn-lg btn-block">ISC de Campañas</a>
 						<br>
-						<a href="formatos.php?piezas=1" class="btn btn-primary btn-lg btn-block">ISC Long Term</a>
+						<a href="formatos.php?piezas=1&FW2017=1" class="btn btn-primary btn-lg btn-block">ISC Long Term</a>
 						<hr>
 					<? if($tipo<=2){ ?>
 						<a href="maestro-tiendas.php" class="btn btn-primary btn-lg btn-block"><? if($paisID==7){ ?>Lojas<? }else{ ?>Tiendas<? } ?></a>

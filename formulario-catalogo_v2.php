@@ -62,11 +62,11 @@ session_start();
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion">
 					<div class="row">
 					
-					<form action="ajax/graba-catalogo-single_v2.php" method="post" accept-charset="utf-8" id="formCatalogoV2">
+					<form action="ajax/graba-catalogo-single_v2.php" method="post" accept-charset="utf-8" id="formCatalogoV2"> 
 					
 							<div class="form-group">
 								<label class="ptdCan">Nombre:</label>
-								<input type="text" class="form-control" id="camDesc" placeholder="Nombre del elemento" name="camDesc" value="<?= $camDesc; ?>" required>
+								<input type="text" class="form-control" id="camDesc" placeholder="Nombre del elemento" name="camDesc" value="<?= $camDesc; ?>" required  <? if($usuTipo!=99){ ?>disabled<? } ?>>
 								<input type="hidden" name="camID" value="<?= $camID; ?>">
 								<? if($_GET['catID'] ){?>
 								<input type="hidden" name="catID" 	value="<?= $catID; ?>">
@@ -106,7 +106,7 @@ session_start();
 					    	</div>	
 						</div>	
 						<? } ?>		
-						<hr>
+						<hr><? if($usuTipo==99){ ?>
 						<div class="row">
 							<div class="form-group col-sm-6">
 					    		<button type="button" onclick="document.getElementById('uploadFoto').click(); return false" class="btn btn-primary" id="subefoto">
@@ -118,7 +118,7 @@ session_start();
 									<i class="fa fa-plus"></i> Agregar Formatos
 								</button>
 							</div>
-						</div>		
+						</div>	<? } ?>
 						<hr>
 						<?	if($catID){
 										$sql  = "select * from formatos where formID <> 9 order by formOrder";
@@ -136,11 +136,13 @@ session_start();
 								<div class="col-sm-12 posicion2">
 									<div class="row">
 										<div class="col-xs-8 formatito">
-											<a href="javascript:void(0);" class="borraFormato" data-catid="<?= $catID; ?>" data-camid="<?php echo $camID; ?>" data-formid="<?php echo $r['formID']; ?>" ><i class="fa fa-times-circle" aria-hidden="true"></i></a>  <?php echo get_formato($r['formID']); ?>
+											<? if($usuTipo==99){ ?><a href="javascript:void(0);" class="borraFormato" data-catid="<?= $catID; ?>" data-camid="<?php echo $camID; ?>" data-formid="<?php echo $r['formID']; ?>" ><i class="fa fa-times-circle" aria-hidden="true"></i></a> <? } ?><?php echo get_formato($r['formID']); ?>
 										</div>
+										<? if($usuTipo==99){ ?>
 										<div class="col-xs-4 text-right posvotos">
 											<a href="javascript:void(0);" class="btn btn-default" data-toggle="modal" data-target="#myModal<?php echo $r['formID']; ?>"><i class="fa fa-plus"></i> <span class="hidden-xs">Agregar ISC </span></a> 
 										</div>
+										<? } ?>
 									</div>
 								</div>
 							<?
@@ -153,8 +155,10 @@ session_start();
 								<div class="col-sm-12 posicion1">
 									<div class="row">
 										<div class="col-xs-12 formatito" id="borraISC_<?php echo $formID; ?>_<?php echo $ic['iscID']; ?>">
-											
-											<a href="javascript:void(0);" class="borraISC"  data-catid="<?= $catID; ?>" data-camid="<?php echo $camID; ?>" data-formid="<?php echo $formID; ?>" data-iscid="<?php echo $ic['iscID']; ?>"><i class="fa fa-times-circle" aria-hidden="true"></i></a>  <?php echo get_isc_camp($formID,$ic['iscID']); ?> <span class="medida"><small><?php echo get_isc_med($formID,$ic['iscID']); ?></small></span>
+											<? if($usuTipo==99){ ?>
+											<a href="javascript:void(0);" class="borraISC"  data-catid="<?= $catID; ?>" data-camid="<?php echo $camID; ?>" data-formid="<?php echo $formID; ?>" data-iscid="<?php echo $ic['iscID']; ?>"><i class="fa fa-times-circle" aria-hidden="true"></i></a> 
+											<? } ?>
+											<?php echo get_isc_camp($formID,$ic['iscID']); ?> <span class="medida"><small><?php echo get_isc_med($formID,$ic['iscID']); ?></small></span>
 										</div>
 									</div>
 								</div>									
@@ -169,6 +173,7 @@ session_start();
 						}
 						}?>						
 						<hr>
+						<? if($usuTipo==99){ ?>
 						<div class="form-group">
 							<label for="ptdGra">Estado:</label>
 							<select class="form-control" name="camEst" required id="pieEst">
@@ -179,7 +184,7 @@ session_start();
 						<div class="form-group text-right">
 					    	<button type="submit" class="btn btn-primary" id="btngrabar"><i class="fa fa-floppy-o"></i> Grabar</button>
 						</div>
-						
+						<? } ?>
 					</form>
 						<?
 						if($catID){
@@ -257,7 +262,7 @@ session_start();
 								$back = 'javascript:window.history.back();';		
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> Volver</a>
+							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>
 							  <a href="home.php" 				class="btn btn-default"><i class="fa fa-home"></i> Home</a>
 							  <a href="javascript:void();" 		class="btn btn-default" id="logoutBtn"><i class="fa fa-sign-out"></i> Salir</a>
 							</div>

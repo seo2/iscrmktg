@@ -219,9 +219,11 @@ if($_SESSION['todos']['Logged']){
 					<? if($usuTipo==99){ ?>
 					<a href="paises.php" class="btn btn-primary btn-lg btn-block">Reportes</a>
 					<hr>
+<!--
 					<a href="formatos.php?piezas=1" class="btn btn-primary btn-lg btn-block">ISC Long Term</a>
 					<br>
-					<a href="formatos.php?piezas=1&FW2017=1" class="btn btn-primary btn-lg btn-block">ISC Long Term FW2017</a>
+-->
+					<a href="formatos.php?piezas=1&FW2017=1" class="btn btn-primary btn-lg btn-block">ISC Long Term</a>
 					<br>
 					<a href="campana_v2.php" class="btn btn-primary btn-lg btn-block">ISC de Campañas</a>
 					<br>
