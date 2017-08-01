@@ -155,7 +155,8 @@ if($_POST['ptID'] && $_POST['ptdItem']){
 			"ptdFoto" 	=> $itemFoto,
 			"ptdRes" 	=> $ptdRes,
 			"ptdVM" 	=> $ptVM,
-			"ptdTS" 	=> $ahora
+			"ptdTS" 	=> $ahora,
+			"ptdV2" 	=> 1
 		);	
 			
 //	print_r( $data);

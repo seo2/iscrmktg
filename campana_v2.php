@@ -106,7 +106,7 @@ session_start();
 							
 							<a href="<?php echo $url; ?>"><? if($usuTipo==99){ ?><i class="fa fa-edit" aria-hidden="true"></i> <? } ?><?= $r['camDesc']; ?></a>
 							<br><span><?= get_total_fotos_campana_v2($camID); ?> Fotos.<? if($r['camCad']!='0000-00-00'){ ?><? if($paisID==7){ ?> Expiração <? }else{ ?>Expiración<? } ?>: <strong><?php echo date("d-m-Y", strtotime($r['camCad'])); ?></strong><? } ?></span><br>
-							<?	
+							<?	if($usuTipo==99){
 								$sql2  = "select * from campana_x_pais_v2 where camID = $camID";
 							  	$resultado2 = $db->rawQuery($sql2);
 								if($resultado2){
@@ -115,6 +115,7 @@ session_start();
 						    		} 
 							 } ?>
 							<span class="azultxt"><?php echo substr($paises, 0,-2); ?></span>
+							<? } ?>
 						</div>
 						<div class="col-xs-3 text-right posvotos">
 							<a href="catalogo_v2.php?camID=<?= $r['camID']; ?>" class="btn btn-default"><i class="fa fa-camera"></i><span class="hidden-xs"> Fotos</span></a> 

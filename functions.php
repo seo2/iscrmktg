@@ -1295,9 +1295,38 @@ function get_zona($clID){
 		return $nombre;
 	}
 	
+	function get_instore_nom_gen_v2($formID, $insID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from instores_v2 where formID = '.$formID.' and insID = '.$insID);
+		if($tema){
+			foreach ($tema as $t) {
+				$nombre  = $t["insNomGen"];
+			}
+		}else{
+			$nombre = 'Error';
+		}
+	
+		return $nombre;
+	}
+	
+	
 	function get_instore_nom_ges($formID, $insID){
 		$db = MysqliDb::getInstance();
 		$tema = $db->rawQuery('select * from instores where formID = '.$formID.' and insID = '.$insID);
+		if($tema){
+			foreach ($tema as $t) {
+				$nombre  = $t["insNomGes"];
+			}
+		}else{
+			$nombre = 'Error';
+		}
+	
+		return $nombre;
+	}
+	
+	function get_instore_nom_ges_v2($formID, $insID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from instores_v2 where formID = '.$formID.' and insID = '.$insID);
 		if($tema){
 			foreach ($tema as $t) {
 				$nombre  = $t["insNomGes"];
@@ -1379,10 +1408,37 @@ function get_zona($clID){
 		return $insOpNom;
 	}
 
+	function get_instore_opc_desc_v2($formID, $insID, $opcID){
+		$db 	= MysqliDb::getInstance();
+		$tema 	= $db->rawQuery('select * from instores_opciones_v2 where formID = '.$formID.' and insID = '.$insID.' and insOpID = '.$opcID);
+		if($tema){
+			foreach ($tema as $t) {
+				$insOpNom  = $t["insOpNom"];
+			}
+		}else{
+			$insOpNom = 'Error';
+		}
+
+		return $insOpNom;
+	}
+
 	
 	function get_formato_pieza($formID,$ptdGra){
 		$db = MysqliDb::getInstance();
 		$tema = $db->rawQuery('select * from instores where formID = '.$formID.' and insID = '.$ptdGra);
+		if($tema){
+			foreach ($tema as $t) {
+				$insFormID = $t['insFormID'];
+			}
+		}
+
+		return $insFormID;
+	}
+
+	
+	function get_formato_pieza_v2($formID,$ptdGra){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from instores_v2 where formID = '.$formID.' and insID = '.$ptdGra);
 		if($tema){
 			foreach ($tema as $t) {
 				$insFormID = $t['insFormID'];

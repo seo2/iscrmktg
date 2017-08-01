@@ -291,14 +291,26 @@
 								$pieza = get_pieza_desc($r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
 							}
 						}else{
-							$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
-							
-							if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
-								$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
-								$piecita = get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
-							}else{
-								$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
-								$piecita = get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']). ' [' . $pieza_opc_desc . '] ';
+							if($r['ptdISC']=='fw2017'){
+								$pieza   = get_isc_camp($formID,$r['ptdGra']) .'<br><small>'.get_isc_med($formID,$r['ptdGra']).'</small>';
+							}else{		
+								if($r['ptdV2']==1){	
+									$pieza_opc_desc = get_instore_opc_desc_v2($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
+									
+									if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
+										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']);
+									}else{
+										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+									}
+								}else{	
+									$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
+									
+									if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
+										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
+									}else{
+										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+									}
+								}		
 							}
 						}
 
@@ -380,10 +392,22 @@
 				<div class="clear"></div>
 		    </div>
 
-	    	<footer class="animated bounceInRight">
-		    	<a href="javascript:window.history.back();" id="btnvolver"><i class="fa fa-chevron-left"></i> <span>Volver</span></button>
-	    	</footer>	    
-
+	    	<div id="footer" class="blancobg">
+		    	<div class="container">
+			    	<div class="row">
+						<div class="col-xs-12 col-md-6 col-md-offset-3 footer">
+					    	<? 
+								$back = 'javascript:window.history.back();';
+							?>
+							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
+							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>
+							  <a href="home.php" 				class="btn btn-default"><i class="fa fa-home"></i> Home</a>
+							  <a href="javascript:void();" 		class="btn btn-default" id="logoutBtn"><i class="fa fa-sign-out"></i> <? if($paisID==7){ ?>Sair<? }else{ ?>Salir<? } ?></a>
+							</div>
+				    	</div>
+			    	</div>
+		    	</div>
+	    	</div> 
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

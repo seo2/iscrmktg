@@ -146,7 +146,7 @@ session_start();
 							<?
 								$ptID = $r['ptID'];
 								if($usuTipo==1){ // administrador
-									$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst <> 2 group by ptdEst";
+									$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID group by ptdEst";
 								}elseif($usuTipo==2){ // Retail MKTG
 									$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdRes = $usuID and ptID = $ptID  and ptdEst <> 2 group by ptdEst";
 								}elseif($usuTipo==3){ // VM

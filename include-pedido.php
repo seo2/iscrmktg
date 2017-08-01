@@ -175,8 +175,9 @@
 							</a>
 						</div>
 						<? } ?>
-						<? if($r['ptdEst']>4){ ?>
+						<? if($r['ptdEst']>2){ ?>
 						<!-- Fotos Adjuntas -->
+						<div class="clearfix"></div>
 						<div class="col-lg-12">
 							<div class="row" id="fotitos">
 						<?
@@ -238,11 +239,11 @@
 						?>
 							<div class="col-lg-12 <?= $class; ?>" style="padding-bottom:10px; padding-top:10px;">
 								<div class="row">
-									<div class="col-xs-10">
+									<div class="col-xs-9">
 										<p><strong class="text-primary"><?= $r2['ptoDesc']; ?></strong> [<?php echo $r2['ptoExt']; ?>]<br>
 										<small>Subido por <?= get_user_nombre($r2['ptoUsu']); ?> <?php echo $fecha2; ?> <?php echo $hora2; ?></small></p>
 									</div>
-									<div class="col-xs-2 text-right">
+									<div class="col-xs-3 text-right">
 										<a href="ajax/uploads/<?php echo $r2['ptoFile']; ?>" class="btn-sm btn-default" target="_blank" ><i class="fa fa-download" aria-hidden="true"></i></a>
 									</div>
 								</div>
@@ -258,7 +259,9 @@
 						<div class="col-lg-12">
 							<div class="row text-right">
 								<div class="col-lg-12">
+									<? if($r['ptdEst']>4){ ?>
 									<a href="javascript:void();" class="btn-sm btn-default btnFotos" data-ptditem="<?= $ptditem; ?>"><? if($paisID==7){ ?>Adicionar foto<? }else{ ?>Agregar Foto<? } ?> <i class="fa fa-camera" aria-hidden="true"></i></a>
+									<? } ?>
 									<a href="javascript:void(0);" class="btn-sm btn-default btnadjuntar" data-ptditem="<?= $ptditem; ?>"><? if($paisID==7){ ?>Anexar arquivo<? }else{ ?>Adjuntar archivo<? } ?> <i class="fa fa-paperclip" aria-hidden="true"></i></a>
 								</div>
 							</div>
