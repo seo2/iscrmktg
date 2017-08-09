@@ -23,7 +23,7 @@ global $usuID;
 	include('header.php');
 ?>
 
-    <div class="container" id="posiciones">
+    <div class="container" id="posiciones" style="margin-bottom:40px;">
 	    <? $titulo 	= 'Menú';
 		   $tipo 	=  get_usertipo($_COOKIE['id']);
 	    ?>

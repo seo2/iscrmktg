@@ -139,6 +139,12 @@ session_start();
 
 
 ?>
+    <?
+	  if($usuID){
+		$usuTipo 	= get_usertipo($usuID);
+		$paisID 	= get_userpais($usuID);
+	  }
+	?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -307,7 +313,7 @@ session_start();
 				// Tiendas por formatos
 	
 				$tiendas_sql  = "SELECT * from tiendas where paisID = $paisID and tieForm = $formID";
-				echo $tiendas_sql;
+				//echo $tiendas_sql;
 			  	$tiendas = $db->rawQuery($tiendas_sql);
 				if($tiendas){
 					foreach ($tiendas as $t) {
