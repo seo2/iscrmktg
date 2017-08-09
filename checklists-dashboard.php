@@ -307,6 +307,7 @@ session_start();
 				// Tiendas por formatos
 	
 				$tiendas_sql  = "SELECT * from tiendas where paisID = $paisID and tieForm = $formID";
+				echo $tiendas_sql;
 			  	$tiendas = $db->rawQuery($tiendas_sql);
 				if($tiendas){
 					foreach ($tiendas as $t) {

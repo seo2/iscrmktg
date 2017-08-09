@@ -44,7 +44,7 @@ $ptdRes 	= $_POST['ptdRes'];
 					$to .= $p['usuMail'];
 				}
 			}
-			$to		= 'seodos@gmail.com';
+			//$to		= 'seodos@gmail.com';
 			
 			
 			$i 		  = 0;
@@ -86,12 +86,26 @@ $ptdRes 	= $_POST['ptdRes'];
 						
 							$fecen = substr($r['ptdFecEn'],8,2) . '/'. substr($r['ptdFecEn'],5,2) .'/'. substr($r['ptdFecEn'],0,4);
 						
-							$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
-							
-							if($pieza_opc_desc=='-' || $pieza_opc_desc=='Error'){
-								$pieza = get_instore_nom_gen( $r['formID'], $r['ptdGra']) . ' - ' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
-							}else{
-								$pieza = get_instore_nom_gen( $r['formID'], $r['ptdGra']) . ' - ' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+							if($r['ptdISC']=='fw2017'){
+								$pieza   = get_isc_camp($formID,$r['ptdGra']) .'<br><small>'.get_isc_med($formID,$r['ptdGra']).'</small>';
+							}else{		
+								if($r['ptdV2']==1){	
+									$pieza_opc_desc = get_instore_opc_desc_v2($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
+									
+									if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
+										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']);
+									}else{
+										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+									}
+								}else{	
+									$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
+									
+									if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
+										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
+									}else{
+										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+									}
+								}		
 							}
 	
 							$estado = get_desc_estado($r['ptdEst']);
@@ -128,7 +142,14 @@ $ptdRes 	= $_POST['ptdRes'];
 							$estado =$r['ptdEst'];
 
 							if($r['ptdCat']>0){
-								$camfile = get_foto_campana($r['ptdCat']);
+								if($r['ptdISC']=='fw2017'){
+									$camID   = $r['ptdGraOp'];
+									$camfile = get_foto_campana_v2($camID, $r['ptdCat']);
+									$camfile = str_replace('../', '', $camfile) ;
+								}else{
+									$camfile = get_foto_campana($r['ptdCat']);
+									$camfile = str_replace('../', '', $camfile) ;
+								}
 								$message .= "<div class='posevento fotospedido'>";
 								if($paisID==7){
 									$message .= "<span>Imagem de cat&aacute;logo:</span><br>";
@@ -139,15 +160,17 @@ $ptdRes 	= $_POST['ptdRes'];
 								$message .= "</div>";
 							}else{
 								$camfile = $r['ptdISC'];
-								$message .= "<div class='posevento fotospedido'>";
-								if($paisID==7){
-									$message .= "<span>Imagem ISC</span><br>";
-							    }else{
-									$message .= "<span>Imagen ISC</span><br>";
-							    } 
-								$message .= "<img src='http://iscrmktg.com/resize2.php?img=".$camfile."&width=300&height=300&mode=fit' class='img-responsive'>";
-								$message .= "</div>";
-						 	} 
+								if($camfile){
+									$message .= "<div class='posevento fotospedido'>";
+									if($paisID==7){
+										$message .= "<span>Imagem ISC</span><br>";
+								    }else{
+										$message .= "<span>Imagen ISC</span><br>";
+								    } 
+									$message .= "<img src='http://iscrmktg.com/resize2.php?img=".$camfile."&width=300&height=300&mode=fit' class='img-responsive'>";
+									$message .= "</div>";
+								}
+						 	}  
 							if($r['ptdFoto']){	
 								$message .= "<div class='posevento fotospedido'>";
 								$message .= "<span>Foto:</span><br>";
@@ -202,13 +225,13 @@ $ptdRes 	= $_POST['ptdRes'];
 		    if($paisID==7){
 				$subject = 'Confirma&ccedil;&atilde;o Cota&ccedil;&atilde;o Pedido Nº '.$ptID;
 		    }else{
-				$subject = 'Confirmaci&oacute;n Cotizaci&oacute;n Pedido Nº '.$ptID;
+				$subject = 'Confirmación Cotización Pedido Nº '.$ptID;
 		    }
 		    
 			$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Retail Marketing" . "\r\n";
 
 			if($provMail){
-				//$headers .= "CC: ".$provMail."\r\n";
+				$headers .= "CC: ".$provMail."\r\n";
 			}
 
 			$headers .= "CCO: mc@seo2.cl\r\n";

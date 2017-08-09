@@ -1129,6 +1129,8 @@ function get_carpeta_ISC_v2($formID){
 		$folder = 'ISC2/CORE_YA/';
 	}elseif($formID == 7){
 		$folder = 'ISC2/HC31/';
+	}elseif($formID == 9){
+		$folder = 'ISC2/CORE_SPC/';
 	}elseif($formID == 10){
 		$folder = 'ISC2/NBHD_FDD/';
 	}elseif($formID == 11){

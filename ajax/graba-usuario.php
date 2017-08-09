@@ -3,6 +3,7 @@ $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
 $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 if ($ajax) {
 
+		require_once("../functions.php");
 	$allowedDomains = array($dominio);
 	
 	$referer = $_SERVER['HTTP_REFERER'];
@@ -11,7 +12,6 @@ if ($ajax) {
 	
 	if(in_array( $domain['host'], $allowedDomains)) {
 		
-		require_once("../functions.php");
 			
 		$paisID 	= $_POST['paisID'];
 		$usuTipo 	= $_POST['usuTipo'];

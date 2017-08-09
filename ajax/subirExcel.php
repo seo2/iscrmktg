@@ -37,7 +37,7 @@ $arrayCount 	= count($allDataInSheet);  // Here get total count of row in that E
 
 $pieID 	= 0;
 
-for($i=2;$i<=$arrayCount;$i++){
+for($i=1;$i<=$arrayCount;$i++){
 	
 	$formID 	=  trim($allDataInSheet[$i]["A"]); 
 	$insFormID 	=  trim($allDataInSheet[$i]["B"]); 

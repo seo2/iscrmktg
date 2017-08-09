@@ -43,7 +43,6 @@ if($_SESSION['todos']['Logged']){
 				<p class="logo animated fadeInDown">Retail Marketing</p>
 					<?
 					// 	QUERIES PARA SACAR TOTAL DE PEDIDOS:
-
 	/*
 		
 		ESTADOS:
@@ -61,8 +60,7 @@ if($_SESSION['todos']['Logged']){
 		Finalizado:				8 // Recepcionado por VM
 		
 	*/	
-	
-				
+		
 		    if($paisID==7){
 			    $boton1 = "Realizar Pedido";
 			    $boton2 = "Resumo por lojas";
@@ -86,24 +84,27 @@ if($_SESSION['todos']['Logged']){
 						$sql0  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 0 GROUP BY ptID ";
 						$sql  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 GROUP BY ptID ";
 						$sql2  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6";
+						$sql3   = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 4";
 					    if($paisID==7){
 							$tit 	= "Pedidos";
 							$tit2 	= "Entregas Agendadas";
+							$tit3 	= "Cotações Pendentes";
 					    }else{
 							$tit 	= "Pedidos";
 							$tit2 	= "Entregas Programadas";
+							$tit3 	= "Cotizaciones Pendientes";
 					    } 				
 					}elseif($usuTipo==2){ // Retail MKTG
 						$sql0  	= "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 0 and ptdVM = $usuID GROUP BY ptID ";
 						$sql 	= "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and ptdRes = $usuID GROUP BY ptID ";
 						$sql2  	= "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdRes = $usuID GROUP BY ptID";
-						$sql3   = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 4 and ptdRes = $usuID GROUP BY ptID";
+						$sql3   = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 4 and ptdRes = $usuID";
 					    if($paisID==7){
-							$tit 	= "Meus Pedidos";
+							$tit 	= "Pedidos";
 							$tit2 	= "Entregas Agendadas";
 							$tit3 	= "Cotações Pendentes";
 					    }else{
-							$tit 	= "Mis Pedidos";
+							$tit 	= "Pedidos";
 							$tit2 	= "Entregas Programadas";
 							$tit3 	= "Cotizaciones Pendientes";
 					    } 			
@@ -112,10 +113,10 @@ if($_SESSION['todos']['Logged']){
 						$sql  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdVM = $usuID GROUP BY ptID ";
 						$sql2  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdVM = $usuID GROUP BY ptID ";
 					    if($paisID==7){
-							$tit 	= "Meus Pendentes";
+							$tit 	= "Pedidos";
 							$tit2 	= "Entregas Agendadas";
 					    }else{
-							$tit 	= "Mis Pendientes";
+							$tit 	= "Pedidos";
 							$tit2 	= "Entregas Programadas";
 					    } 	
 					}elseif($usuTipo==4){ // Proveedor
@@ -172,11 +173,11 @@ if($_SESSION['todos']['Logged']){
 							
 <?					
 					}		
-					if($usuTipo==2 || $usuTipo==4){
+					if($usuTipo==1 || $usuTipo==2 || $usuTipo==4){
 						$resultado3 = $db->rawQuery($sql3);
 						if($resultado3){
 							foreach ($resultado3 as $r3) {
-								$total3 == $r3['total'];
+								$total3 = $r3['Total'];
 							}
 						}				
 ?>					
@@ -191,7 +192,7 @@ if($_SESSION['todos']['Logged']){
 					$resultado2 = $db->rawQuery($sql2);
 					if($resultado2){
 						foreach ($resultado2 as $r2) {
-							$total2 == $r2['total'];
+							$total2 = $r2['Total'];
 						}
 					}			
 ?>								

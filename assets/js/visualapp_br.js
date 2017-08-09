@@ -371,6 +371,20 @@ $('a#logoutBtn').on('click', function() {
 
 var insID = 0;
 
+$("#tipoPedido").bind("change", function() {
+	tipoPedido = $(this).val();
+	if(tipoPedido==1){
+		$('#agrega-pedido').removeClass('hide');
+		$('#agrega-pedido_v2').addClass('hide');
+	}else if(tipoPedido==2){
+		$('#agrega-pedido_v2').removeClass('hide');
+		$('#agrega-pedido').addClass('hide');
+	}else{
+		$('#agrega-pedido').addClass('hide');
+		$('#agrega-pedido_v2').addClass('hide');
+	}
+});	
+
 $("#ptdGra").bind("change", function() {
 	insID   = $(this).val();
 	formato = $(this).data('formato');
@@ -508,6 +522,119 @@ function GetOpciones2(insOpID, insID,formID) {
     }
 }
 
+// V2 ISC FW 2017 --->
+
+$("#ptdGra2").bind("change", function() {
+	insID   = $(this).val();
+	formato = $(this).data('formato');
+    $('#isc').val('');
+    $('#fotito2').hide();
+    $('#fotocatalogo').attr('src','');
+    GetOpciones_v2(insID, formato);
+});	
+
+function GetOpciones_v2(insID,formID) {
+  if (insID > 0) {
+        $("#ptdGraOp2").get(0).options.length = 0;
+        $("#ptdGraOp2").get(0).options[0] = new Option("Carregando opções...", "-1"); 
+		
+ 	    $.ajax({
+            type: "POST",
+            url: "ajax/opciones_v2.php",
+            data: { "formID": formID, "insID": insID },
+			success: function(msg) {
+	            console.log(msg);
+				if(msg.opciones){
+					total = msg.opciones.length;
+					console.log('Total: '+total);
+	                $("#ptdGraOp2").get(0).options.length = 0;
+	                
+	                
+	                if(total>1){
+	                	$("#ptdGraOp2").get(0).options[0] = new Option("-- Selecione a Opção --", ""); 
+		 				$("#opcionesgra").show();
+	 				}else{
+				 	    $.ajax({
+				            type: "POST",
+				            url: "ajax/opciones2_v2.php",
+				            data: { "formID": formID, "insID": insID, "insOpID": 1 },
+							success: function(msg) {
+					            console.log(msg);
+								if(msg.opciones){
+									total = msg.opciones.length;
+					                $.each(msg.opciones, function(index, item) {
+				
+					                 	if(item.Display!=''){
+									 		$("#opcionesgra").show();
+					                 	}else{
+									 		$("#opcionesgra").hide();
+					                 	}
+					                 	archivo = item.archivo;
+					                 	console.log(archivo);
+					                    $('#fotito2').show();
+					                    $('#fotocatalogo').attr('src',archivo).attr('alt',archivo);
+					                    $('#isc').val(archivo);
+					                });
+								}
+				            },
+				            error: function(xhr, status, error) {
+								alert(status);
+				        	}
+				        });		
+	 				}
+	                $.each(msg.opciones, function(index, item) {
+	                    $("#ptdGraOp2").get(0).options[$("#ptdGraOp2").get(0).options.length] = new Option(item.Display, item.Value);
+
+	                });
+				}
+            },
+            error: function(xhr, status, error) {
+				alert(status);
+        	}
+        });
+    }else{
+        $("#ptdGraOp").get(0).options.length = 0;
+    }
+}
+
+$("#ptdGraOp2").bind("change", function() {
+	insOpID   = $(this).val();
+	formato = $("#ptdGra2").data('formato');
+    GetOpciones2_v2(insOpID,insID, formato);
+});	
+
+function GetOpciones2_v2(insOpID, insID,formID) {
+	if (insID > 0) {
+
+ 	    $.ajax({
+            type: "POST",
+            url: "ajax/opciones2_v2.php",
+            data: { "formID": formID, "insID": insID, "insOpID": insOpID },
+			success: function(msg) {
+	            console.log(msg);
+				if(msg.opciones){
+					total = msg.opciones.length;
+	                $.each(msg.opciones, function(index, item) {
+	                    if(item.pieCat==0){
+		                 	archivo = item.archivo;
+		                 	console.log(archivo);
+		                    $('#fotito2').show();
+		                    $('#fotocatalogo').attr('src',archivo).attr('alt',archivo);
+		                    $('#isc').val(archivo);
+	                    }else{
+		                    $('#isc').val('');
+		                    $('#fotito2').hide();
+		                    $('#fotocatalogo').attr('src','').attr('alt','');	                    
+	                    }
+	                });
+				}
+            },
+            error: function(xhr, status, error) {
+				alert(status);
+        	}
+        });
+    }
+}
 
 
 
@@ -521,7 +648,7 @@ function GetCatalogo(camID) {
   if (camID > 0) {
  	    $.ajax({
             type: "POST",
-            url: "ajax/catalogo.php",
+            url: "ajax/catalogo_v2.php",
             data: { "camID": camID },
 			success: function(msg) {
             	console.log(msg);
@@ -535,7 +662,19 @@ function GetCatalogo(camID) {
 					    console.log(selectedData);
 					    console.log(selectedData.selectedData.value);
 				        $('#ptdCat').val(selectedData.selectedData.value);
-				    }   
+				        
+						include = 'include-isc-campana.php?formID='+formID+'&camID='+camID+'&catID='+selectedData.selectedData.value;
+						
+						console.log(include);
+						
+						$.get(include, function(data) {
+/*
+							pines = $(data).find("#isc_camp");
+							console.log(pines);
+*/
+							$('#aca_va').html( $(data).hide().fadeIn(2000));
+				    	});		
+				    }  
 				});
 
             },
@@ -720,9 +859,70 @@ $('#agrega-pedido')
 
 
 
-////
+////--> Graba formulario de pedido de campañas
 
+$('#agrega-pedido_v2')
+        .formValidation({
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+			locale: 'es_ES'
+        })
+        .on('success.form.fv', function(e) {
+            e.preventDefault();
 
+            var $form = $(e.target),
+                fv    = $(e.target).data('formValidation');
+                			
+			$('#btngrabar2').html('<i class="fa fa fa-spinner fa-spin"></i> Grabando');
+
+			// obtengo el archivo a subir
+
+ 			$.ajax({
+                type: 'POST',
+                url: $form.attr('action'),
+	            data: $form.serialize(),
+            })
+            .done(function( data, textStatus, jqXHR ) {
+				if ( console && console.log ) {
+				 	console.log(data);
+					if(data==1){
+					 	$('#btngrabar').html('<i class="fa fa-floppy-o"></i> Grabar');
+					 	swal({   title: "¡Excelente!",   text: "Pedido adicionado.",   type: "success",     confirmButtonColor: "#DD6B55",   confirmButtonText: "Agregar otro",   cancelButtonText: "Salir",  showCancelButton: true,   closeOnConfirm: false,   closeOnCancel: false , allowOutsideClick: true}, 
+		            	function(isConfirm){   
+		            		if (isConfirm) {  
+		            			location.reload();   
+		            		} else {     
+		            			javascript:window.history.back();   
+		            		} 
+		            	});
+		            }else if(data==2){
+					 	$('#btngrabar').html('<i class="fa fa-floppy-o"></i> Grabar');
+					 	swal({   title: "¡Excelente!",   text: "Ele mudou a ordem.",   type: "success",     confirmButtonColor: "#DD6B55",   confirmButtonText: "OK",   cancelButtonText: "Salir",  showCancelButton: false,   closeOnConfirm: false,   closeOnCancel: false , allowOutsideClick: true}, 
+		            	function(isConfirm){   
+		            		if (isConfirm) {  
+		            			javascript:window.history.back();   
+		               		} else {     
+		            			javascript:window.history.back();   
+		            		} 
+		            	});	
+			            					 	
+			        }else{
+				    	swal('Ocorreu um erro.');
+			        }
+				}	
+			})
+			.fail(function( jqXHR, textStatus, errorThrown ) {
+			     if ( console && console.log ) {
+	                    alert('Ocorreu um erro. ' +textStatus);
+			     }
+			});						
+			
+			$('#btngrabar2').html('<i class="fa fa-floppy-o"></i> Grabar');
+
+        }); 
 
 
 
@@ -2432,15 +2632,15 @@ $('.clxtdCom').on('blur',function(){
     });	
 });  
     
-$('.clxtCom').on('blur',function(){    
+ $('.clxtIntro').on('blur',function(){    
 	clxtID 		= $(this).data('clxtid');
 	clxtdClID 	= $(this).data('clxtdclid');
-	clxtCom 	= $(this).val();  
-	console.log({ "clxtID": clxtID, "clxtdClID": clxtdClID,"clxtCom": clxtCom});
+	clxtIntro 	= $(this).val();  
+	console.log({ "clxtID": clxtID, "clxtdClID": clxtdClID,"clxtIntro": clxtIntro});
 	$.ajax({
-        url: 'ajax/graba-checklist-x-tienda-comentario-general.php',
+        url: 'ajax/graba-checklist-x-tienda-introduccion.php',
         type: 'POST',
-        data: { "clxtID": clxtID, "clxtdClID": clxtdClID,"clxtCom": clxtCom},
+        data: { "clxtID": clxtID, "clxtdClID": clxtdClID,"clxtIntro": clxtIntro},
         success: function(result) {
             console.log(result);
             if(result=='1'){
@@ -2450,7 +2650,7 @@ $('.clxtCom').on('blur',function(){
             }
         }
     });	
-});  
+}); 
     
     
  $('a.btnFotosChecklists').click(function(){

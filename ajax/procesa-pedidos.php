@@ -48,6 +48,7 @@
 				$message .= '<h3>Resumen Pedidos VM del '.$date.'</h3>';
 		    } 
 			$sql  		= "SELECT count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE paisID = ".$paisID." and ptdEst = 0 and ptdRes = ".$usuId." GROUP BY ptID  order by ptID DESC";		
+			
 		  	$resultado 	= $db->rawQuery($sql);
 			if($resultado){
 				foreach ($resultado as $r0) {
@@ -72,12 +73,26 @@
 						
 							$fecen = substr($r['ptdFecEn'],8,2) . '/'. substr($r['ptdFecEn'],5,2) .'/'. substr($r['ptdFecEn'],0,4);
 						
-							$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
-							
-							if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
-								$pieza = get_instore_nom_gen( $r['formID'], $r['ptdGra']) . ' - ' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
-							}else{
-								$pieza = get_instore_nom_gen( $r['formID'], $r['ptdGra']) . ' - ' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+							if($r['ptdISC']=='fw2017'){
+								$pieza   = get_isc_camp($formID,$r['ptdGra']) .'<br><small>'.get_isc_med($formID,$r['ptdGra']).'</small>';
+							}else{		
+								if($r['ptdV2']==1){	
+									$pieza_opc_desc = get_instore_opc_desc_v2($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
+									
+									if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
+										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']);
+									}else{
+										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+									}
+								}else{	
+									$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
+									
+									if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
+										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
+									}else{
+										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+									}
+								}		
 							}
 	
 							$estado = get_desc_estado($r['ptdEst']);
@@ -131,14 +146,16 @@
 								$message .= "</div>";
 							}else{
 								$camfile = $r['ptdISC'];
-								$message .= "<div class='posevento fotospedido'>";
-								if($paisID==7){
-									$message .= "<span>Imagem ISC</span><br>";
-							    }else{
-									$message .= "<span>Imagen ISC</span><br>";
-							    } 
-								$message .= "<img src='http://iscrmktg.com/resize2.php?img=".$camfile."&width=300&height=300&mode=fit' class='img-responsive'>";
-								$message .= "</div>";
+								if($camfile){
+									$message .= "<div class='posevento fotospedido'>";
+									if($paisID==7){
+										$message .= "<span>Imagem ISC</span><br>";
+								    }else{
+										$message .= "<span>Imagen ISC</span><br>";
+								    } 
+									$message .= "<img src='http://iscrmktg.com/resize2.php?img=".$camfile."&width=300&height=300&mode=fit' class='img-responsive'>";
+									$message .= "</div>";
+								}
 						 	} 
 							if($r['ptdFoto']){	
 								$message .= "<div class='posevento fotospedido'>";
@@ -189,7 +206,7 @@
 				echo $to;
 				echo $message;
 */
-				$to		= 'seodos@gmail.com';
+				//$to		= 'seodos@gmail.com';
 				mail($to, $subject, $message, $headers);
 			}
 
