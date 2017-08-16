@@ -59,23 +59,23 @@ require_once("../functions.php");
 							$fecen = substr($r['ptdFecEn'],8,2) . '/'. substr($r['ptdFecEn'],5,2) .'/'. substr($r['ptdFecEn'],0,4);
 						
 							if($r['ptdISC']=='fw2017'){
-								$pieza   = get_isc_camp($formID,$r['ptdGra']) .'<br><small>'.get_isc_med($formID,$r['ptdGra']).'</small>';
+								$pieza   = get_isc_camp($r['formID'],$r['ptdGra']) .'<br><small>'.get_isc_med($r['formID'],$r['ptdGra']).'</small>';
 							}else{		
 								if($r['ptdV2']==1){	
 									$pieza_opc_desc = get_instore_opc_desc_v2($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
 									
 									if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
-										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']);
+										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . utf8_decode(get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']));
 									}else{
-										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+										$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . utf8_decode(get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra'])) . ' [' . utf8_decode($pieza_opc_desc) . '] ';
 									}
 								}else{	
 									$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
 									
 									if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
-										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']);
+										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . utf8_decode(get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']));
 									}else{
-										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+										$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' .  utf8_decode(get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra'])) . ' [' . utf8_decode($pieza_opc_desc) . '] ';
 									}
 								}		
 							}
@@ -173,7 +173,7 @@ require_once("../functions.php");
 			if($provMail){
 			//	$headers .= "CC: ".$provMail."\r\n";
 			}
-			$headers .= "CCO: mc@seo2.cl\r\n";
+			$headers .= "CCO: adidasseo2.cl\r\n";
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 			

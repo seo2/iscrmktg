@@ -16,7 +16,7 @@ $ped = $db->rawQuery('select * from pedido_temporal where paisID = '.$paisID.' a
 if($ped){
 	foreach ($ped as $p) {
 		$ptID = $p['ptID'];
-			$det = $db->rawQuery('select * from pedido_temporal_detalle where paisID = '.$paisID.' and ptID = '.$ptID.' and formID = '.$formID.'and ptdGra = '.$ptdGra.' and ptdGraOp = '.$ptdGraOp);
+			$det = $db->rawQuery('select * from pedido_temporal_detalle where paisID = '.$paisID.' and ptID = '.$ptID.' and formID = '.$formID.' and ptdGra = '.$ptdGra.' and ptdGraOp = '.$ptdGraOp);
 			if($det){
 				foreach ($det as $d) {
 					

@@ -18,8 +18,8 @@ $ptdISC		= $_POST['isc'];
 
 
 if($paisID==1){
-	$formInstore = get_formato_pieza($formID,$ptdGra); // así estaba antes
-	//$formInstore = $formID;
+	//$formInstore = get_formato_pieza($formID,$ptdGra); // así estaba antes
+	$formInstore = $formID;
 	$ptdProv   = 0;
 }elseif($paisID==2){
 	$formInstore = $formID;

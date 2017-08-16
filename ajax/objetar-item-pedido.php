@@ -11,7 +11,7 @@ $estfin 	= 2;
 
 $to			= get_user_mail($vm);
 
-$to			= "seodos@gmail.com";
+//$to			= "seodos@gmail.com";
 
 $data1 = Array (
 	"ptdEst" 	=> $estfin
@@ -53,9 +53,8 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 
 if($estfin==2){
 	$subject = 'Se ha rechazado un ítem del Pedido Nº '.$pdID;
-	$headers = "From: " . "<no-reply@armktg.cl> Adidas Retail Marketing" . "\r\n";
-	//$headers .= "Reply-To: ". "seo2@seo2.cl" . "\r\n";
-	$headers .= "CC: mc@seo2.cl\r\n";
+	$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Retail Marketing" . "\r\n";
+	$headers .= "CC: adidas@seo2.cl\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
@@ -79,7 +78,7 @@ if($estfin==2){
 			$hora  = substr($ptTS,11,8);
 			
 			$message  = '<html><head></head><body style="font-family: Helvetica, Arial, sans-serif;">';
-			$message .= '<div><img src="http://armktg.cl/assets/img/cabeceramail.png"></div>';
+			$message .= '<div><img src="http://iscrmktg.com/assets/img/cabeceramail.png"></div>';
 			$message .= '<h3>Pedido N&ordm; '.$pdID.' del '.$fecha.'</h3>';
 			$message .= '<div class="row">'.utf8_decode(get_tienda(get_tienda_pedido($paisID,$pdID))).' <small><strong>'.get_formato(get_formato_tienda(get_tienda_pedido($paisID,$pdID))).'</strong></small>';
 			if($paisID==7){
@@ -99,12 +98,26 @@ if($estfin==2){
 				
 					$fecen = substr($r['ptdFecEn'],8,2) . '/'. substr($r['ptdFecEn'],5,2) .'/'. substr($r['ptdFecEn'],0,4);
 				
-					$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
-					
-					if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
-						$pieza = get_instore_nom_gen( $r['formID'], $r['ptdGra']) . ' - ' . get_instore_nom_x_pais($paisId, $r['formID'], $r['ptdGra']);
-					}else{
-						$pieza = get_instore_nom_gen( $r['formID'], $r['ptdGra']) . ' - ' . get_instore_nom_x_pais($paisId, $r['formID'], $r['ptdGra']) . ' [' . $pieza_opc_desc . '] ';
+					if($r['ptdISC']=='fw2017'){
+						$pieza   = get_isc_camp($r['formID'],$r['ptdGra']) .'<br><small>'.get_isc_med($r['formID'],$r['ptdGra']).'</small>';
+					}else{		
+						if($r['ptdV2']==1){	
+							$pieza_opc_desc = get_instore_opc_desc_v2($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
+							
+							if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
+								$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . utf8_decode(get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra']));
+							}else{
+								$pieza = '<small>'.get_instore_nom_gen_v2( $r['formID'], $r['ptdGra']) . '</small><br>' . utf8_decode(get_instore_nom_x_pais_v2($paisID, $r['formID'], $r['ptdGra'])) . ' [' . utf8_decode($pieza_opc_desc) . '] ';
+							}
+						}else{	
+							$pieza_opc_desc = get_instore_opc_desc($r['formID'], $r['ptdGra'], $r['ptdGraOp']);
+							
+							if($pieza_opc_desc=='-' || $pieza_opc_desc==''){
+								$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' . utf8_decode(get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra']));
+							}else{
+								$pieza = '<small>'.get_instore_nom_gen( $r['formID'], $r['ptdGra']) . '</small><br>' .  utf8_decode(get_instore_nom_x_pais($paisID, $r['formID'], $r['ptdGra'])) . ' [' . utf8_decode($pieza_opc_desc) . '] ';
+							}
+						}		
 					}
 
 					$estado = get_desc_estado($r['ptdEst']);
@@ -140,8 +153,14 @@ if($estfin==2){
 					$estado =$r['ptdEst'];
 
 					if($r['ptdCat']>0){
-						$camfile = get_foto_campana($r['ptdCat']);
-							$camfile =  str_replace('../', '', $camfile) ;
+						if($r['ptdISC']=='fw2017'){
+							$camID   = $r['ptdGraOp'];
+							$camfile = get_foto_campana_v2($camID, $r['ptdCat']);
+							$camfile = str_replace('../', '', $camfile) ;
+						}else{
+							$camfile = get_foto_campana($r['ptdCat']);
+							$camfile = str_replace('../', '', $camfile) ;
+						}
 						$message .= "<div class='posevento fotospedido'>";
 						if($paisID==7){
 							$message .= "<span>Imagem de cat&aacute;logo:</span><br>";
@@ -152,21 +171,23 @@ if($estfin==2){
 						$message .= "</div>";
 					}else{
 						$camfile = $r['ptdISC'];
-						$message .= "<div class='posevento fotospedido'>";
-						if($paisID==7){
-							$message .= "<span>Imagem ISC</span><br>";
-					    }else{
-							$message .= "<span>Imagen ISC</span><br>";
-					    } 
-						$message .= "<img src='http://iscrmktg.com/resize2.php?img=".$camfile."&width=300&height=300&mode=fit' class='img-responsive'>";
-						$message .= "</div>";
+						if($camfile){
+							$message .= "<div class='posevento fotospedido'>";
+							if($paisID==7){
+								$message .= "<span>Imagem ISC</span><br>";
+						    }else{
+								$message .= "<span>Imagen ISC</span><br>";
+						    } 
+							$message .= "<img src='http://iscrmktg.com/resize2.php?img=".$camfile."&width=300&height=300&mode=fit' class='img-responsive'>";
+							$message .= "</div>";
+						}
 				 	} 
 					if($r['ptdFoto']){	
 						$message .= "<div class='posevento fotospedido'>";
 						$message .= "<span>Foto:</span><br>";
 						$message .= "<img src='http://iscrmktg.com/resize3.php?img=ajax/uploads/".$r['ptdFoto']."&width=300&height=300&mode=fit' class='img-responsive'>";	
 						$message .= "</div>";
-					} 
+					}
 
 						
 					$message .= "<div class='col-lg-12'>";
@@ -204,7 +225,7 @@ if($estfin==2){
     			}
 	    	}
 			$message .='</div>';	
-			$message .='<div ><a style="padding:10px 20px; background: #000; color:#fff; display: block; margin:10px auto; width:100px; text-align: center; text-decoration:none;" href="http://armktg.cl/">Ir al sitio</a></div>';
+			$message .='<div ><a style="padding:10px 20px; background: #000; color:#fff; display: block; margin:10px auto; width:100px; text-align: center; text-decoration:none;" href="http://iscrmktg.com/">Ir al sitio</a></div>';
 			$message .= "<div style='height:50px; background: #0084D6; margin-bottom:40px;'>";	
 			$message .= "</div>";	
 			$message .= "</body></html>";
