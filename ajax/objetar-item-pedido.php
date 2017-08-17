@@ -11,7 +11,7 @@ $estfin 	= 2;
 
 $to			= get_user_mail($vm);
 
-//$to			= "seodos@gmail.com";
+$to			= "seodos@gmail.com";
 
 $data1 = Array (
 	"ptdEst" 	=> $estfin

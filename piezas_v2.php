@@ -89,6 +89,7 @@ if($_SESSION['todos']['Logged']){
 							<? } ?>
 						</div>
 						<div class="col-xs-3 text-right posvotos">
+							<? if($usuTipo==99 || $usuTipo==1){ ?>
 							<a href="formulario-pieza_v2.php?pieID=<?= $r['insID']; ?>&formID=<?= $formID; ?>" class="btn btn-default ">
 							<? if($usuTipo==99){ ?>
 								<i class="fa fa-edit"></i>
@@ -96,6 +97,7 @@ if($_SESSION['todos']['Logged']){
 								<i class="fa fa-eye"></i>
 							<? } ?>
 							</a> 
+							<? } ?>
 						</div>
 					</div>
 				</div>

@@ -57,7 +57,9 @@ if($_GET['formID']){
 -->
 				    	</div>
 				    	<div class="col-xs-3 text-right">
+					    	<?php if($usuTipo==1){ ?>
 				    		<a href="formulario-tiendas.php" class="btn btn-default"><span class="hidden-xs"><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a>
+				    		<?php } ?>
 				    	</div>
 					</div>
 				</div>
@@ -78,14 +80,16 @@ if($_GET['formID']){
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion" id="tienda-<?= $r['tieID']; ?>">
 					<div class="row">
 						<div class="col-xs-9 postema">
-							<a href="formulario-tiendas.php?tieID=<?= $r['tieID']; ?>"><?= $r['tieNom']; ?></a>
+							<?php if($usuTipo==1){ ?><a href="formulario-tiendas.php?tieID=<?= $r['tieID']; ?>"><?php } ?><?= $r['tieNom']; ?><?php if($usuTipo==1){ ?></a><?php } ?>
 							<br><span><?= get_formato($r['tieForm']); ?></span>
 							<? if($r['tieFono']){ ?>
 							<br><span><strong>Usuario: </strong><?= get_user_nombre($r['tieFono']); ?></span>
 							<? } ?>
 						</div>
 						<div class="col-xs-3 text-right posvotos">
+							<?php if($usuTipo==1){ ?>
 							<a href="formulario-tiendas.php?tieID=<?= $r['tieID']; ?>" class="btn btn-default"><i class="fa fa-edit"></i> <span class="hidden-xs">Editar</span></a> 
+							<?php } ?>
 						</div>
 					</div>
 

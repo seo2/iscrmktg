@@ -43,7 +43,7 @@ global $usuID;
 						<br>
 						<a href="formatos.php?piezas=1&FW2017=1" class="btn btn-primary btn-lg btn-block">ISC Long Term</a>
 						<hr>
-					<? if($tipo<=2){ ?>
+					<? if($tipo==1){ ?>
 						<a href="maestro-tiendas.php" class="btn btn-primary btn-lg btn-block"><? if($paisID==7){ ?>Lojas<? }else{ ?>Tiendas<? } ?></a>
 						<br>
 						<a href="proveedores.php" class="btn btn-primary btn-lg btn-block"><? if($paisID==7){ ?>Fornecedores<? }else{ ?>Proveedores<? } ?></a>
