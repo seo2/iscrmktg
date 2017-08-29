@@ -55,7 +55,7 @@ session_start();
 			    </div>
 			    
 			<?
-				$sql  = "select * from instores_opciones_v2 where formID = $formID and insID = $pieID";
+				$sql  = "select * from instores_opciones_v2 where formID = $formID and insID = $pieID and insOPEst = 0";
 
 			  	$resultado = $db->rawQuery($sql);
 				if($resultado){

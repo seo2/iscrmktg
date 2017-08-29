@@ -68,7 +68,7 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 			$message  = '<html><head></head><body style="font-family: Helvetica, Arial, sans-serif;">';
 			$message .= '<div><img src="http://iscrmktg.com/assets/img/cabeceramail.png"></div>';
 			$message .= '<h3>Pedido N&ordm; '.$pdID.' del '.$fecha.'</h3>';
-			$message .= '<div class="row">'.utf8_decode(get_tienda(get_tienda_pedido($paisID,$pdID))).'<small><strong>'.get_formato(get_formato_tienda(get_tienda_pedido($paisID,$pdID))).'</strong></small>';
+			$message .= '<div class="row">'.utf8_decode(get_tienda(get_tienda_pedido($paisID,$pdID))).'<small> <strong>'.get_formato(get_formato_tienda(get_tienda_pedido($paisID,$pdID))).'</strong></small>';
 			if($paisID==7){
 				$message .= '<div class="row"> Comentado por: '.utf8_decode( get_user_nombre($ptoUsu)).'</strong></small>';
 		    }else{
@@ -225,7 +225,7 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 	
 	$to			= get_user_mail($vm);
 	
-	$to			= "seodos@gmail.com";
+//	$to			= "seodos@gmail.com";
 	
 	mail($to, $subject, $message, $headers);
 					

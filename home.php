@@ -82,7 +82,7 @@ if($_SESSION['todos']['Logged']){
 					
 					if($usuTipo==1){ // administrador
 						$sql0  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 0 GROUP BY ptID ";
-						$sql  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 GROUP BY ptID ";
+						$sql  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2";
 						$sql2  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6";
 						$sql3   = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 4";
 					    if($paisID==7){

@@ -233,7 +233,7 @@ session_start();
 								<select class="form-control" name="ptdGra" required id="ptdGra2" data-formato="<?php echo $formato; ?>">
 									<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
 									<?
-									$tema = $db->rawQuery('select * from instores_v2 where formID = '.$formato.' order by insNomGen');
+									$tema = $db->rawQuery('select * from instores_v2 where formID = '.$formato.' and insEst = 0 order by insNomGen');
 									if($tema){
 										foreach ($tema as $t) {
 											$insID 		= $t['insID'];
@@ -253,7 +253,7 @@ session_start();
 								<label><? if($paisID==7){ ?>Opções<? }else{ ?>Opciones<? } ?> instore:</label>
 								<select class="form-control" name="ptdGraOp" id="ptdGraOp2" required>
 									<?
-									$tema = $db->rawQuery('select * from instores_opciones_v2 where  formID = '.$formato.' and insID = '.$ptdGra);
+									$tema = $db->rawQuery('select * from instores_opciones_v2 where  formID = '.$formato.' and insID = '.$ptdGra.' and insOPEst = 0');
 									if($tema){
 										foreach ($tema as $t) {
 									?>							

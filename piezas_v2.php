@@ -47,16 +47,16 @@ if($_SESSION['todos']['Logged']){
 			    </div>
 			<?
 				if($usuTipo == 1){
-					$sql  = "select * from instores_v2 where formID = $formID order by insNomGen";
+					$sql  = "select * from instores_v2 where formID = $formID order by insNomGen and insEst = 0";
 				}elseif($usuTipo == 2){
 					if($_GET['todos']){
-						$sql  = "select * from instores_v2 where formID = $formID order by insNomGen";
+						$sql  = "select * from instores_v2 where formID = $formID order by insNomGen and insEst = 0";
 					}else{
 						//$sql  = "select * from instores where formID = $formID and pieRes = $usuID";
-						$sql  = "select * from instores_v2 where formID = $formID order by insNomGen";
+						$sql  = "select * from instores_v2 where formID = $formID order by insNomGen and insEst = 0";
 					}
 				}elseif($usuTipo == 99){
-					$sql  = "select * from instores_v2 where formID = $formID order by insNomGen";
+					$sql  = "select * from instores_v2 where formID = $formID  and insEst = 0 order by insNomGen";
 				}
 
 			  	$resultado = $db->rawQuery($sql);
