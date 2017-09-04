@@ -370,9 +370,19 @@ session_start();
 									foreach ($tema as $t) {
 										$ok = ask_pais_campana_v2( $t['camID'],$paisID);
 										if($ok==1){
+											$camID = $t['camID'];
+											$ok2 = 0;
+											$porformato = $db->rawQuery("select * from catalogo_x_formato where camID = $camID and formID = $formato");
+											if($porformato){
+												foreach ($porformato as $xf) {
+													$ok2 = 1;
+												}
+											}	
+											if($ok2==1){
 								?>
 								<option value="<?= $t['camID']; ?>"><?= $t['camDesc']; ?></option>
-								<?		}
+								<?			}
+										}
 									}
 								}
 								?>

@@ -124,7 +124,7 @@ session_start();
 	    </header>
 
 	    <div id="cajaposiciones">
-		    <div class="col-xs-12" id="pedidohead">
+		    <div id="pedidohead">
 			    <div class="row">
 			    	<div class="col-xs-4">
 						<h2><? if($paisID==7){ ?>Resumo de fornecedores<? }else{ ?>Resumen por Proveedores<? } ?> <?php echo $titulo; ?></h2> 

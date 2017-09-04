@@ -191,7 +191,7 @@
 					$message .= "</body></html>";
 			
 			
-			$subject = 'Pedidos VM Adidas '.$date.'';
+			$subject = 'Pedidos Proveedor Adidas '.$date.'';
 			$headers = "From: Adidas Retail Marketing <no-reply@iscrmktg.com>\r\n";
 			if($provMail){
 				$headers .= "CC: ".$provMail."\r\n";

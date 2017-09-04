@@ -132,13 +132,16 @@ session_start();
 						$fecha = substr($ptTS,8,2) . '/'. substr($ptTS,5,2) .'/'. substr($ptTS,0,4);
 						$hora  = substr($ptTS,11,8);
 						$i++;
+						$tieID = get_tienda_pedido($paisID,$r['ptID']);
+						$tienda_exists = tienda_exists($tieID);
+						if($tienda_exists){
 		    ?>   
 		    
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion">
 					<div class="row">
 						<div class="col-xs-9 posevento">
-							<a href="detalle-pedido.php?ptID=<?= $r['ptID']; ?>&tieID=<?= get_tienda_pedido($paisID,$r['ptID']); ?>" ><?= get_tienda(get_tienda_pedido($paisID,$r['ptID'])); ?></a>
-							<span><strong><?= get_formato(get_formato_tienda(get_tienda_pedido($paisID,$r['ptID']))); ?></strong></span>
+							<a href="detalle-pedido.php?ptID=<?= $r['ptID']; ?>&tieID=<?php echo $tieID; ?>" ><?= get_tienda(get_tienda_pedido($paisID,$r['ptID'])); ?></a>
+							<span><strong><?= get_formato(get_formato_tienda($tieID)); ?></strong></span>
 							<span>[<?= $r['Total']; ?>]</span>
 							<br><span class="numpedido">Pedido <strong>Nº <?= $r['ptID']; ?></strong> del <strong><?= $fecha; ?></strong></span><br>
 							
@@ -188,7 +191,8 @@ session_start();
 					</div>
 
 				</div>
-		    <? 		} 
+		    <? 			}
+			    	} 
 			    } ?>
 			    <? if($i==0){?>
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion" >

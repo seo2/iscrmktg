@@ -184,7 +184,19 @@
 		return $eveNombre;
 		
 	}
+	function tienda_exists($eveID){
+		$existe  = false;
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from tiendas where tieID = '.$eveID);
+		if($tema){
+			foreach ($tema as $t) {
+				$existe = true;
+			}
+		}
 
+		return $existe;
+		
+	}
 
 	function get_pieza_desc($ID){
 		$db = MysqliDb::getInstance();

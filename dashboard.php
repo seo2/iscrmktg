@@ -156,8 +156,9 @@ session_start();
 		    <span>Dashboard</span>
 	    </header>
 
-	    <div id="cajaposiciones">
-		    <div class="col-xs-12" id="pedidohead">
+	    <div id="cajaposiciones" >
+		    
+		    <div id="pedidohead">
 			    <div class="row">
 			    	<div class="col-xs-6">
 						<h2><? if($paisID==7){ ?>Resumo por lojas<? }else{ ?>Resumen por Tiendas<? } ?> <?php echo $titulo; ?></h2> 
