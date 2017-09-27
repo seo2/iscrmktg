@@ -1,6 +1,22 @@
 <?php
 require_once("../functions.php");
-
+	/*
+			
+	ESTADOS:
+			
+	Solicitado: 			0 // creado por VM
+	Para revisión: 			1 // A la espera de MM
+	Objetado:				2 // Rechazado por MM
+	Aprobado:				3 // Aprobado por MM --> traspasado a Proveedor --> para cotizar
+	
+	Cotizado:				4 // Recibido por Proveedor, ingresó precio y envió a MM
+	Cotizacion Aprobada: 	5 // Cotización aprobada por MM --> Proveedor debe ingresar precio
+	Ongoing:   				6 // Proveedor compromete fecha de entrega
+	
+	Entregado:				7 // Entregado por Proveedor
+	Finalizado:				8 // Recepcionado por VM
+			
+	*/
 $paisID 	= $_POST['paisID'];
 $pdID 		= $_POST['ptID'];
 $ptdItem 	= $_POST['ptdItem'];
@@ -24,12 +40,9 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 	$db->where("ptdItem", $ptdItem);
 	$db->where("ptoID", $ptoID);
 	$db->update('pedido_observaciones', $data2);		
-		
 	
 }else{
-
-	date_default_timezone_set('America/Santiago');
-		
+	date_default_timezone_set('America/Santiago');	
 	$id = $db->insert ('pedido_observaciones', $data2);	
 }
 
@@ -40,12 +53,6 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
     }else{
 		$subject = 'Se ha hecho un comentario en el Pedido Nº '.$pdID;
     } 	
-	
-	$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Retail Marketing" . "\r\n";
-	$headers .= "CC: adidas@seo2.cl\r\n";
-	$headers .= "MIME-Version: 1.0\r\n";
-	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-		
 	
 	$message  	= '<html><body style="font-family: Helvetica, Arial, sans-serif;">';
     if($paisID==7){
@@ -81,6 +88,10 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 		  	$resultado2 = $db->rawQuery($sql2);
 			if($resultado2){
 				foreach ($resultado2 as $r) {
+					
+					$ptdProv  = $r['ptdProv'];
+					$provMail = get_proveedor_mails($ptdProv);
+					
 					$fecha = substr($r['ptdTS'],8,2) . '/'. substr($r['ptdTS'],5,2) .'/'. substr($r['ptdTS'],0,4);
 					$hora  = substr($r['ptdTS'],11,8);
 				
@@ -107,7 +118,7 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 							}
 						}		
 					}
-
+					$ptdEst = $r['ptdEst'];
 					$estado = get_desc_estado($r['ptdEst']);
 					$clase  = get_class_estado($r['ptdEst']);
 									
@@ -222,8 +233,14 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 		}
 	}		
 	
-	
-	$to			= get_user_mail($vm);
+			$headers = "From: Adidas Retail Marketing <no-reply@iscrmktg.com>\r\n";
+			if($provMail && $ptdEst >= 3){
+				$headers .= "CC: ".$provMail."\r\n";
+			}
+			$headers .= "Bcc: adidas@seo2.cl\r\n";
+			$headers .= "MIME-Version: 1.0\r\n";
+			$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";	
+			$to		= get_user_mail($vm);
 	
 //	$to			= "seodos@gmail.com";
 	

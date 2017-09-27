@@ -2809,3 +2809,13 @@ $('.pedProv').on('change',function(){
 	});
 	
 }); 
+
+
+$("#formID").bind("change", function() {
+	tieForm = $(this).val();
+	if(tieForm>0){
+		window.location =  window.location.protocol + "//" + window.location.host + window.location.pathname + '?tieform='+tieForm;
+	}else{
+		window.location =  window.location.protocol + "//" + window.location.host + window.location.pathname + '?tieform='+0;
+	}
+});	

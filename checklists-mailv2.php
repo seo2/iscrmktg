@@ -35,7 +35,7 @@
 <div style="font-family: Helvetica, Arial, sans-serif; color: #000; max-width:655px; margin: 0 auto; ">
 	    
 	<div style="text-align:center">
-	    <img src="http://armktg.cl/assets/img/logo.png" width="100">
+	    <img src="http://iscrmktg.com/assets/img/logo.png" width="100">
 	</div>
 	    
 	<div style="color: #000; height: 20px; line-height: 20px; text-transform: uppercase; font-weight: 100; padding-left:9px">

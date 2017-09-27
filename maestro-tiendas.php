@@ -18,18 +18,6 @@ session_start();
 <?  }  ?>
 <? 
 	include('header.php');
-	
-if($_GET['formID']){
-	$formID = $_GET['formID'];
-	$formato = get_formato($formID);
-	$sql  = "select * from tiendas where tieForm = $formID and paisID = $paisID";
-	$sql2 = "select count(*) as total from tiendas where tieForm = $formID and paisID = $paisID";
-}else{
-	$formato = "";
-	$sql  = "select * from tiendas where paisID = $paisID order by tieForm";
-	$sql2 = "select count(*) as total from tiendas where paisID = $paisID";
-}
-
 ?>
 
     <div class="container" id="argumentos">
@@ -43,19 +31,30 @@ if($_GET['formID']){
 			    <div class="col-xs-12 col-md-6 col-md-offset-3" id="pedidohead">
 					<div class="row">
 				    	<div class="col-xs-9">
-<!--
 							<form class="horizontal-form" role="search">
-								
-								
-								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Buscar tienda" name="s" id="srch-term">
-									<div class="input-group-btn">
-										<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-									</div>
+								<div class="form-group">
+									<select class="form-control" name="tieForm" required id="formID">
+										<option value="">Filtrar por formato</option>
+										<?
+											if($_GET['tieform'] ){
+												$tieForm = $_GET['tieform'];
+											}else{
+												$tieForm = 0;
+											}
+										$tema = $db->rawQuery('select * from formatos');
+										if($tema){
+											foreach ($tema as $t) {
+										?>
+										<option value="<?= $t['formID']; ?>" <? if($t['formID']==$tieForm){ ?>selected<? } ?>><?= $t['formDesc']; ?></option>
+										<?		
+											}
+										}
+										?>
+									</select>
 								</div>
 							</form>
--->
-				    	</div>
+						</div>							
+					
 				    	<div class="col-xs-3 text-right">
 					    	<?php if($usuTipo==1){ ?>
 				    		<a href="formulario-tiendas.php" class="btn btn-default"><span class="hidden-xs"><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a>
@@ -65,8 +64,15 @@ if($_GET['formID']){
 				</div>
 			    
 			<?
-				
-			$sql0  = "select * from formatos order by formOrder";
+					
+				if($_GET['tieform'] && $_GET['tieform'] >0){
+					$formID = $_GET['tieform'];
+					$sql0  = "select * from formatos where formID = $formID";
+				}else{
+					$sql0  = "select * from formatos order by formOrder";
+				}
+
+			
 		  	$formatos = $db->rawQuery($sql0);
 			if($formatos){
 				foreach ($formatos as $f) {				
