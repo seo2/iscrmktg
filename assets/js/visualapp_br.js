@@ -1258,6 +1258,11 @@ $("#usuTipo").bind("change", function() {
     }else{
 	    $("#formatos").addClass('hide');
     }
+    if($(this).val()==3){
+	    $("#manager").removeClass('hide');
+    }else{
+	    $("#manager").addClass('hide');
+    }
 });	
 
 
@@ -2170,9 +2175,8 @@ $('a.btnadjuntar').click(function(){
 	tiendaID 	= $('#cajaposiciones').data('tiendaid');
 	
 	vitNom 		= $(vitrow).data('nom');
-	
+	console.log(vitID);
 	$('#ptdItem8').val(vitID);
-
 });   
     
  	$('#formArchivos')
@@ -2197,7 +2201,7 @@ $('a.btnadjuntar').click(function(){
 			var file 			= inputFileImage.files[0];
 			var data 			= new FormData();
 			data.append('foto',file);
-			var other_data = $('#formFotos').serializeArray();
+			var other_data = $('#formArchivos').serializeArray();
 			$.each(other_data,function(key,input){
 				data.append(input.name,input.value);
 			});

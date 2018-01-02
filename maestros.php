@@ -38,7 +38,7 @@ global $usuID;
 				<h1 class="logo animated fadeIn"><img src="assets/img/logo.png?ver=2"></h1>
 				<p class="logo animated fadeInDown">Retail Marketing</p>
 
-					<? if($tipo<3){ ?>
+					<? if($tipo<=3){ ?>
 						<a href="campana_v2.php" class="btn btn-primary btn-lg btn-block">ISC de Campañas</a>
 						<br>
 						<a href="formatos.php?piezas=1&FW2017=1" class="btn btn-primary btn-lg btn-block">ISC Long Term</a>
@@ -50,7 +50,7 @@ global $usuID;
 						<br>
 						<a href="usuarios.php" class="btn btn-primary btn-lg btn-block"><? if($paisID==7){ ?>Usuários<? }else{ ?>Usuarios<? } ?></a>
 					<? } ?>
-					<? if($paisID==1){ ?>
+					<? if($paisID==1 && $tipo<3) { ?>
 						<hr>
 						<a href="checklists-maestro-zonas.php" class="btn btn-primary btn-lg btn-block">Zonas</a>
 						<br>

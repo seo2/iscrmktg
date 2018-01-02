@@ -42,8 +42,7 @@ session_start();
 			    </div>
 			<?
 				$sql  = "select * from usuario where paisID = $paisID order by usuTipo, usuID";
-
-			  	$resultado = $db->rawQuery($sql);
+				$resultado = $db->rawQuery($sql);
 				if($resultado){
 					foreach ($resultado as $r) {
 		    ?>   
@@ -51,7 +50,7 @@ session_start();
 					<div class="row">
 						<div class="col-xs-9 postema">
 							<a href="formulario-usuarios.php?usuID=<?= $r['usuID']; ?>"><?= $r['usuNom']; ?> <?= $r['usuApe']; ?></a>
-							<span><?= get_tipo_usuario_desc($r['usuTipo']); ?>
+							<span><?= get_tipo_usuario_desc($r['usuTipo']); ?> <?php if($r['usuTipo']==3 && $r['usuVMMan']==1){ ?> Manager<? } ?>
 							<br>
 							<? if($r['usuTipo']==4){
 								echo '<strong>'. get_proveedor_nombre($r['usuProv']).'</strong>';

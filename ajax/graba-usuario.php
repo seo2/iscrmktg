@@ -3,7 +3,7 @@ $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
 $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 if ($ajax) {
 
-		require_once("../functions.php");
+	require_once("../functions.php");
 	$allowedDomains = array($dominio);
 	
 	$referer = $_SERVER['HTTP_REFERER'];
@@ -20,7 +20,8 @@ if ($ajax) {
 		$usuProv 	= $_POST['usuProv'];
 		$usuEst 	= $_POST['usuEst'];
 		$formato 	= $_POST['formato'];
-			$usuMail = $_POST['usuMail'];
+		$usuVMMan 	= $_POST['usuVMMan'];
+		$usuMail 	= $_POST['usuMail'];
 		
 		if(isset($_POST['usuID'])){
 			$usuID = $_POST['usuID'];
@@ -32,6 +33,7 @@ if ($ajax) {
 				"usuApe" 	=> $usuApe,
 				"usuMail" 	=> $usuMail,
 				"usuProv" 	=> $usuProv,
+				"usuVMMan" 	=> $usuVMMan,
 				"usuEst" 	=> $usuEst
 			);		
 			$db->where("usuID", $usuID);
@@ -47,6 +49,7 @@ if ($ajax) {
 				"usuApe" 	=> $usuApe,
 				"usuMail" 	=> $usuMail,
 				"usuProv" 	=> $usuProv,
+				"usuVMMan" 	=> $usuVMMan,
 				"usuPass" 	=> md5($usuPass),
 				"usuEst" 	=> $usuEst
 			);	
@@ -66,8 +69,6 @@ if ($ajax) {
 			$id = $db->insert ('usuario_x_formato', $data);	
 		}
 
-
-		
 		echo $respuesta;
 	}else{
 		echo 'Dominio / Host no autorizado';

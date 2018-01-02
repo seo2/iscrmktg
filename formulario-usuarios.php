@@ -32,6 +32,7 @@ session_start();
 				$usuApe 	= $r['usuApe'];
 				$usuMail 	= $r['usuMail'];
 				$usuEst 	= $r['usuEst'];
+				$usuVMMan 	= $r['usuVMMan'];
 	 		} 
 	    }			
 	    if($usuTipo==2 || $usuTipo==4 ){
@@ -91,6 +92,15 @@ session_start();
 								?>
 							</select>
 						</div>
+
+						<div class="form-group <? if($_GET['usuID'] && $usuTipo == 3){ }else{ ?> hide<? } ?>" id="manager">							
+							<div class="checkbox">
+							  <label>
+							    <input type="checkbox" name="usuVMMan" value="1" <? if($usuVMMan==1){ ?>checked<? } ?>>
+							    es VM Manager
+							  </label>
+							</div>
+						</div>		
 						<div class="form-group hide" id="proveedor">
 							<label for="ptdGra"><? if($paisID==7){ ?>Fornecedor<? }else{ ?>Proveedor<? } ?>:</label>
 							<select class="form-control" name="usuProv" required id="usuProv">

@@ -93,6 +93,20 @@
 		
 	}
 
+	function get_userMan($userID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from usuario where usuID = '.$userID);
+		if($tema){
+			foreach ($tema as $t) {
+				$usuTipo  = $t["usuVMMan"];
+			}
+		}
+
+		return $usuTipo;
+		
+	}
+
+
 
 	function get_proveedor_usuario($userID){
 		$db = MysqliDb::getInstance();
@@ -942,7 +956,7 @@
 
 	function get_total_opciones_instores_v2($formID, $insID){
 		$db = MysqliDb::getInstance();
-		$tema = $db->rawQuery('select count(*) as total from instores_opciones_v2 where formID = '.$formID.' and insID ='.$insID);
+		$tema = $db->rawQuery('select count(*) as total from instores_opciones_v2 where formID = '.$formID.' and insID ='.$insID.' and insOPEst = 0');
 		if($tema){
 			foreach ($tema as $t) {
 				$total  = $t["total"];
@@ -1533,6 +1547,11 @@ function quitatodo2($string){
     	$colA = str_replace('%', 'porc', $colA);
     	$colA = str_replace('&', 'porc', $colA);
     	$colA = str_replace('generico', '', $colA);
+    	$colA = str_replace('á', 'a', $colA);
+    	$colA = str_replace('é', 'e', $colA);
+    	$colA = str_replace('í', 'i', $colA);
+    	$colA = str_replace('ó', 'o', $colA);
+    	$colA = str_replace('ú', 'ú', $colA);
     	$colA = strtolower($colA);
     	return $colA;
 	}

@@ -159,7 +159,8 @@ session_start();
 				  			
 							<div class="form-group">
 								<label for="exampleInputName2">Año</label>
-								<select class="form-control" id="aaaa" name="aaaa">
+								<select class="form-control" id="aaaa" name="aaaa" data-pais="<?php echo $paisID; ?>">
+								  <option value="2018" <? if($_GET['aaaa'] && $_GET['aaaa'] == '2018'){ ?>selected<? } ?>>2018</option>
 								  <option value="2017" <? if($_GET['aaaa'] && $_GET['aaaa'] == '2017'){ ?>selected<? } ?>>2017</option>
 								  <option value="2016" <? if($_GET['aaaa'] && $_GET['aaaa'] == '2016'){ ?>selected<? } ?>>2016</option>
 								</select>
@@ -263,8 +264,11 @@ session_start();
 										
 										<?
 	
-	
+										if($factor==0){
+				$sumaTotal = 0;							
+										}else{
 				$sumaTotal = pedidos_x_rango_fecha($anoactual.'-01-01 00:00:00',$proxano.'-01-01 00:00:00')/$factor;
+										}
 	
 	
 				$tipo_formato_sql  = "SELECT * from tipo_formato";
@@ -283,7 +287,11 @@ session_start();
 							foreach ($formatos as $f1) {
 								$formID 	= $f1['formID'];
 								$formato	= $f1['formDesc'];
+										if($factor==0){
+								$TotalFormato = 0;		
+										}else{
 								$TotalFormato = $TotalFormato + (pedidos_x_formato_x_rango_fecha($formID,$anoactual.'-01-01 00:00:00',$proxano.'-01-01 00:00:00',$dashpaisID)/$factor);
+										}								
 
 
 				// Tiendas por formatos

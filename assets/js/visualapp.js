@@ -651,6 +651,9 @@ $("#camID").bind("change", function() {
 function GetCatalogo(camID) {
   if (camID > 0) {
 	  	formID = $('#formID').val();
+	  	if(formID==9){
+		  	formID = 1;
+	  	}
  	    $.ajax({
             type: "POST",
             url: "ajax/catalogo_v2.php",
@@ -1258,6 +1261,11 @@ $("#usuTipo").bind("change", function() {
 	    $("#formatos").removeClass('hide');
     }else{
 	    $("#formatos").addClass('hide');
+    }
+    if($(this).val()==3){
+	    $("#manager").removeClass('hide');
+    }else{
+	    $("#manager").addClass('hide');
     }
 });	
 
@@ -2744,12 +2752,12 @@ $('.clxtCom').on('blur',function(){
     
     
 $('#aaaa').on('change',function(){
-	
+	paisID = $(this).data('pais');
 	mm = $('#mm').val();
-	if(mm==''){
+	if(paisID==''){
 		cola = '?aaaa='+$(this).val();
 	}else{
-		cola = '?aaaa='+$(this).val()+'&mm='+mm;
+		cola = '?aaaa='+$(this).val()+'&paisID='+paisID;
 	}
 	
 	

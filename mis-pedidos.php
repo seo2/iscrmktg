@@ -117,7 +117,12 @@ session_start();
 					}elseif($usuTipo==2){ // Retail MKTG
 						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and pedNum <> 1 and ptdRes = $usuID GROUP BY ptID order by ptID DESC";
 					}elseif($usuTipo==3){ // VM
-						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and pedNum <> 1 and ptdVM = $usuID GROUP BY ptID order by ptID DESC";
+						if($usuMan==1){
+							$sql  = "SELECT count(*) as Total, ptID, ptdTS  FROM pedido_temporal_detalle WHERE ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and pedNum <> 1 and paisID = $paisID GROUP BY ptID order by ptID DESC";
+						}else{
+							$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and pedNum <> 1 and ptdVM = $usuID GROUP BY ptID order by ptID DESC";
+						}
+						
 					}else{ // Proveedor
 						$ptdProv = get_proveedor_usuario($usuID);
 						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst >= 3 and ptdEst < 8 and ptdProv = $ptdProv GROUP BY ptID order by ptID DESC";
@@ -153,7 +158,11 @@ session_start();
 								}elseif($usuTipo==2){ // Retail MKTG
 									$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdRes = $usuID and ptID = $ptID  and ptdEst <> 2 group by ptdEst";
 								}elseif($usuTipo==3){ // VM
-									$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdVM = $usuID and ptID = $ptID  and ptdEst <> 2 group by ptdEst";
+									if($usuMan==1){
+										$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID group by ptdEst";
+									}else{
+										$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdVM = $usuID and ptID = $ptID  and ptdEst <> 2 group by ptdEst";		
+									}
 								}else{ // Proveedor
 									$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdProv = $ptdProv and ptID = $ptID  and ptdEst <> 2 group by ptdEst";
 								}

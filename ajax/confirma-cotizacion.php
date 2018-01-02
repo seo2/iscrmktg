@@ -87,7 +87,12 @@ $ptdRes 	= $_POST['ptdRes'];
 							$fecen = substr($r['ptdFecEn'],8,2) . '/'. substr($r['ptdFecEn'],5,2) .'/'. substr($r['ptdFecEn'],0,4);
 						
 							if($r['ptdISC']=='fw2017'){
-								$pieza   = get_isc_camp($formID,$r['ptdGra']) .'<br><small>'.get_isc_med($formID,$r['ptdGra']).'</small>';
+								if($r['formID']==9){
+									$formatito = 1;
+								}else{
+									$formatito = $r['formID'];
+								}
+								$pieza   = get_isc_camp($formatito,$r['ptdGra']) .'<br><small>'.get_isc_med($formatito,$r['ptdGra']).'</small>';
 							}else{		
 								if($r['ptdV2']==1){	
 									$pieza_opc_desc = get_instore_opc_desc_v2($r['formID'], $r['ptdGra'], $r['ptdGraOp']);

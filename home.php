@@ -78,8 +78,6 @@ if($_SESSION['todos']['Logged']){
 			    $boton6 = "Salir";
 		    } 
 	
-
-					
 					if($usuTipo==1){ // administrador
 						$sql0  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 0 GROUP BY ptID ";
 						$sql  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2";
@@ -110,7 +108,13 @@ if($_SESSION['todos']['Logged']){
 					    } 			
 					}elseif($usuTipo==3){ // VM
 						$sql0  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 0 and ptdVM = $usuID GROUP BY ptID ";
-						$sql  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdVM = $usuID GROUP BY ptID ";
+						
+						if($usuMan==1){
+							$sql  = "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2";
+						}else{
+							$sql  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdVM = $usuID GROUP BY ptID ";
+						}
+						
 						$sql2  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdVM = $usuID GROUP BY ptID ";
 					    if($paisID==7){
 							$tit 	= "Pedidos";
@@ -214,6 +218,8 @@ if($_SESSION['todos']['Logged']){
 					<a href="checklists-dashboard.php" class="btn btn-primary btn-lg btn-block">Resumen Checklists</a>
 						<? } ?>
 					<hr>
+					<? } ?>
+					<? if($usuTipo<=3){ ?>
 					<a href="maestros.php" class="btn btn-primary btn-lg btn-block"><?php echo $boton5; ?></a>
 					<br>
 					<? } ?>

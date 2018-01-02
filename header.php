@@ -30,6 +30,7 @@
     <?
 	  if($usuID){
 		$usuTipo 	= get_usertipo($usuID);
+		$usuMan 	= get_userMan($usuID);
 		$paisID 	= get_userpais($usuID);
 	  }
 	?>

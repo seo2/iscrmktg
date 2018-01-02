@@ -46,27 +46,34 @@ if($_SESSION['todos']['Logged']){
 				    </div>
 			    </div>
 			<?
-				if($usuTipo == 1){
-					$sql  = "select * from instores_v2 where formID = $formID order by insNomGen and insEst = 0";
-				}elseif($usuTipo == 2){
-					if($_GET['todos']){
-						$sql  = "select * from instores_v2 where formID = $formID order by insNomGen and insEst = 0";
-					}else{
-						//$sql  = "select * from instores where formID = $formID and pieRes = $usuID";
-						$sql  = "select * from instores_v2 where formID = $formID order by insNomGen and insEst = 0";
-					}
-				}elseif($usuTipo == 99){
-					$sql  = "select * from instores_v2 where formID = $formID  and insEst = 0 order by insNomGen";
+/*
+				if($usuTipo <= 3){
+					
+				if($paisID==1){
+					$nombre  = $t["insNomChi"];
+				}elseif($paisID==2){
+					$nombre  = $t["insNomCol"];
+				}elseif($paisID==3){
+					$nombre  = $t["insNomArg"];
+				}elseif($paisID==4){
+					$nombre  = $t["insNomMex"];
+				}elseif($paisID==5){
+					$sql  = "select * from instores_v2 where formID = $formID  and insEst = 0 order by insNomPer";
+				}elseif($paisID==6){
+					$sql  = "select * from instores_v2 where formID = $formID  and insEst = 0 order by insNomPan";
+				}elseif($paisID==7){
+					$sql  = "select * from instores_v2 where formID = $formID  and insEst = 0 order by insNomBra";
 				}
+*/
+				
+/* 				}elseif($usuTipo == 99){ */
+					$sql  = "select * from instores_v2 where formID = $formID  and insEst = 0 order by insNomGen";
+/* 				} */
 
 			  	$resultado = $db->rawQuery($sql);
 				if($resultado){
 					foreach ($resultado as $r) {
-						
 						$opciones = get_total_opciones_instores_v2($formID, $r['insID']);
-							
-						
-						
 						
 		    ?>   
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion">
@@ -105,7 +112,6 @@ if($_SESSION['todos']['Logged']){
 			    } ?>	    		    
 		    </div>
 		    	 
-
 	    	<div id="footer" class="blancobg">
 		    	<div class="container">
 			    	<div class="row">

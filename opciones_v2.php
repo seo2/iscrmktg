@@ -55,7 +55,7 @@ session_start();
 			    </div>
 			    
 			<?
-				$sql  = "select * from instores_opciones_v2 where formID = $formID and insID = $pieID and insOPEst = 0";
+				$sql  = "select * from instores_opciones_v2 where formID = $formID and insID = $pieID and insOPEst = 0 order by insOpNom";
 
 			  	$resultado = $db->rawQuery($sql);
 				if($resultado){
@@ -68,7 +68,7 @@ session_start();
 							<?= $r['insOpNom']; ?><br>
 							<? if($r['insOpCat']==0){
 								if($r['insOpFoto']){ 
-									$archivo = '/ajax/uploads/ISC2/'.$r['insOpFoto'];
+									$archivo = '/ajax/uploads/ISC/'.$r['insOpFoto'];
 								}else{
 									$archivo = '/'.$ruta.quitatodo($insNomGen).quitatodo($r["insOpNom"]).'.jpg';
 								}

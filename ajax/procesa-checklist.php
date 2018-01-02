@@ -34,7 +34,7 @@ if ($ajax) {
 	$fecha 		= substr($clxtTs,8,2) . '/'. substr($clxtTs,5,2) .'/'. substr($clxtTs,0,4);
 	$hora  		= substr($clxtTs,11,8);
 
-	$camDesc = quitatodo2($tienda).'_'.quitatodo2($formato).'_'.quitatodo2($checklist).'_'.date('Y-m-d');
+	$camDesc = utf8_decode(quitatodo2($tienda)).'_'.quitatodo2($formato).'_'.quitatodo2($checklist).'_'.date('Y-m-d');
 
 	$url 		= 'http://PhantomJScloud.com/api/browser/v2/ak-bvee3-e7mvv-qqby1-yx8f3-37qyn/';
 	//$payload 	= file_get_contents ( 'request.json' );
@@ -48,15 +48,15 @@ if ($ajax) {
 	
 	$archivo = 'pdf/checklist_'.$camDesc.'.pdf';
 	
-	$context  = stream_context_create($options);
-	$result = file_get_contents($url, false, $context);
+	$context  	= stream_context_create($options);
+	$result 	= file_get_contents($url, false, $context);
 	if ($result === FALSE) { /* Handle error */ }
 	file_put_contents($archivo,$result);
 
 	
 		$to = get_user_mail($clxtMM);
 		
-		$to = 'seodos@gmail.com';
+		//$to = 'seodos@gmail.com';
 		
 		$tienda 	= get_tienda($clxtTie);
 		$checklist 	= get_checklist_nom($clxtCL);
@@ -65,9 +65,9 @@ if ($ajax) {
 		$fecha 		= substr($clxtTs,8,2) . '/'. substr($clxtTs,5,2) .'/'. substr($clxtTs,0,4);
 		$hora  		= substr($clxtTs,11,8);
 						
-		$subject = 'Checklist '.$clxtID.': '.$tienda.' - '.$checklist.' '.$date.'';
+		$subject = 'Checklist '.$clxtID.': '.utf8_decode($tienda).' - '.$checklist.' '.$date.'';
 		$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Retail Marketing" . "\r\n";
-		$headers .= "CCO: adidas@seo2.cl\r\n";
+		$headers .= "BCC: adidas@seo2.cl\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
@@ -75,7 +75,7 @@ if ($ajax) {
 		$message .= '<div><img src="http://'.$_SERVER['SERVER_NAME'].'/assets/img/cabeceramail.png"></div>';	
 		
 		$message .= '<div style="color: #000; height: 20px; line-height: 20px; text-transform: uppercase; font-weight: 100; padding-left:9px">';
-	    $message .=  $tienda.' | '. $formato;
+	    $message .=  utf8_decode($tienda).' | '. $formato;
 		$message .= '</div>';
 
 		$message .= '<div style="line-height: 20px; height:20px; padding: 0 9px;">';

@@ -147,6 +147,10 @@ session_start();
 									<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
 									<?php
 										$formID = $r['formID'];
+										
+										if($formato==9){
+											$formato = 1;
+										}
 										$sql  	= "select * from catalogo_x_formato_x_ISC where camID = $ptdGraOp and catID = $ptdCat and formID = $formato";
 									  	$resultado = $db->rawQuery($sql);
 										if($resultado){
@@ -372,6 +376,9 @@ session_start();
 										if($ok==1){
 											$camID = $t['camID'];
 											$ok2 = 0;
+											if($formato==9){
+												$formato = 1;
+											}
 											$porformato = $db->rawQuery("select * from catalogo_x_formato where camID = $camID and formID = $formato");
 											if($porformato){
 												foreach ($porformato as $xf) {

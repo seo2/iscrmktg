@@ -159,7 +159,8 @@ session_start();
 				  			
 							<div class="form-group">
 								<label for="exampleInputName2">Año</label>
-								<select class="form-control" id="aaaa" name="aaaa">
+								<select class="form-control" id="aaaa" name="aaaa" data-pais="<?php echo $paisID; ?>">
+								  <option value="2018" <? if($_GET['aaaa'] && $_GET['aaaa'] == '2018'){ ?>selected<? } ?>>2018</option>
 								  <option value="2017" <? if($_GET['aaaa'] && $_GET['aaaa'] == '2017'){ ?>selected<? } ?>>2017</option>
 								  <option value="2016" <? if($_GET['aaaa'] && $_GET['aaaa'] == '2016'){ ?>selected<? } ?>>2016</option>
 								</select>

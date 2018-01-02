@@ -81,11 +81,25 @@ session_start();
 			  	$resultado = $db->rawQuery($sql);
 				if($resultado){
 					foreach ($resultado as $r) {
+							if($r['tieEst']==1){ 
+								$estado = 'off';
+								$estDesc = 'Inactivo';						
+							}else{ 
+								$estado = 'on';
+								$estDesc = 'Activo';
+							} 
+							$paises = '';
+							$formID  = $r['formID'];
 		    ?>   
 		    
 				<div class="col-xs-12 col-md-6 col-md-offset-3 posicion" id="tienda-<?= $r['tieID']; ?>">
 					<div class="row">
-						<div class="col-xs-9 postema">
+						<div class="col-xs-2 col-sm-1">
+							<a href="javascript:void(0)" data-camid="<?php echo $formID; ?>" data-estado="<?php echo $estado; ?>" class="cambiaEstado" data-toggle="tooltip" data-placement="right"  title="<?php echo $estDesc; ?>">
+								<i class="fa fa-toggle-<?php echo $estado; ?>" aria-hidden="true"></i></span>
+							</a>
+						</div>
+						<div class="col-xs-7 col-sm-8 postema nopadl nopadr">
 							<?php if($usuTipo==1){ ?><a href="formulario-tiendas.php?tieID=<?= $r['tieID']; ?>"><?php } ?><?= $r['tieNom']; ?><?php if($usuTipo==1){ ?></a><?php } ?>
 							<br><span><?= get_formato($r['tieForm']); ?></span>
 							<? if($r['tieFono']){ ?>
