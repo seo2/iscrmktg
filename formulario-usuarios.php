@@ -33,6 +33,7 @@ session_start();
 				$usuMail 	= $r['usuMail'];
 				$usuEst 	= $r['usuEst'];
 				$usuVMMan 	= $r['usuVMMan'];
+				$canalID 	= $r['usuCanal'];
 	 		} 
 	    }			
 	    if($usuTipo==2 || $usuTipo==4 ){
@@ -72,6 +73,13 @@ session_start();
 					<div class="row">
 					
 					<form action="ajax/graba-usuario.php" method="post" accept-charset="utf-8" id="formUsuario">
+						<div class="form-group">
+							<label for="ptdGra"><? if($paisID==7){ ?>Canal<? }else{ ?>Canal<? } ?>:</label>
+							<select class="form-control" name="usuCanal" required id="tieCanal">
+								<option value="1" <? if($canalID==1){ ?>selected<? } ?>>Own Retail</option>
+								<option value="2" <? if($canalID==2){ ?>selected<? } ?>>WholeSale</option>
+							</select>
+						</div>
 						<div class="form-group">
 							<label for="ptdGra">Tipo:</label>
 							<select class="form-control" name="usuTipo" required id="usuTipo">
@@ -198,7 +206,7 @@ session_start();
 						<div class="col-xs-12 col-md-6 col-md-offset-3 footer">
 							
 					    	<? 
-								$back = 'usuarios.php';
+								$back = 'usuarios.php?canalID='.$canalID;
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
 							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>

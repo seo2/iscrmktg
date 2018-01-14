@@ -15,6 +15,7 @@ if ($ajax) {
 		date_default_timezone_set('America/Santiago');
 		
 		$paisID 	= $_POST['paisID'];
+		$tieCanal 	= $_POST['tieCanal'];
 		$tieForm 	= $_POST['tieForm'];
 		$tieNom 	= $_POST['tieNom'];
 		if($_POST['usuario']){
@@ -26,6 +27,7 @@ if ($ajax) {
 		
 		$data = Array (
 			"paisID" 	=> $paisID,
+			"tieCanal" 	=> $tieCanal,
 			"tieForm" 	=> $tieForm,
 			"tieNom" 	=> $tieNom,
 			"tieFono" 	=> $tieFono,

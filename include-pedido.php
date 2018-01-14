@@ -66,7 +66,11 @@
 						
 						<div class="col-xs-6 posevento">
 							<span><? if($r['ptdEst']==7){ ?><i class="fa fa-arrow-circle-right blue" aria-hidden="true"></i> <? } ?>VM: <strong><?= get_user_nombre($r['ptdVM']); ?></strong></span>
-							<br><span><? if($r['ptdEst']==1 || $r['ptdEst']==4){ ?><i class="fa fa-arrow-circle-right blue" aria-hidden="true"></i> <? } ?>RM: <strong><?= get_user_nombre($r['ptdRes']); ?></strong></span>
+							<?php if($r['ptdRes2']){?>
+							<br><span><? if($r['ptdEst']==1 || $r['ptdEst']==4){ ?><i class="fa fa-arrow-circle-right blue" aria-hidden="true"></i> <? } ?>RM: <strong><?= get_user_nombre3($r['ptdRes2']); ?></strong></span>
+							<?php }else{ ?>
+							<br><span><? if($r['ptdEst']==1 || $r['ptdEst']==4){ ?><i class="fa fa-arrow-circle-right blue" aria-hidden="true"></i> <? } ?>RM: <strong><?= get_user_nombre3($r['ptdRes2']); ?></strong></span>
+							<?php } ?>
 							<? if($r['ptdProv']>0 && $r['ptdEst']>2){ ?>
 							<br><span><? if($r['ptdEst']==3 || $r['ptdEst']==5 || $r['ptdEst']==6){ ?><i class="fa fa-arrow-circle-right blue" aria-hidden="true"></i> <? } ?><? if($paisID==7){ ?>Forn.<? }else{ ?>Prov.<? } ?>: <strong><?= get_proveedor_nombre($r['ptdProv']); ?></strong></span>
 							<? } ?>

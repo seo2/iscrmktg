@@ -11,7 +11,6 @@ if ($ajax) {
 	$domain = parse_url($referer); //If yes, parse referrer
 	
 	if(in_array( $domain['host'], $allowedDomains)) {
-		
 			
 		$paisID 	= $_POST['paisID'];
 		$usuTipo 	= $_POST['usuTipo'];
@@ -20,8 +19,13 @@ if ($ajax) {
 		$usuProv 	= $_POST['usuProv'];
 		$usuEst 	= $_POST['usuEst'];
 		$formato 	= $_POST['formato'];
-		$usuVMMan 	= $_POST['usuVMMan'];
+		if($_POST['usuVMMan']){ 
+			$usuVMMan 	= $_POST['usuVMMan'];
+		}else{
+			$usuVMMan = 0;
+		}
 		$usuMail 	= $_POST['usuMail'];
+		$usuCanal 	= $_POST['usuCanal'];
 		
 		if(isset($_POST['usuID'])){
 			$usuID = $_POST['usuID'];
@@ -34,7 +38,8 @@ if ($ajax) {
 				"usuMail" 	=> $usuMail,
 				"usuProv" 	=> $usuProv,
 				"usuVMMan" 	=> $usuVMMan,
-				"usuEst" 	=> $usuEst
+				"usuEst" 	=> $usuEst,
+				"usuCanal" 	=> $usuCanal
 			);		
 			$db->where("usuID", $usuID);
 			$db->update('usuario', $data);
@@ -51,8 +56,10 @@ if ($ajax) {
 				"usuProv" 	=> $usuProv,
 				"usuVMMan" 	=> $usuVMMan,
 				"usuPass" 	=> md5($usuPass),
-				"usuEst" 	=> $usuEst
+				"usuEst" 	=> $usuEst,
+				"usuCanal" 	=> $usuCanal
 			);	
+			//print_r($data);
 			$usuID = $db->insert ('usuario', $data);	
 			$respuesta = '1';	
 		}

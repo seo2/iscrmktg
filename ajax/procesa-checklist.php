@@ -66,7 +66,7 @@ if ($ajax) {
 		$hora  		= substr($clxtTs,11,8);
 						
 		$subject = 'Checklist '.$clxtID.': '.utf8_decode($tienda).' - '.$checklist.' '.$date.'';
-		$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Retail Marketing" . "\r\n";
+		$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Own Retail & Wholesale Marketing" . "\r\n";
 		$headers .= "BCC: adidas@seo2.cl\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";

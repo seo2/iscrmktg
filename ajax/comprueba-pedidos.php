@@ -8,7 +8,7 @@ $ptdGra		= $_POST['ptdGra'];
 $ptdGraOp	= $_POST['ptdGraOp'];
 //$ptdFoto	= $_POST['ptdFoto'];
 
-$ptdRes		= get_responsable_pieza($_POST['ptdGra']);
+//$ptdRes		= get_responsable_pieza($_POST['ptdGra']);
 
 $i = 0;
 

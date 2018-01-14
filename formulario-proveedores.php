@@ -29,9 +29,10 @@ session_start();
 	  	$resultado = $db->rawQuery($sql);
 		if($resultado){
 			foreach ($resultado as $r) {
-				$provNom  = $r['provNom'];
-				$provMail = $r['provMail'];
-				$provEst  = $r['provEst'];
+				$provNom  	= $r['provNom'];
+				$provMail 	= $r['provMail'];
+				$provEst  	= $r['provEst'];
+				$canalID 	= $r['provCanal'];
 	 		} 
 	    }		
 	    if($paisID==7){
@@ -65,6 +66,13 @@ session_start();
 					<div class="row">
 					
 						<form action="ajax/graba-proveedor.php" method="post" accept-charset="utf-8" id="formProveedor">
+							<div class="form-group">
+								<label for="ptdGra"><? if($paisID==7){ ?>Canal<? }else{ ?>Canal<? } ?>:</label>
+								<select class="form-control" name="provCanal" required id="provCanal">
+									<option value="1" <? if($canalID==1){ ?>selected<? } ?>>Own Retail</option>
+									<option value="2" <? if($canalID==2){ ?>selected<? } ?>>WholeSale</option>
+								</select>
+							</div>	
 							
 							<div class="form-group">
 								<label class="ptdCan"><? if($paisID==7){ ?>Nome<? }else{ ?>Nombre<? } ?>:</label>

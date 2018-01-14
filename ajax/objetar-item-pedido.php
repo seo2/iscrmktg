@@ -11,7 +11,7 @@ $estfin 	= 2;
 
 $to			= get_user_mail($vm);
 
-$to			= "seodos@gmail.com";
+//$to			= "seodos@gmail.com";
 
 $data1 = Array (
 	"ptdEst" 	=> $estfin
@@ -53,8 +53,8 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 
 if($estfin==2){
 	$subject = 'Se ha rechazado un ítem del Pedido Nº '.$pdID;
-	$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Retail Marketing" . "\r\n";
-	$headers .= "CC: adidas@seo2.cl\r\n";
+	$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Own Retail & Wholesale Marketing" . "\r\n";
+	$headers .= "BCC: adidas@seo2.cl\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
@@ -142,11 +142,11 @@ if($estfin==2){
 					
 					if($paisID==7){
 						$message .= "<div  style='margin-bottom:5px;'><span>Pedido por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-						$message .= "<div  style='margin-bottom:5px;'><span>Respons&aacute;vel: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+						$message .= "<div  style='margin-bottom:5px;'><span>Respons&aacute;vel: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 						$message .= "<div  style='margin-bottom:5px;'><span>Fornecedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 					}else{
 						$message .= "<div  style='margin-bottom:5px;'><span>Solicitado por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-						$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+						$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 						$message .= "<div  style='margin-bottom:5px;'><span>Proveedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 					} 
 					

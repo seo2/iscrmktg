@@ -93,7 +93,7 @@ session_start();
 					if($usuTipo==1){ // administrador
 						$sql  = "SELECT count(*) as Total, ptID, ptdTS  FROM pedido_temporal_detalle WHERE ptdEst = 8 and paisID = $paisID GROUP BY ptID order by ptID DESC";
 					}elseif($usuTipo==2){ // Retail MKTG
-						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst = 8 and ptdRes = $usuID GROUP BY ptID order by ptID DESC";
+						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst = 8 and ptdRes2 LIKE '%$usuID%' GROUP BY ptID order by ptID DESC";
 					}elseif($usuTipo==3){ // VM
 						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst = 8 and ptdVM = $usuID GROUP BY ptID order by ptID DESC";
 					}else{ // Proveedor
@@ -104,7 +104,7 @@ session_start();
 					if($usuTipo==1){ // administrador
 						$sql  = "SELECT count(*) as Total, ptID, ptdTS  FROM pedido_temporal_detalle WHERE ptdEst = 4 and paisID = $paisID GROUP BY ptID order by ptID DESC";
 					}elseif($usuTipo==2){ // Retail MKTG
-						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst = 4 and ptdRes = $usuID GROUP BY ptID order by ptID DESC";
+						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst = 4 and ptdRes2 LIKE '%$usuID%' GROUP BY ptID order by ptID DESC";
 					}elseif($usuTipo==3){ // VM
 						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst = 4 and ptdVM = $usuID GROUP BY ptID order by ptID DESC";
 					}else{ // Proveedor
@@ -115,7 +115,7 @@ session_start();
 					if($usuTipo==1){ // administrador
 						$sql  = "SELECT count(*) as Total, ptID, ptdTS  FROM pedido_temporal_detalle WHERE ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and pedNum <> 1 and paisID = $paisID GROUP BY ptID order by ptID DESC";
 					}elseif($usuTipo==2){ // Retail MKTG
-						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and pedNum <> 1 and ptdRes = $usuID GROUP BY ptID order by ptID DESC";
+						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and pedNum <> 1 and ptdRes2 LIKE '%$usuID%' GROUP BY ptID order by ptID DESC";
 					}elseif($usuTipo==3){ // VM
 						if($usuMan==1){
 							$sql  = "SELECT count(*) as Total, ptID, ptdTS  FROM pedido_temporal_detalle WHERE ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and pedNum <> 1 and paisID = $paisID GROUP BY ptID order by ptID DESC";
@@ -128,6 +128,7 @@ session_start();
 						$sql  = "SELECT  count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE ptdEst >= 3 and ptdEst < 8 and ptdProv = $ptdProv GROUP BY ptID order by ptID DESC";
 					}
 				}
+				//echo $sql;
 				$i = 0;
 			  	$resultado = $db->rawQuery($sql);
 				if($resultado){
@@ -156,7 +157,7 @@ session_start();
 								if($usuTipo==1){ // administrador
 									$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID group by ptdEst";
 								}elseif($usuTipo==2){ // Retail MKTG
-									$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdRes = $usuID and ptID = $ptID  and ptdEst <> 2 group by ptdEst";
+									$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdRes2 LIKE '%$usuID%' and ptID = $ptID  and ptdEst <> 2 group by ptdEst";
 								}elseif($usuTipo==3){ // VM
 									if($usuMan==1){
 										$sql0  = "SELECT count(*) as Total, ptdEst, pedNum FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID group by ptdEst";

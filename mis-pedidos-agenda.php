@@ -60,7 +60,7 @@ session_start();
 					if($usuTipo==1){ // administrador
 						$sql  = "SELECT ptdFecEn  FROM pedido_temporal_detalle WHERE ptdEst = 6 and paisID = $paisID GROUP BY ptdFecEn order by ptdFecEn ASC";
 					}elseif($usuTipo==2){ // Retail MKTG
-						$sql  = "SELECT ptdFecEn FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdRes = $usuID GROUP BY ptdFecEn order by ptdFecEn ASC";
+						$sql  = "SELECT ptdFecEn FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdRes2 LIKE '%$usuID%' GROUP BY ptdFecEn order by ptdFecEn ASC";
 					}elseif($usuTipo==3){ // VM
 						$sql  = "SELECT  ptdFecEn FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdVM = $usuID GROUP BY ptdFecEn order by ptdFecEn ASC";
 					}else{ // Proveedor
@@ -91,7 +91,7 @@ session_start();
 				if($usuTipo==1){ // administrador
 					$sql2  = "SELECT *  FROM pedido_temporal_detalle WHERE ptdFecEn = '$ptdFecEn' and paisID = $paisID and  ptdEst = 6 and ptdEst <> 2";
 				}elseif($usuTipo==2){ // Retail MKTG
-					$sql2  = "SELECT * FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdRes = $usuID and ptdFecEn = '$ptdFecEn' and  ptdEst = 6 and ptdEst <> 2";
+					$sql2  = "SELECT * FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdRes2 LIKE '%$usuID%' and ptdFecEn = '$ptdFecEn' and  ptdEst = 6 and ptdEst <> 2";
 				}elseif($usuTipo==3){ // VM
 					$sql2  = "SELECT * FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdVM = $usuID and ptdFecEn = '$ptdFecEn'  and ptdEst = 6 and ptdEst <> 2";
 				}else{ // Proveedor
@@ -176,7 +176,7 @@ session_start();
 						</div>
 						<div class="col-xs-6 posevento">
 							<span><? if($r['ptdEst']==5){ ?><i class="fa fa-arrow-circle-right blue" aria-hidden="true"></i> <? } ?>VM: <strong><?= get_user_nombre($r['ptdVM']); ?></strong></strong><span>
-							<br><span><? if($r['ptdEst']==1){ ?><i class="fa fa-arrow-circle-right blue" aria-hidden="true"></i> <? } ?><? if($paisID==7){ ?>Responsável<? }else{ ?>Responsable<? } ?>: <strong><?= get_user_nombre($r['ptdRes']); ?></strong><span>
+							<br><span><? if($r['ptdEst']==1){ ?><i class="fa fa-arrow-circle-right blue" aria-hidden="true"></i> <? } ?><? if($paisID==7){ ?>Responsável<? }else{ ?>Responsable<? } ?>: <strong><?= get_user_nombre3($r['ptdRes2']); ?></strong><span>
 							<br><span><? if($r['ptdEst']==3 || $r['ptdEst']==4){ ?><i class="fa fa-arrow-circle-right blue" aria-hidden="true"></i> <? } ?><? if($paisID==7){ ?>Fornecedor<? }else{ ?>Proveedor<? } ?>: <strong><?= get_proveedor_nombre($r['ptdProv']); ?></strong><span>
 						</div>
 						

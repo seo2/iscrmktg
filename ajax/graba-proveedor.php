@@ -1,6 +1,6 @@
 <?
 
-		require_once("../functions.php");
+require_once("../functions.php");
 $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
 $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 if ($ajax) {
@@ -19,12 +19,14 @@ if ($ajax) {
 		$provNom 	= $_POST['provNom'];
 		$provEst 	= $_POST['provEst'];
 		$provMail 	= $_POST['provMail'];
+		$provCanal 	= $_POST['provCanal'];
 			
 		$data = Array (
 			"paisID" 	=> $paisID,
 			"provNom" 	=> $provNom,
 			"provMail" 	=> $provMail,
-			"provEst" 	=> $provEst
+			"provEst" 	=> $provEst,
+			"provCanal" => $provCanal
 		);	
 		
 		if($_POST['provID']){

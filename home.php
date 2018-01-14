@@ -40,26 +40,26 @@ if($_SESSION['todos']['Logged']){
 				<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 cajita" >
 				
 				<h1 class="logo animated fadeIn"><img src="assets/img/logo.png?ver=2"></h1>
-				<p class="logo animated fadeInDown">Retail Marketing</p>
+				<p class="logo animated fadeInDown">Own Retail & Wholesale Marketing</p>
 					<?
 					// 	QUERIES PARA SACAR TOTAL DE PEDIDOS:
-	/*
-		
-		ESTADOS:
-		
-		Solicitado: 			0 // creado por VM
-		Para revisión: 			1 // A la espera de MM
-		Objetado:				2 // Rechazado por MM
-		Aprobado:				3 // Aprobado por MM --> traspasado a Proveedor --> para cotizar
-		
-		Cotizado:				4 // Recibido por Proveedor, ingresó precio y envió a MM
-		Cotizacion Aprobada: 	5 // Cotización aprobada por MM --> Proveedor debe ingresar precio
-		Ongoing:   				6 // Proveedor compromete fecha de entrega
-		
-		Entregado:				7 // Entregado por Proveedor
-		Finalizado:				8 // Recepcionado por VM
-		
-	*/	
+					/*
+						
+						ESTADOS:
+						
+						Solicitado: 			0 // creado por VM
+						Para revisión: 			1 // A la espera de MM
+						Objetado:				2 // Rechazado por MM
+						Aprobado:				3 // Aprobado por MM --> traspasado a Proveedor --> para cotizar
+						
+						Cotizado:				4 // Recibido por Proveedor, ingresó precio y envió a MM
+						Cotizacion Aprobada: 	5 // Cotización aprobada por MM --> Proveedor debe ingresar precio
+						Ongoing:   				6 // Proveedor compromete fecha de entrega
+						
+						Entregado:				7 // Entregado por Proveedor
+						Finalizado:				8 // Recepcionado por VM
+						
+					*/	
 		
 		    if($paisID==7){
 			    $boton1 = "Realizar Pedido";
@@ -80,9 +80,9 @@ if($_SESSION['todos']['Logged']){
 	
 					if($usuTipo==1){ // administrador
 						$sql0  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 0 GROUP BY ptID ";
-						$sql  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2";
-						$sql2  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6";
-						$sql3   = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 4";
+						$sql  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 GROUP BY ptID";
+						$sql2  	= "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 GROUP BY ptID";
+						$sql3   = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 4 GROUP BY ptID";
 					    if($paisID==7){
 							$tit 	= "Pedidos";
 							$tit2 	= "Entregas Agendadas";
@@ -94,9 +94,9 @@ if($_SESSION['todos']['Logged']){
 					    } 				
 					}elseif($usuTipo==2){ // Retail MKTG
 						$sql0  	= "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 0 and ptdVM = $usuID GROUP BY ptID ";
-						$sql 	= "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and ptdRes = $usuID GROUP BY ptID ";
-						$sql2  	= "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdRes = $usuID GROUP BY ptID";
-						$sql3   = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 4 and ptdRes = $usuID";
+						$sql 	= "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 and ptdRes2 LIKE '%$usuID%' GROUP BY ptID ";
+						$sql2  	= "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdRes2 LIKE '%$usuID%' GROUP BY ptID";
+						$sql3   = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 4 and ptdRes2 LIKE '%$usuID%' GROUP BY ptID";
 					    if($paisID==7){
 							$tit 	= "Pedidos";
 							$tit2 	= "Entregas Agendadas";
@@ -110,7 +110,7 @@ if($_SESSION['todos']['Logged']){
 						$sql0  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 0 and ptdVM = $usuID GROUP BY ptID ";
 						
 						if($usuMan==1){
-							$sql  = "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2";
+							$sql  = "SELECT count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdEst <> 2 GROUP BY ptID";
 						}else{
 							$sql  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 1 and ptdEst < 8 and ptdVM = $usuID GROUP BY ptID ";
 						}
@@ -126,7 +126,7 @@ if($_SESSION['todos']['Logged']){
 					}elseif($usuTipo==4){ // Proveedor
 						$ptdProv = get_proveedor_usuario($usuID);
 						$sql  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst >= 3 and ptdEst < 6 and ptdProv = $ptdProv GROUP BY ptID ";
-						$sql2  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdProv = $ptdProv";					
+						$sql2  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 6 and ptdProv = $ptdProv GROUP BY ptID";					
 						$sql3  = "SELECT  count(*) as Total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptdEst = 5 and ptdProv = $ptdProv GROUP BY ptID ";
 					    if($paisID==7){
 							$tit 	= "Pedidos Pendentes";
@@ -165,8 +165,8 @@ if($_SESSION['todos']['Logged']){
 						$resultado = $db->rawQuery($sql);
 						if($resultado){
 							foreach ($resultado as $r) {
-								$total = $r['Total'];
-								//$total++;
+								//$total = $r['Total'];
+								$total++;
 							}
 						}		
 ?>					
@@ -181,7 +181,8 @@ if($_SESSION['todos']['Logged']){
 						$resultado3 = $db->rawQuery($sql3);
 						if($resultado3){
 							foreach ($resultado3 as $r3) {
-								$total3 = $r3['Total'];
+								//$total3 = $r3['Total'];
+								$total3++;
 							}
 						}				
 ?>					
@@ -194,9 +195,12 @@ if($_SESSION['todos']['Logged']){
 			
 <?				if($usuTipo<99){
 					$resultado2 = $db->rawQuery($sql2);
+
+					$total2 = 0;
 					if($resultado2){
 						foreach ($resultado2 as $r2) {
-							$total2 = $r2['Total'];
+//							$total2 = $r2['Total'];
+							$total2++;
 						}
 					}			
 ?>								

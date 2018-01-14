@@ -21,10 +21,9 @@ session_start();
 ?>
 
     <div class="container" id="argumentos">
-	    
-	    
+	   
 		<header>
-		    <span><? if($paisID==7){ ?>Lojas<? }else{ ?>Tiendas<? } ?> <?= $formato; ?></span>
+		    <span><? if($paisID==7){ ?>Lojas<? }else{ ?>Tiendas<? } ?> <?= $formato; ?> <?php echo $canalDesc; ?></span>
 	    </header>
 		   
 		    <div id="cajaposiciones" >
@@ -33,7 +32,7 @@ session_start();
 				    	<div class="col-xs-9">
 							<form class="horizontal-form" role="search">
 								<div class="form-group">
-									<select class="form-control" name="tieForm" required id="formID">
+									<select class="form-control" name="tieForm" id="formID" data-canal="<?php echo $canalID; ?>">
 										<option value="">Filtrar por formato</option>
 										<?
 											if($_GET['tieform'] ){
@@ -41,7 +40,7 @@ session_start();
 											}else{
 												$tieForm = 0;
 											}
-										$tema = $db->rawQuery('select * from formatos');
+										$tema = $db->rawQuery('select * from formatos order by formDesc');
 										if($tema){
 											foreach ($tema as $t) {
 										?>
@@ -57,7 +56,7 @@ session_start();
 					
 				    	<div class="col-xs-3 text-right">
 					    	<?php if($usuTipo==1){ ?>
-				    		<a href="formulario-tiendas.php" class="btn btn-default"><span class="hidden-xs"><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a>
+				    		<a href="formulario-tiendas.php?tieCanal=<?php echo $tieCanal; ?>" class="btn btn-default"><span class="hidden-xs"><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a>
 				    		<?php } ?>
 				    	</div>
 					</div>
@@ -77,7 +76,7 @@ session_start();
 			if($formatos){
 				foreach ($formatos as $f) {				
 				$formID = $f['formID'];
-				$sql  = "select * from tiendas where tieForm = $formID and paisID = $paisID order by tieID";
+				$sql  = "select * from tiendas where tieForm = $formID and paisID = $paisID and tieCanal = $canalID order by tieNom";
 			  	$resultado = $db->rawQuery($sql);
 				if($resultado){
 					foreach ($resultado as $r) {

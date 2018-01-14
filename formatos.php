@@ -25,6 +25,15 @@ if($_GET['FW2017']){
 		$url 	= 'tiendas';
 		$boton 	= ' Tiendas';
 	}
+}elseif($_GET['ISC2018']){
+	if($_GET['piezas']){
+		$url 	= 'piezas_v3';
+		$boton  = ' Instore';
+
+	}else{
+		$url 	= 'tiendas';
+		$boton 	= ' Tiendas';
+	}
 }else{
 	if($_GET['piezas']){
 		$url 	= 'piezas';
@@ -70,6 +79,8 @@ if($_GET['FW2017']){
 						<? if($_GET['piezas']){ 
 							if($_GET['FW2017']){
 								$totalpiezas = get_total_instores_formato_v2($r['formID']);
+							}elseif($_GET['ISC2018']){
+								$totalpiezas = get_total_instores_formato_v3($r['formID']);
 							}else{
 								if($usuTipo == 1 || $usuTipo == 99){
 									$totalpiezas = get_total_instores_formato($r['formID']);

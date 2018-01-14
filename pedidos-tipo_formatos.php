@@ -38,6 +38,38 @@ global $usuID;
 				<div class="col-sm-4 col-sm-offset-4 col-xs-10 col-xs-offset-1 cajita" >
 					<br>
 		<?
+		if($_GET['canal']==2){
+			$canal = $_GET['canal'];
+			$sql  = "select * from tipo_formato where tipforEst = 0 and tipforCan = 2 ORDER BY tipforOrd ASC";
+		  	$resultado = $db->rawQuery($sql);
+			if($resultado){
+				foreach ($resultado as $r) {
+					if( $r['tipforDir'] == 1 ){
+						$formTipo = $r['tipforID'];
+		?>
+		<?
+			$sql2  = "select * from formatos where formEst = 0 and formTipo = $formTipo ORDER BY formOrder";
+		  	$resultado2 = $db->rawQuery($sql2);
+			if($resultado2){
+				foreach ($resultado2 as $r2) {
+	    ?>   
+					<a href="tiendas.php?formID=<?= $r2['formID']; ?>&canal=<?php echo $canal; ?>" class="btn btn-primary btn-lg btn-block">
+						<?= $r2['formDesc']; ?> 					
+					</a>
+					<br>
+	    <?  	} 
+		    } 			
+				}else{
+	    ?>   
+					<a href="pedidos-formatos.php?tipforID=<?= $r['tipforID']; ?>&canal=<?php echo $canal; ?>" class="btn btn-primary btn-lg btn-block">
+						<?= $r['tipforDesc']; ?> 
+					</a>
+					<br>
+	    <?  	
+					}
+				} 
+		    } 			
+		}else{
 			$sql  = "select * from tipo_formato where tipforEst = 0 ORDER BY tipforOrd ASC";
 		  	$resultado = $db->rawQuery($sql);
 			if($resultado){
@@ -56,10 +88,8 @@ global $usuID;
 					</a>
 					<br>
 	    <?  	} 
-		    } ?>
-
-		<?				
-					}else{
+		    } 			
+				}else{
 	    ?>   
 					<a href="pedidos-formatos.php?tipforID=<?= $r['tipforID']; ?>" class="btn btn-primary btn-lg btn-block">
 						<?= $r['tipforDesc']; ?> 
@@ -68,7 +98,9 @@ global $usuID;
 	    <?  	
 					}
 				} 
-		    } ?>
+		    } 
+		}
+		    ?>
 
 						
 						
@@ -81,6 +113,7 @@ global $usuID;
 						<div class="col-xs-12 col-md-6 col-md-offset-3 footer">
 							
 					    	<? 
+								$back = 'canal.php';
 								$back = 'home.php';
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">

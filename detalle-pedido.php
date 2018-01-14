@@ -102,10 +102,10 @@
 		}
 		
 	}elseif($usuTipo==2){ // Retail MKTG
-		//$sql  = "SELECT * FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst >= 1 and ptdEst <> 2 and ptdRes = $usuID";
-		$sql  = "SELECT * FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst >= 1 and ptdRes = $usuID";
+		//$sql  = "SELECT * FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst >= 1 and ptdEst <> 2 and ptdRes2 LIKE '%$usuID%'";
+		$sql  = "SELECT * FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst >= 1 and ptdRes2 LIKE '%$usuID%'";
 		// contar total de items aprobados por MM
-		$sqlprov1  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst = 3 and ptdRes = $usuID";
+		$sqlprov1  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst = 3 and ptdRes2 LIKE '%$usuID%'";
 	  	$resprov1 = $db->rawQuery($sqlprov1);
 		if($resprov1){
 			foreach ($resprov1 as $rp1) {
@@ -114,7 +114,7 @@
 		}
 
 		// contar total de items del MM
-		$sqlprov  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdRes = $usuID and ptdEst <> 2";
+		$sqlprov  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdRes2 LIKE '%$usuID%' and ptdEst <> 2";
 	  	$resprov = $db->rawQuery($sqlprov);
 		if($resprov){
 			foreach ($resprov as $rp) {
@@ -123,7 +123,7 @@
 		}	
 
 		// contar total de items del MM para aprobar
-		$sqlprov2  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdRes = $usuID and ptdEst = 1";
+		$sqlprov2  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdRes2 LIKE '%$usuID%' and ptdEst = 1";
 	  	$resprov2 = $db->rawQuery($sqlprov2);
 		if($resprov2){
 			foreach ($resprov2 as $rp2) {
@@ -132,7 +132,7 @@
 		}	
 		
 		// contar total de items que ya tienen precio ingresdo
-		$sqlprov4  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdValor > 0 and ptdRes = $usuID and  ptdEst <> 2 and pedNum = 0";
+		$sqlprov4  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdValor > 0 and ptdRes2 LIKE '%$usuID%' and  ptdEst <> 2 and pedNum = 0";
 	  	$resprov4 = $db->rawQuery($sqlprov4);
 		if($resprov4){
 			foreach ($resprov4 as $rp4) {
@@ -141,7 +141,7 @@
 		}
 		
 		// contar total de items que están en estado cotizado
-		$sqlprov6  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst = 4 and ptdValor > 0 and ptdRes = $usuID";
+		$sqlprov6  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst = 4 and ptdValor > 0 and ptdRes2 LIKE '%$usuID%'";
 	  	$resprov6 = $db->rawQuery($sqlprov6);
 		if($resprov6){
 			foreach ($resprov6 as $rp6) {
@@ -149,7 +149,7 @@
 			}	
 		}
 		// contar total de items del cotizados aprobados por MM
-		$sqlprov5  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst = 5 and ptdRes = $usuID";
+		$sqlprov5  = "SELECT count(*) as total FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $ptID and ptdEst = 5 and ptdRes2 LIKE '%$usuID%'";
 	  	$resprov5 = $db->rawQuery($sqlprov5);
 		if($resprov5){
 			foreach ($resprov5 as $rp5) {

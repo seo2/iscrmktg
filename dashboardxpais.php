@@ -136,7 +136,7 @@ session_start();
 		    <div class="col-xs-12" id="pedidohead">
 			    <div class="row">
 			    	<div class="col-xs-4">
-						<h2>Total por País</h2> 
+						<h2>Total por País <strong><?php echo $anoactual; ?></strong></h2> 
 			    	</div>
 			    	<div class="col-xs-8 text-right hide">
 			  			<form method="get" id="formFechas" class="form-inline">
@@ -168,7 +168,7 @@ session_start();
 				  			
 				  			
 							<div class="form-group">
-								<a class="btn btn-primary" href="dashboard-excel.php?aaaa=<?= $anoactual; ?>" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>
+								<a class="btn btn-primary" href="dashboardxpais-excel.php?aaaa=<?= $anoactual; ?>" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>
 							</div>
 			  			</form>
 			    	</div>
@@ -238,6 +238,9 @@ session_start();
 						$dashpaisID 	= $p['paisID'];
 						$dashpaisNom	= $p['paisNom'];
 						$factor = get_rate_exchange($dashpaisID,$anoactual);
+						if($factor==0){
+							$factor = 1;
+						}
 						$currency = '€';
 
 ?>
@@ -296,7 +299,8 @@ session_start();
 
 				// Tiendas por formatos
 	
-				$tiendas_sql  = "SELECT * from tiendas where tieForm = $formID and paisID = $paisID  order by tieID";
+				$tiendas_sql  = "SELECT * from tiendas where tieForm = $formID and paisID = $dashpaisID  order by tieID";
+				//echo $tiendas_sql .' ';
 			  	$tiendas = $db->rawQuery($tiendas_sql);
 				if($tiendas){
 					foreach ($tiendas as $t) {
@@ -306,6 +310,7 @@ session_start();
 						$ini = $anoactual.'-01-01 00:00:00';
 						$fin = $proxano.'-01-01 00:00:00';
 						$pedidos_sql  = "SELECT * from pedido_temporal where ptTie = $tieID and ptTS>='$ini' AND ptTS< '$fin'";
+						//echo $pedidos_sql;
 					  	$pedidos = $db->rawQuery($pedidos_sql);
 						if($pedidos){
 							foreach ($pedidos as $p) {
@@ -344,6 +349,8 @@ session_start();
 												$oct =	pedidos_x_tienda_x_rango_fecha($tieID,$fecini10,$fecfin10) / $factor;
 												$nov =	pedidos_x_tienda_x_rango_fecha($tieID,$fecini11,$fecfin11) / $factor;
 												$dic =	pedidos_x_tienda_x_rango_fecha($tieID,$fecini12,$fecfin12) / $factor;
+												
+												//echo 'test:' .$ene;
 												
 												$totform0  = $totform0 + $total;
 												$totform1  = $totform1 + $ene; 
@@ -563,22 +570,9 @@ session_start();
     <script src="assets/js/sweetalert.min.js"></script>
     <script src="assets/js/jquery.ddslick.min.js"></script>
 
-    <script src="assets/js/visualapp.js?ver=2.4"></script>
+    <script src="assets/js/visualapp.js?ver=2.5.1"></script>
    
    
-<!--
-	<script>
-		$(document).ready(function(){
-		    $('.datatable').DataTable({
-			    "order": [],
-			    "paging": false,
-			    "language": {
-					"thousands": "."
-				 }
-		    });
-		});
-	</script>
--->
     
     
   </body>

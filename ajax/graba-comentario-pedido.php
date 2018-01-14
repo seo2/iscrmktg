@@ -141,11 +141,11 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 					
 					if($paisID==7){
 						$message .= "<div  style='margin-bottom:5px;'><span>Pedido por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-						$message .= "<div  style='margin-bottom:5px;'><span>Respons&aacute;vel: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+						$message .= "<div  style='margin-bottom:5px;'><span>Respons&aacute;vel: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 						$message .= "<div  style='margin-bottom:5px;'><span>Fornecedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 					}else{
 						$message .= "<div  style='margin-bottom:5px;'><span>Solicitado por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-						$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+						$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 						$message .= "<div  style='margin-bottom:5px;'><span>Proveedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 					} 
 					
@@ -233,7 +233,7 @@ if($_POST['ptID'] && $_POST['ptdItem'] && $_POST['ptoID']){
 		}
 	}		
 	
-			$headers = "From: Adidas Retail Marketing <no-reply@iscrmktg.com>\r\n";
+			$headers = "From: Adidas Own Retail & Wholesale Marketing <no-reply@iscrmktg.com>\r\n";
 			if($provMail && $ptdEst >= 3){
 				$headers .= "CC: ".$provMail."\r\n";
 			}

@@ -31,14 +31,13 @@ $ptdRes = $_POST['ptdRes'];
 	$db->where("paisID", $paisID);
 	$db->where("ptID", $pdID);
 	$db->where("ptdEst", $estini);
-	$db->where("ptdRes", $ptdRes);
+	$db->where("ptdRes2", '%'.$ptdRes.'%','like');
 	$db->update('pedido_temporal_detalle', $data);
 	
 if($estfin==2){
 	$subject = 'Se ha objetado el Pedido Nº '.$pdID;
-	$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Retail Marketing" . "\r\n";
-	//$headers .= "Reply-To: ". "seo2@seo2.cl" . "\r\n";
-	$headers .= "BBC: mc@seo2.cl\r\n";
+	$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Own Retail & Wholesale Marketing" . "\r\n";
+	$headers .= "Bcc: adidas@seo2.cl\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 		
@@ -65,7 +64,7 @@ if($estfin==2){
 			$message .= '<div class="row"> Objetado por: '.utf8_decode( get_user_nombre($ptdRes)).'</strong></small>';
 			$message .= '<br><br>';
 			
-			$sql2  		= "SELECT *  FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $pdID and ptdRes = $ptdRes";
+			$sql2  		= "SELECT *  FROM pedido_temporal_detalle WHERE paisID = $paisID and ptID = $pdID and ptdRes2 LIKE '%$ptdRes%'";
 		  	$resultado2 = $db->rawQuery($sql2);
 			if($resultado2){
 				foreach ($resultado2 as $r) {
@@ -95,7 +94,7 @@ if($estfin==2){
 					$message .= "<div  style='margin-bottom:5px;'><span>Observaci&oacute;n:</span> <span><strong>". utf8_decode( $r['ptdObs'])." </strong></span></div>"; 
 					}
 					$message .= "<div  style='margin-bottom:5px;'><span>Solicitado por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-					$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+					$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 					$message .= "<div  style='margin-bottom:5px;'><span>Proveedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 					$estado =$r['ptdEst'];
 
@@ -160,6 +159,8 @@ if($estfin==2){
 			$message .= "</body></html>";
 		}
 	}		
+			$to = 'seodos@gmail.com';
+	
 			mail($to, $subject, $message, $headers);
 					
 

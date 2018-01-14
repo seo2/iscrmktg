@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Adidas - Retail Marketing</title>
+    <title>Adidas - Own Retail & Wholesale Marketing</title>
 
 	<link rel="icon" type="image/png" href="assets/img/logo.png" >
 
@@ -78,3 +78,13 @@
 	</div>
 
 <?  }  ?>
+ <?php 
+			if($_GET['canalID']==2){
+				$canalID 	= $_GET['canalID'];
+				$canalDesc 	= "Wholesale";
+			}else{
+				$canalID 	= 1;
+				$canalDesc 	= "Own Retail";
+			}
+		
+		?>

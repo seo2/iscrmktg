@@ -43,7 +43,7 @@ global $usuID;
 	}
 	
 	$formTipo = $_GET['tipforID'];
-	
+	$tipoformato = get_tipo_formato2($formTipo);
 								
 ?>		
 
@@ -52,9 +52,9 @@ global $usuID;
 	    
 	    <header>
 		    <? if($paisID==7){ ?>
-		    	<span>Formato das lojas</span>
+		    	<span>Formato das lojas <?php echo $tipoformato; ?></span>
 		    <? }else{ ?>
-		    	<span>Formato de Tiendas</span>
+		    	<span>Formato de Tiendas <?php echo $tipoformato; ?></span>
 		    <? } ?>
 	    </header>
 			<div class="row">
@@ -66,13 +66,36 @@ global $usuID;
 		  	$resultado = $db->rawQuery($sql);
 			if($resultado){
 				foreach ($resultado as $r) {
-	    ?>   
-					<a href="tiendas.php?formID=<?= $r['formID']; ?>&tipforID=<?php echo $formTipo; ?>" class="btn btn-primary btn-lg btn-block">
-						<?= $r['formDesc']; ?> <small>[<?php echo get_tienda_x_formato_x_pais($r['formID'], $paisID); ?>]</small>
+					if($_GET['canal']==2){
+						if($r['formCanal']==2){
+							$canalID = 2;
+							
+							$tiendas = get_tienda_x_formato_x_pais_x_canal($r['formID'], $paisID, 2);
+							if($tiendas>0){
+							
+		?>
+					<a href="tiendas.php?formID=<?= $r['formID']; ?>&tipforID=<?php echo $formTipo; ?>&canal=2" class="btn btn-primary btn-lg btn-block">
+						<?= $r['formDescWS']; ?> <small>[<?php echo $tiendas; ?>]</small>
 						<span class="total"><i class="fa fa-shopping-basket" aria-hidden="true"></i><strong><?= pedidos_x_formato($usuTipo, $paisID, $r['formID'],$usuID); ?></strong></span>
 					</a>
 					<br>
-	    <?  	} 
+		<?php				}	
+						}
+					}else{
+						$canalID = 1;
+							
+						$tiendas = get_tienda_x_formato_x_pais_x_canal($r['formID'], $paisID, 1);
+						if($tiendas>0){
+		?>
+					<a href="tiendas.php?formID=<?= $r['formID']; ?>&tipforID=<?php echo $formTipo; ?>&canal=1" class="btn btn-primary btn-lg btn-block">
+						<?= $r['formDesc']; ?> <small>[<?php echo $tiendas; ?>]</small>
+						<span class="total"><i class="fa fa-shopping-basket" aria-hidden="true"></i><strong><?= pedidos_x_formato($usuTipo, $paisID, $r['formID'],$usuID); ?></strong></span>
+					</a>
+					<br>
+		<?php						
+						}
+					}
+				} 
 		    } ?>
 
 						
@@ -87,7 +110,7 @@ global $usuID;
 						<div class="col-xs-12 col-md-6 col-md-offset-3 footer">
 							
 					    	<? 
-								$back = 'pedidos-tipo_formatos.php';
+								$back = 'pedidos-tipo_formatos.php?canal='.$canalID;
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
 							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>

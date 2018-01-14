@@ -28,6 +28,7 @@ session_start();
 	  	$resultado = $db->rawQuery($sql);
 		if($resultado){
 			foreach ($resultado as $r) {
+				$canalID 	= $r['tieCanal'];
 				$tieForm 	= $r['tieForm'];
 				$tieNom 	= $r['tieNom'];
 				$tieFono 	= $r['tieFono'];
@@ -65,12 +66,19 @@ session_start();
 					<div class="row">
 					
 						<form action="ajax/graba-tienda.php" method="post" accept-charset="utf-8" id="formTiendas">
+							<div class="form-group">
+								<label for="ptdGra"><? if($paisID==7){ ?>Canal<? }else{ ?>Canal<? } ?>:</label>
+								<select class="form-control" name="tieCanal" required id="tieCanal">
+									<option value="1" <? if($canalID==1){ ?>selected<? } ?>>Own Retail</option>
+									<option value="2" <? if($canalID==2){ ?>selected<? } ?>>WholeSale</option>
+								</select>
+							</div>	
 						<div class="form-group">
 							<label for="ptdGra">Formato:</label>
 							<select class="form-control" name="tieForm" required id="tieForm">
 								<option value=""><? if($paisID==7){ ?>Selecionar<? }else{ ?>Seleccione<? } ?></option>
 								<?
-								$tema = $db->rawQuery('select * from formatos');
+								$tema = $db->rawQuery('select * from formatos order by formDesc');
 								if($tema){
 									foreach ($tema as $t) {
 								?>
@@ -134,7 +142,7 @@ session_start();
 			    	<div class="row">
 						<div class="col-xs-12 col-md-6 col-md-offset-3 footer">
 					    	<? 
-								$back = 'maestro-tiendas.php';
+								$back = 'maestro-tiendas.php?canalID='.$canalID;
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
 							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>

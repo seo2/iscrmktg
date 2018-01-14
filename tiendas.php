@@ -20,7 +20,9 @@ session_start();
 <?  }  ?>
 <? 
 	include('header.php');
-	
+	if($_GET['canal']){
+		$canalID = $_GET['canal'];
+	}
 	
 	
 	if($_GET['formID']){
@@ -28,17 +30,17 @@ session_start();
 		$formTipo = $_GET['tipforID'];
 		$formID   = $_GET['formID'];
 		$formato  = get_formato($formID);
-		$sql  = "select * from tiendas where tieForm = $formID and paisID = $paisID and tieEst = 0 order by tieID ASC";
-		$sql2 = "select count(*) as total from tiendas where tieForm = $formID and paisID = $paisID and tieEst = 0";
+		$sql  = "select * from tiendas where tieForm = $formID and paisID = $paisID and tieEst = 0 and tieCanal = $canalID order by tieID ASC";
+		$sql2 = "select count(*) as total from tiendas where tieForm = $formID and paisID = $paisID and tieEst = 0 and tieCanal = $canalID ";
 	}elseif($_GET['s']){
 		$busca = $_GET['s'];
 		$formato = '';
-		$sql  = "select * from tiendas where tieNom LIKE '%".$busca."%' and paisID = $paisID and tieEst = 0 order by tieForm";
-		$sql2 = "select count(*) as total from tiendas and paisID = $paisID";
+		$sql  = "select * from tiendas where tieNom LIKE '%".$busca."%' and paisID = $paisID and tieEst = 0  and tieCanal = $canalID order by tieForm";
+		$sql2 = "select count(*) as total from tiendas and paisID = $paisID and tieCanal = $canalID ";
 	}else{
 		$formato = '';
-		$sql  = "select * from tiendas where paisID = $paisID and tieEst = 0 order by tieForm";
-		$sql2 = "select count(*) as total from tiendas where paisID = $paisID and tieEst = 0";
+		$sql  = "select * from tiendas where paisID = $paisID and tieEst = 0  and tieCanal = $canalID order by tieForm";
+		$sql2 = "select count(*) as total from tiendas where paisID = $paisID and tieEst = 0 and tieCanal = $canalID ";
 	}
 ?>
 
@@ -143,10 +145,10 @@ session_start();
 			    	<div class="row">
 						<div class="col-xs-12 col-md-6 col-md-offset-3 footer">
 							
-					    	<?  if($formTipo){ 
-									$back = 'pedidos-formatos.php?tipforID='.$formTipo;
+					    	<?  if($formTipo){
+									$back = 'pedidos-formatos.php?tipforID='.$formTipo.'&canal='.$canalID;
 								}else{
-									$back = 'pedidos-tipo_formatos.php';
+									$back = 'pedidos-tipo_formatos.php?canal='.$canalID;
 								}
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">

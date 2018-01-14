@@ -72,7 +72,7 @@ for($i=1;$i<=$arrayCount;$i++){
 				'insFormID' => $insFormID
 			);	
 			
-			$insID = $db->insert ('instores_v2', $data);	
+			$insID = $db->insert ('instores_v3', $data);	
 			
 			$OLDpieID 	= $insNomGen;
 
@@ -85,7 +85,7 @@ for($i=1;$i<=$arrayCount;$i++){
 			'insOpCat'	=> 0
 		);
 		
-		$id = $db->insert ('instores_opciones_v2', $data);	
+		$id = $db->insert ('instores_opciones_v3', $data);	
 		
 	}
 }

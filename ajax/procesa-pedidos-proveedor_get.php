@@ -97,7 +97,7 @@ require_once("../functions.php");
 								$message .= "<div  style='margin-bottom:5px;'><span>Observaci&oacute;n:</span> <span><strong>". utf8_decode( $r['ptdObs'])." </strong></span></div>"; 
 							}
 							$message .= "<div  style='margin-bottom:5px;'><span>Solicitado por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-							$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+							$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 							$message .= "<div  style='margin-bottom:5px;'><span>Proveedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 							$estado =$r['ptdEst'];
 
@@ -174,7 +174,7 @@ require_once("../functions.php");
 			
 			
 			$subject = 'Pedidos de VM Adidas '.$date.'';
-			$headers = "From: Adidas Retail Marketing <no-reply@iscrmktg.com>\r\n";
+			$headers = "From: Adidas Own Retail & Wholesale Marketing <no-reply@iscrmktg.com>\r\n";
 			if($provMail){
 			//	$headers .= "CC: ".$provMail."\r\n";
 			}

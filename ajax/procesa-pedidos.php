@@ -23,7 +23,7 @@
 					
 	$subject = 'Pedidos VM '.$date.'';
 	
-	$headers = "From: Adidas Retail Marketing <no-reply@iscrmktg.com>\r\n";
+	$headers = "From: Adidas Own Retail & Wholesale Marketing <no-reply@iscrmktg.com>\r\n";
 	$headers .= "Bcc: adidas@seo2.cl\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
@@ -47,8 +47,8 @@
 		    }else{
 				$message .= '<h3>Resumen Pedidos VM del '.$date.'</h3>';
 		    } 
-			$sql  		= "SELECT count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE paisID = ".$paisID." and ptdEst = 0 and ptdRes = ".$usuId." GROUP BY ptID  order by ptID DESC";		
-			
+			//$sql  		= "SELECT count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE paisID = ".$paisID." and ptdEst = 0 and ptdRes = ".$usuId." GROUP BY ptID  order by ptID DESC";	
+			$sql  		= "SELECT count(*) as Total, ptID, ptdTS FROM pedido_temporal_detalle WHERE paisID = ".$paisID." and ptdEst = 0 and ptdRes2 LIKE '%".$usuId."%' GROUP BY ptID  order by ptID DESC";		
 		  	$resultado 	= $db->rawQuery($sql);
 			if($resultado){
 				foreach ($resultado as $r0) {
@@ -122,11 +122,11 @@
 							
 							if($paisID==7){
 								$message .= "<div  style='margin-bottom:5px;'><span>Pedido por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-								$message .= "<div  style='margin-bottom:5px;'><span>Respons&aacute;vel: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+								$message .= "<div  style='margin-bottom:5px;'><span>Respons&aacute;vel: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 								$message .= "<div  style='margin-bottom:5px;'><span>Fornecedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 							}else{
 								$message .= "<div  style='margin-bottom:5px;'><span>Solicitado por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-								$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+								$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 								$message .= "<div  style='margin-bottom:5px;'><span>Proveedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 							} 
 							
@@ -210,8 +210,8 @@
 /*
 				echo $to;
 				echo $message;
+				$to		= 'seodos@gmail.com';
 */
-				//$to		= 'seodos@gmail.com';
 				mail($to, $subject, $message, $headers);
 			}
 

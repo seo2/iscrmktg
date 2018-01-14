@@ -24,7 +24,7 @@
 <? if($paisID==7){ ?>
 	<script src="assets/js/visualapp_br.js?ver=3.2"></script>
 <? }else{ ?>
-	<script src="assets/js/visualapp.js?ver=3.2"></script>
+	<script src="assets/js/visualapp.js?ver=3.3"></script>
 <? } ?>
 <? if($usuTipo==99){ ?>
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>

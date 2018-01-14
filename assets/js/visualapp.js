@@ -2754,7 +2754,7 @@ $('.clxtCom').on('blur',function(){
 $('#aaaa').on('change',function(){
 	paisID = $(this).data('pais');
 	mm = $('#mm').val();
-	if(paisID==''){
+	if(paisID=='99'){
 		cola = '?aaaa='+$(this).val();
 	}else{
 		cola = '?aaaa='+$(this).val()+'&paisID='+paisID;
@@ -2821,9 +2821,128 @@ $('.pedProv').on('change',function(){
 
 $("#formID").bind("change", function() {
 	tieForm = $(this).val();
+	canalID = $(this).data('canal');
 	if(tieForm>0){
-		window.location =  window.location.protocol + "//" + window.location.host + window.location.pathname + '?tieform='+tieForm;
+		window.location =  window.location.protocol + "//" + window.location.host + window.location.pathname + '?tieform='+tieForm+'&canalID='+canalID;
 	}else{
-		window.location =  window.location.protocol + "//" + window.location.host + window.location.pathname + '?tieform='+0;
+		window.location =  window.location.protocol + "//" + window.location.host + window.location.pathname + '?tieform='+0+'&canalID='+canalID;
 	}
 });	
+
+
+
+// V3 ISC 2018 --->
+
+$("#ptdGra3").bind("change", function() {
+	insID   = $(this).val();
+	formato = $(this).data('formato');
+    $('#isc').val('');
+    $('#fotito2').hide();
+    $('#fotocatalogo').attr('src','');
+    GetOpciones_v3(insID, formato);
+});	
+
+function GetOpciones_v3(insID,formID) {
+  if (insID > 0) {
+        $("#ptdGraOp3").get(0).options.length = 0;
+        $("#ptdGraOp3").get(0).options[0] = new Option("Cargando Opciones...", "-1"); 
+		
+ 	    $.ajax({
+            type: "POST",
+            url: "ajax/opciones_v3.php",
+            data: { "formID": formID, "insID": insID },
+			success: function(msg) {
+	            console.log(msg);
+				if(msg.opciones){
+					total = msg.opciones.length;
+					console.log('Total: '+total);
+	                $("#ptdGraOp3").get(0).options.length = 0;
+	                
+	                
+	                if(total>1){
+	                	$("#ptdGraOp3").get(0).options[0] = new Option("-- Seleccione Opción --", ""); 
+		 				$("#opcionesgra").show();
+	 				}else{
+				 	    $.ajax({
+				            type: "POST",
+				            url: "ajax/opciones2_v3.php",
+				            data: { "formID": formID, "insID": insID, "insOpID": 1 },
+							success: function(msg) {
+					            console.log(msg);
+								if(msg.opciones){
+									total = msg.opciones.length;
+					                $.each(msg.opciones, function(index, item) {
+				
+					                 	if(item.Display!=''){
+									 		$("#opcionesgra").show();
+					                 	}else{
+									 		$("#opcionesgra").hide();
+					                 	}
+					                 	archivo = item.archivo;
+					                 	console.log(archivo);
+					                    $('#fotito2').show();
+					                    $('#fotocatalogo').attr('src',archivo).attr('alt',archivo);
+					                    $('#isc').val(archivo);
+					                });
+								}
+				            },
+				            error: function(xhr, status, error) {
+								alert(status);
+				        	}
+				        });		
+	 				}
+	                $.each(msg.opciones, function(index, item) {
+	                    $("#ptdGraOp3").get(0).options[$("#ptdGraOp3").get(0).options.length] = new Option(item.Display, item.Value);
+
+	                });
+				}
+            },
+            error: function(xhr, status, error) {
+				alert(status);
+        	}
+        });
+    }else{
+        $("#ptdGraOp").get(0).options.length = 0;
+    }
+}
+
+$("#ptdGraOp3").bind("change", function() {
+	insOpID   = $(this).val();
+	formato = $("#ptdGra3").data('formato');
+    GetOpciones2_v3(insOpID,insID, formato);
+});	
+
+function GetOpciones2_v3(insOpID, insID,formID) {
+	if (insID > 0) {
+
+ 	    $.ajax({
+            type: "POST",
+            url: "ajax/opciones2_v3.php",
+            data: { "formID": formID, "insID": insID, "insOpID": insOpID },
+			success: function(msg) {
+	            console.log(msg);
+				if(msg.opciones){
+					total = msg.opciones.length;
+	                $.each(msg.opciones, function(index, item) {
+	                    if(item.pieCat==0){
+		                 	archivo = item.archivo;
+		                 	console.log(archivo);
+		                    $('#fotito2').show();
+		                    $('#fotocatalogo').attr('src',archivo).attr('alt',archivo);
+		                    $('#isc').val(archivo);
+	                    }else{
+		                    $('#isc').val('');
+		                    $('#fotito2').hide();
+		                    $('#fotocatalogo').attr('src','').attr('alt','');	                    
+	                    }
+	                });
+				}
+            },
+            error: function(xhr, status, error) {
+				alert(status);
+        	}
+        });
+    }
+}
+
+

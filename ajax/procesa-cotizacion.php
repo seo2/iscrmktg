@@ -31,7 +31,7 @@ $ptdProv 	= $_POST['ptdProv'];
     }else{
 		$subject = 'Cotización Pedido Nº '.$ptID;
     } 
-	$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Retail Marketing" . "\r\n";
+	$headers = "From: " . "<no-reply@iscrmktg.com> Adidas Own Retail & Wholesale Marketing" . "\r\n";
 	$headers .= "Bcc: adidas@seo2.cl\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
@@ -139,11 +139,11 @@ $ptdProv 	= $_POST['ptdProv'];
 							
 							if($paisID==7){
 								$message .= "<div  style='margin-bottom:5px;'><span>Pedido por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-								$message .= "<div  style='margin-bottom:5px;'><span>Respons&aacute;vel: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+								$message .= "<div  style='margin-bottom:5px;'><span>Respons&aacute;vel: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 								$message .= "<div  style='margin-bottom:5px;'><span>Fornecedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 							}else{
 								$message .= "<div  style='margin-bottom:5px;'><span>Solicitado por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-								$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+								$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 								$message .= "<div  style='margin-bottom:5px;'><span>Proveedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 							} 
 							$message .= "<div style='margin-bottom:5px; font-size:14px;'>Valor: <strong>$ ". number_format($r['ptdValor'],0,',','.') ."</strong></div>";

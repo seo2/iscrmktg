@@ -54,6 +54,20 @@
 		
 	}	
 
+	function get_user_nombre3($userID){
+		$db = MysqliDb::getInstance();
+		$temaDesc = '';
+		$tema = $db->rawQuery('select * from usuario where usuID IN ('.$userID.')');
+		if($tema){
+			foreach ($tema as $t) {
+				$temaDesc  .=  $t["usuNom"]  . ' ' . $t["usuApe"].', ';
+			}
+		}
+		$temaDesc = rtrim($temaDesc,', ');
+		return $temaDesc;
+		
+	}	
+
 	function get_user_mail($userID){
 		$db = MysqliDb::getInstance();
 		$tema = $db->rawQuery('select * from usuario where usuID = '.$userID);
@@ -285,6 +299,9 @@
 
 		return $eveNombre;
 	}
+	
+	
+	
 
 
 	function get_pieza_entrega($ID){
@@ -883,6 +900,22 @@
 		return $total;
 		
 	}
+	
+
+	function get_total_instores_formato_v3($ID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select count(*) as total from instores_v3 where formID = '.$ID);
+		if($tema){
+			foreach ($tema as $t) {
+				$total  = $t["total"];
+			}
+		}else{
+			$total = 0;
+		}
+
+		return $total;
+		
+	}
 
 	
 
@@ -1421,6 +1454,34 @@ function get_zona($clID){
 	
 		return $nombre;
 	}
+	
+	function get_instore_nom_x_pais_v3($paisID, $formID, $insID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from instores_v3 where formID = '.$formID.' and insID = '.$insID);
+		if($tema){
+			foreach ($tema as $t) {
+				if($paisID==1){
+					$nombre  = $t["insNomChi"];
+				}elseif($paisID==2){
+					$nombre  = $t["insNomCol"];
+				}elseif($paisID==3){
+					$nombre  = $t["insNomArg"];
+				}elseif($paisID==4){
+					$nombre  = $t["insNomMex"];
+				}elseif($paisID==5){
+					$nombre  = $t["insNomPer"];
+				}elseif($paisID==6){
+					$nombre  = $t["insNomPan"];
+				}elseif($paisID==7){
+					$nombre  = $t["insNomBra"];
+				}
+			}
+		}else{
+			$nombre = 'Error';
+		}
+	
+		return $nombre;
+	}
 
 	function get_instore_opc_desc($formID, $insID, $opcID){
 		$db 	= MysqliDb::getInstance();
@@ -1476,19 +1537,66 @@ function get_zona($clID){
 		return $insFormID;
 	}
 	
-	function get_responsable_formato($paisID,$formID){
+	function get_responsable_formato($paisID,$formID,$canalID){
+		//$canalID = 1;
 		$db = MysqliDb::getInstance();
 		$tema = $db->rawQuery('select * from usuario_x_formato where paisID = '.$paisID.' and formID = '.$formID);
 		if($tema){
 			foreach ($tema as $t) {
-				$usuID = $t['usuID'];
+				
+				$usuID1 = $t['usuID'];
+				
+				$usuario = $db->rawQuery('select * from usuario where paisID = '.$paisID.' and usuID = '.$usuID1.' and usuCanal='.$canalID);
+				if($usuario){
+					foreach ($usuario as $u) {
+						$usuID = $u['usuID'];
+					}
+				}				
+				
+				
 			}
 		}
 
 		return $usuID;
 	}
+
 	
+	function get_responsable_formato2($paisID,$formID,$canalID){
+		//$canalID = 1;
+		$usuID = '';
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from usuario_x_formato where paisID = '.$paisID.' and formID = '.$formID);
+		if($tema){
+			foreach ($tema as $t) {
+				
+				$usuID1 = $t['usuID'];
+				
+				$usuario = $db->rawQuery('select * from usuario where paisID = '.$paisID.' and usuID = '.$usuID1.' and usuCanal='.$canalID);
+				if($usuario){
+					foreach ($usuario as $u) {
+						$usuID .= $u['usuID'] .',';
+					}
+				}				
+				
+				
+			}
+		}
+		$usuID = rtrim($usuID,',');
+		return $usuID;
+	}
+		
 	
+	function get_canal_tienda($paisID,$tieID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from tiendas where paisID = '.$paisID.' and tieID = '.$tieID);
+		if($tema){
+			foreach ($tema as $t) {
+				$tieCanal = $t['tieCanal'];
+			}
+		}
+
+		return $tieCanal;
+	}
 	
 	function get_responsable_tienda($paisID,$tieID){
 		$db = MysqliDb::getInstance();
@@ -1516,6 +1624,21 @@ function get_zona($clID){
 		return $total;
 		
 	}	
+	
+	function get_tienda_x_formato_x_pais_x_canal($formID, $paisID, $canalID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select count(*) as total from tiendas where tieForm = '.$formID.' and paisID = '.$paisID.' and tieCanal='.$canalID);
+		if($tema){
+			foreach ($tema as $t) {
+				$total  = $t["total"];
+			}
+		}else{
+			$total = 0;
+		}
+
+		return $total;
+		
+	}
 	
 	function quitatodo($string){
     	$colA = str_replace(' ', '', $string);
@@ -1640,5 +1763,105 @@ function quitatodo2($string){
 		return $ok;
 	}
 
+function is_url_exist($url){
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if($code == 200){
+       $status = true;
+    }else{
+      $status = false;
+    }
+    curl_close($ch);
+   return $status;
+}
+
+////// V3 ISC ENE.2018
+
+	function get_tipo_formato2($tipforID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from tipo_formato where tipforID = '.$tipforID);
+		if($tema){
+			foreach ($tema as $t) {
+				$tipforDesc= $t['tipforDesc'];
+			}
+		}
+
+		return $tipforDesc;
+	}
+
+
+	function get_instore_desc_v3($formID, $ID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from instores_v3 where formID = '.$formID.' and insID = '.$ID);
+		if($tema){
+			foreach ($tema as $t) {
+				$eveNombre  = $t["insNomGes"];
+			}
+		}else{
+			$eveNombre = 'Error';
+		}
+
+		return $eveNombre;
+	}
+
+
+	function get_instore_gen_v3($formID, $ID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select * from instores_v3 where formID = '.$formID.' and insID = '.$ID);
+		if($tema){
+			foreach ($tema as $t) {
+				$eveNombre  = $t["insNomGen"];
+			}
+		}else{
+			$eveNombre = 'Error';
+		}
+
+		return $eveNombre;
+	}
+
+	function get_carpeta_ISC_v3($formID){
+		if($formID == 1){
+			$folder = 'ISC2018/CORE_SPC/';
+		}elseif($formID == 2){
+			$folder = 'ISC2018/HC10/';
+		}elseif($formID == 3){
+			$folder = 'ISC2018/ATELIER_STUDIO/';
+		}elseif($formID == 4){
+			$folder = 'ISC2018/HC_FO/';
+		}elseif($formID == 5){
+			$folder = 'ISC2018/NBHD/';
+		}elseif($formID == 6){
+			$folder = 'ISC2018/CORE_YA/';
+		}elseif($formID == 7){
+			$folder = 'ISC2018/HC20/';
+		}elseif($formID == 9){
+			$folder = 'ISC2018/CORE_SPC/';
+		}elseif($formID == 10){
+			$folder = 'ISC2018/NBHD_FDD/';
+		}elseif($formID == 11){
+			$folder = 'ISC2018/HC20_YA/';
+		}elseif($formID == 12){
+			$folder = 'ISC2018/CORE_FO/';
+		}
+		return $folder;
+	}
+
+	function get_total_opciones_instores_v3($formID, $insID){
+		$db = MysqliDb::getInstance();
+		$tema = $db->rawQuery('select count(*) as total from instores_opciones_v3 where formID = '.$formID.' and insID ='.$insID.' and insOPEst = 0');
+		if($tema){
+			foreach ($tema as $t) {
+				$total  = $t["total"];
+			}
+		}else{
+			$total = 0;
+		}
+
+		return $total;
+		
+	}
 	
 ?>

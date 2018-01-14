@@ -44,7 +44,7 @@ $db->update('pedido_temporal_detalle', $data);
 if($estini == 4 && $estfin == 3){
 	
 	
-		$sql0  	= "SELECT * FROM pedido_temporal_detalle WHERE paisID = ".$paisID." and ptID = ".$pdID." and ptdRes = ".$ptdRes." and ptdEst = 3 and pedNum = 1 group by ptdProv";
+		$sql0  	= "SELECT * FROM pedido_temporal_detalle WHERE paisID = ".$paisID." and ptID = ".$pdID." and ptdRes2 LIKE '%$ptdRes%' and ptdEst = 3 and pedNum = 1 group by ptdProv";
 	  	$resultado0 = $db->rawQuery($sql0);
 		if($resultado0){
 			foreach ($resultado0 as $r0) {
@@ -56,7 +56,7 @@ if($estini == 4 && $estfin == 3){
 			$message .= '<h3>Cotizaci&oacute;n Rechazada Pedido N&ordm; '.$pdID.'</h3>';
 
 			
-			$sql  	= "SELECT * FROM pedido_temporal_detalle WHERE paisID = ".$paisID." and ptID = ".$pdID." and ptdRes = ".$ptdRes." and ptdEst = 3 and pedNum = 1 and ptdProv = ".$ptdProv;	
+			$sql  	= "SELECT * FROM pedido_temporal_detalle WHERE paisID = ".$paisID." and ptID = ".$pdID." and ptdRes2 LIKE '%$ptdRes%' and ptdEst = 3 and pedNum = 1 and ptdProv = ".$ptdProv;	
 		  	$resultado2 = $db->rawQuery($sql);
 			if($resultado2){
 				foreach ($resultado2 as $r) {
@@ -94,7 +94,7 @@ if($estini == 4 && $estfin == 3){
 					$message .= "<div  style='margin-bottom:5px;'><span>Observaci&oacute;n:</span> <span><strong>". utf8_decode( $r['ptdObs'])." </strong></span></div>"; 
 					}
 					$message .= "<div  style='margin-bottom:5px;'><span>Solicitado por: <strong>". utf8_decode( get_user_nombre($r['ptdVM']))." </strong><span></div>";
-					$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre($r['ptdRes']))."</strong><span></div>";
+					$message .= "<div  style='margin-bottom:5px;'><span>Responsable: <strong>". utf8_decode( get_user_nombre3($r['ptdRes2']))."</strong><span></div>";
 					$message .= "<div  style='margin-bottom:5px;'><span>Proveedor: <strong>". utf8_decode( get_proveedor_nombre($r['ptdProv']))."</strong><span></div>";
 					$message .= "<div style='margin-bottom:5px; font-size:14px;'>Valor: <strong>$ ". number_format($r['ptdValor'],0,',','.') ."</strong></div>";
 					$estado =$r['ptdEst'];
@@ -165,7 +165,7 @@ if($estini == 4 && $estfin == 3){
 			$message .= "</body></html>";
 			
 			$subject = 'Cotización Rechazada Pedido Nº '.$pdID;
-			$headers = "From: " . "<no-reply@armktg.cl> Adidas Retail Marketing" . "\r\n";
+			$headers = "From: " . "<no-reply@armktg.cl> Adidas Own Retail & Wholesale Marketing" . "\r\n";
 
 			if($provMail){
 				$headers .= "CC: ".$provMail."\r\n";

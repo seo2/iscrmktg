@@ -110,9 +110,13 @@ if($_POST['ptID'] && $_POST['ptdItem']){
 			}
 			$ahora = date("Y-m-d H:i:s");
 			
+			
+			$canalID = get_canal_tienda($paisID,$ptTie);
+			
 			$ptdRes	= get_responsable_tienda($paisID,$ptTie);
 			if($ptdRes==''){
-				$ptdRes = get_responsable_formato($paisID, $formInstore);
+				$ptdRes = get_responsable_formato($paisID, $formInstore,$canalID);
+				$ptdRes2 = get_responsable_formato2($paisID, $formInstore,$canalID);
 			}
 			
 			
@@ -157,6 +161,7 @@ if($_POST['ptID'] && $_POST['ptdItem']){
 					"ptdObs" 	=> $ptdObs,
 					"ptdFoto" 	=> $itemFoto,
 					"ptdRes" 	=> $ptdRes,
+					"ptdRes2" 	=> $ptdRes2,
 					"ptdVM" 	=> $ptVM,
 					"ptdTS" 	=> $ahora
 				);	

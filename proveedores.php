@@ -34,12 +34,12 @@ session_start();
 							<h2><? if($paisID==7){ ?>Tudo<? }else{ ?>Todos<? } ?></h2>
 				    	</div>
 				    	<div class="col-xs-6 text-right">
-							<a href="formulario-proveedores.php" class="btn btn-default"><span class="hidden-xs"><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a>
+							<a href="formulario-proveedores.php?canalID=<?php echo $canalID; ?>" class="btn btn-default"><span class="hidden-xs"><? if($paisID==7){ ?>Adicionar<? }else{ ?>Agregar<? } ?> </span><i class="fa fa-plus-circle"></i></a>
 				    	</div>
 				    </div>
 			    </div>
 			<?
-				$sql  = "select * from proveedores where paisID = $paisID";
+				$sql  = "select * from proveedores where paisID = $paisID and provCanal = $canalID";
 
 			  	$resultado = $db->rawQuery($sql);
 				if($resultado){
