@@ -70,9 +70,10 @@ session_start();
 								if($r['insOpFoto']){ 
 									$archivo = '/ajax/uploads/ISC/'.$r['insOpFoto'];
 								}else{
-									$archivo = '/'.$ruta.quitatodo($insNomGen).quitatodo($r["insOpNom"]).'.jpg';
 
-								  	if(!is_url_exist($archivo)){
+								  	if(is_url_exist($archivo)){
+										$archivo = '/'.$ruta.quitatodo($insNomGen).quitatodo($r["insOpNom"]).'.jpg';
+								  	}else{
 										$archivo = '/'.$ruta.quitatodo($insNomGen).quitatodo($r["insOpNom"]).'.png';
 								  	}									
 									

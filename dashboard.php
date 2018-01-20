@@ -161,7 +161,7 @@ session_start();
 		    <div id="pedidohead">
 			    <div class="row">
 			    	<div class="col-xs-6">
-						<h2><? if($paisID==7){ ?>Resumo por lojas<? }else{ ?>Resumen por Tiendas<? } ?> <?php echo $titulo; ?></h2> 
+						<h2><? if($paisID==7){ ?>Resumo por lojas<? }else{ ?>Resumen por Tiendas<? } ?> <?php echo $canalDesc; ?> <?php echo $titulo; ?></h2> 
 			    	</div>
 			    	<div class="col-xs-6 text-right hide">
 			  			<form method="get" id="formFechas" class="form-inline">
@@ -193,7 +193,7 @@ session_start();
 				  			
 				  			
 							<div class="form-group">
-								<a class="btn btn-primary" href="dashboard-excel.php?aaaa=<?= $anoactual; ?>" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>
+								<a class="btn btn-primary" href="dashboard-excel.php?aaaa=<?= $anoactual; ?>&canalID=<?php echo $canalID; ?>" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>
 							</div>
 				  			
 				  			
@@ -329,7 +329,7 @@ session_start();
 
 				// Tiendas por formatos
 	
-				$tiendas_sql  = "SELECT * from tiendas where tieForm = $formID and paisID = $paisID  order by tieID";
+				$tiendas_sql  = "SELECT * from tiendas where tieForm = $formID and paisID = $paisID and tieCanal = $canalID order by tieID";
 			  	$tiendas = $db->rawQuery($tiendas_sql);
 				if($tiendas){
 					foreach ($tiendas as $t) {

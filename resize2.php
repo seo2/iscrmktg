@@ -14,7 +14,7 @@ $imgSrc = $_GET['img'];
 $ext = pathinfo($imgSrc, PATHINFO_EXTENSION);
 
 if($ext=='png'){
-	$src = imageCreateFromPng($imgSrc);
+	$src = imagecreatefromjpeg($imgSrc);
 }else{
 	$src = imagecreatefromjpeg($imgSrc);
 }

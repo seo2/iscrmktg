@@ -154,7 +154,7 @@ if($_SESSION['todos']['Logged']){
 
 
 
-					<a href="pedidos-tipo_formatos.php" class="btn btn-primary btn-lg btn-block"><?php echo $boton1; ?> <span class="total"><i class="fa fa-shopping-basket" aria-hidden="true"></i><strong><?= $total0; ?></strong></span></a>
+					<a href="canal.php" class="btn btn-primary btn-lg btn-block"><?php echo $boton1; ?> <span class="total"><i class="fa fa-shopping-basket" aria-hidden="true"></i><strong><?= $total0; ?></strong></span></a>
 					<br>
 					
 					
@@ -234,7 +234,11 @@ if($_SESSION['todos']['Logged']){
 					<a href="formatos.php?piezas=1" class="btn btn-primary btn-lg btn-block">ISC Long Term</a>
 					<br>
 -->
+<!--
 					<a href="formatos.php?piezas=1&FW2017=1" class="btn btn-primary btn-lg btn-block">ISC Long Term</a>
+					<br>
+-->
+					<a href="formatos.php?piezas=1&ISC2018=1" class="btn btn-primary btn-lg btn-block">ISC Long Term 2018</a>
 					<br>
 					<a href="campana_v2.php" class="btn btn-primary btn-lg btn-block">ISC de Campañas</a>
 					<br>

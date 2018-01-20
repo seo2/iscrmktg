@@ -25,6 +25,13 @@ if($_SESSION['todos']['Logged']){
 	}else{
 		$anito =  date("Y");
 	}
+	
+	if($_GET['canalID']){
+		$canalID =  $_GET['canalID'];
+	}else{
+		$canalID =  1;
+	}
+	
 	header( "Content-Type: application/vnd.ms-excel" );
 	header( "Content-disposition: attachment; filename=Resumen-x-Tienda-$anito.xls" );
 	require_once("functions.php");
@@ -205,7 +212,7 @@ if($_SESSION['todos']['Logged']){
 
 				// Tiendas por formatos
 	
-				$tiendas_sql  = "SELECT * from tiendas where tieForm = $formID and paisID = $paisID";
+				$tiendas_sql  = "SELECT * from tiendas where tieForm = $formID and paisID = $paisID and tieCanal = $canalID order by tieID";
 			  	$tiendas = $db->rawQuery($tiendas_sql);
 				if($tiendas){
 					foreach ($tiendas as $t) {

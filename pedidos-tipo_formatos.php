@@ -114,7 +114,7 @@ global $usuID;
 							
 					    	<? 
 								$back = 'canal.php';
-								$back = 'home.php';
+								//$back = 'home.php';
 							?>
 							<div class="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
 							  <a href="<?php echo $back; ?>" 	class="btn btn-default"><i class="fa fa-chevron-left"></i> <? if($paisID==7){ ?>Voltar<? }else{ ?>Volver<? } ?></a>

@@ -20,7 +20,7 @@ $ext = pathinfo($imgSrc, PATHINFO_EXTENSION);
 if($ext == 'PNG' || $ext == 'png'){
 
 // Source image
-$src = imagecreatefrompng($imgSrc);
+$src = imagecreatefromjpeg($imgSrc);
  
      switch($ort) {
         case 3:

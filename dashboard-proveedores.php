@@ -157,7 +157,7 @@ session_start();
 							</div>
 							
 							<div class="form-group">
-								<a class="btn btn-primary" href="dashboard-proveedores-excel.php?aaaa=<?= $anoactual; ?>" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>
+								<a class="btn btn-primary" href="dashboard-proveedores-excel.php?aaaa=<?= $anoactual; ?>&canalID=<?php echo $canalID; ?>" target="_blank"><i class="fa fa-download" aria-hidden="true"></i></a>
 							</div>
 				  			
 				  			
